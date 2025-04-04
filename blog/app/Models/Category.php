@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class Category extends Model
+{
+    protected $table = 'categories';
+    protected $fillable = [
+        'name',
+    ];
+
+    public function posts(): BelongsToMany{
+        return $this->belongsToMany(Post::class, 'categories_posts');
+    }
+}

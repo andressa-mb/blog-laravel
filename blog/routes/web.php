@@ -28,3 +28,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/post/{post}', 'HomeController@show')->name('post');
 Route::resource('/posts', 'Posts\PostController');
+
+Route::resource('/categories', 'Categories\CategoryController');
+Route::post('/add-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@addToCategory')->name('add-post-to-category');
+Route::delete('/remove-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@removeFromCategory')->name('remove-post-from-category');
