@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Categories;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\StoreRequest;
+use App\Http\Requests\Categories\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Throwable;
 
 class CategoryController extends Controller
 {
@@ -15,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('categories.index', ['categories' => Category::paginate(10)]);
     }
 
     /**
@@ -25,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -34,9 +37,20 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        try{
+            $validatedRules = $request->validated();
+            Category::create([
+                'name' => $validatedRules['name']
+            ]);
+
+            return redirect()->route('categories.index');
+
+        }catch(Throwable $error){
+            throw $error;
+            return back()->withErrors($error->getMessage());
+        }
     }
 
     /**
@@ -58,7 +72,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit', ['category' => $category] );
     }
 
     /**
@@ -68,9 +82,13 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateRequest $request, Category $category)
     {
-        //
+        $validatedRules = $request->validated();
+        $category->update([
+            'name' => $validatedRules['name'],
+        ]);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -81,6 +99,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->back()->with('message', 'Excluído com sucesso.');
     }
 }

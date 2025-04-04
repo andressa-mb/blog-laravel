@@ -43,20 +43,20 @@
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Posts
+                                        {{__('messages.posts')}}
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{route('posts.create')}}">Criar Posts</a>
-                                        <a class="dropdown-item" href="{{route('posts.index')}}">Meus Posts</a>
+                                        <a class="dropdown-item" href="{{route('posts.create')}}">{{__('messages.criar-post')}}</a>
+                                        <a class="dropdown-item" href="{{route('posts.index')}}">{{__('messages.meus-posts')}}</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{__('messages.traducao')}}
+                                        {{__('messages.categoria')}}
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item set-locale" href="#">{{__('messages.ingles')}}</a>
-                                        <a class="dropdown-item set-locale" href="#">{{__('messages.portugues')}}</a>
+                                        <a class="dropdown-item" href="{{route('categories.create')}}"> {{__('messages.criar-categoria')}}</a>
+                                        <a class="dropdown-item" href="{{route('categories.index')}}"> {{__('messages.minhas-categorias')}}</a>
                                     </div>
                                 </li>
                                 @endauth

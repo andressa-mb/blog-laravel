@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Category extends Model
 {
     protected $table = 'categories';
+    use Traits\SoftDeletes;
+
     protected $fillable = [
         'name',
     ];

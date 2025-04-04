@@ -16,19 +16,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::post('/set-lang', 'Lang\LangController@setLang')->name('locale.setLang');
 
+Auth::routes();
 Route::get('/', function (Request $request) {
     $user = $request->user();
     return view('welcome', ['user' => $user]);
 });
-
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/post/{post}', 'HomeController@show')->name('post');
-Route::resource('/posts', 'Posts\PostController');
+Route::post('/set-lang', 'Lang\LangController@setLang')->name('locale.setLang');
 
+//POST
+Route::resource('/posts', 'Posts\PostController');
+//CATEGORIA
 Route::resource('/categories', 'Categories\CategoryController');
+//RELAÇÃO ADIÇÃO E REMOÇÃO - CATEGORIA E POST
 Route::post('/add-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@addToCategory')->name('add-post-to-category');
 Route::delete('/remove-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@removeFromCategory')->name('remove-post-from-category');
