@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,7 +51,17 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
-    public function role(): BelongsTo{
-        return $this->belongsTo(Role::class, 'role_id', 'id');
+    public function roles(): BelongsToMany{
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
+
+    public function isAdmin(): bool{
+        return $this->roles()->admin()->exists();
+    }
+
+    public function getIsAdminAttribute(): bool{
+        return $this->isAdmin();
+    }
+
+
 }

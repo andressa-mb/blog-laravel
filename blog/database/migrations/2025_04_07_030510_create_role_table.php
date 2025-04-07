@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateRoleTable extends Migration
@@ -13,10 +14,33 @@ class CreateRoleTable extends Migration
      */
     public function up()
     {
-        Schema::create('role', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 15);
+            $table->string('name', 15)->unique();
+            $table->timestamps();
+            $table->softDeletes();
         });
+
+        Schema::create('user_roles', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignId('role_id')
+                ->references('id')
+                ->on('roles')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->timestamps();
+        });
+        $date = now()->format('Y-m-d H:i:s');
+        DB::table('roles')->insert([
+            ['id' => 1, 'name' => 'admin', 'created_at' => $date, 'updated_at' => $date],
+            ['id' => 2, 'name' => 'author', 'created_at' => $date, 'updated_at' => $date],
+            ['id' => 3, 'name' => 'reader', 'created_at' => $date, 'updated_at' => $date],
+        ]);
     }
 
     /**
@@ -26,6 +50,7 @@ class CreateRoleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('roles');
     }
 }
