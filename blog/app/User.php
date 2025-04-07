@@ -4,7 +4,9 @@ namespace App;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'lang',
+        'name', 'email', 'password', 'lang', 'role_id',
     ];
 
     /**
@@ -46,5 +48,9 @@ class User extends Authenticatable
 
     public function comments(): HasMany{
         return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
+
+    public function role(): BelongsTo{
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 }
