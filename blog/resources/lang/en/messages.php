@@ -9,6 +9,7 @@ return [
     'ingles' => 'English',
     'portugues' => 'Portuguese',
     'categoria' => 'Category',
+    'categorias' => 'Categories',
     'minhas-categorias' => 'My Categories',
     'criar-categoria' => 'Create Category',
     'editar-categoria' => 'Edit Category',

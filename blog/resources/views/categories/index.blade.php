@@ -9,27 +9,35 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <a href="{{route('categories.create')}}" type="button" class="btn btn-success">Criar Categoria</a>
+            @can('create', \App\Models\Category::class)
+            <a href="{{route('categories.create')}}" type="button" class="btn btn-success">
+                Criar Categoria
+            </a>
+            @endcan
         </div>
     </div>
-    <div class="row mt-5">
-        <div class="col-md-12 d-flex flex-row justify-content-around">
+    <div class="row m-4">
+        @php
+            $isAdmin = auth()->user()->isAdmin();
+        @endphp
         @foreach($categories as $category)
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{$category->name}}</h5>
-                    <div class="d-flex justify-content-around">
-                        <a href="{{route('categories.edit', $category->id)}}" class="btn btn-primary">Editar</a>
-                        <form action="{{route('categories.destroy', $category->id)}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Excluir</button>
-                        </form>
-                    </div>
+        <div class="card d-flex flex-row justify-content-around col-md-3 m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{$category->name}}</h5>
+                <div class="d-flex justify-content-around">
+                    @if($isAdmin)
+                    <a href="{{route('categories.edit', $category->id)}}" class="btn btn-primary">Editar</a>
+
+                    <form action="{{route('categories.destroy', $category->id)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                    @endif
                 </div>
             </div>
-        @endforeach
         </div>
+        @endforeach
     </div>
 </div>
 @endsection

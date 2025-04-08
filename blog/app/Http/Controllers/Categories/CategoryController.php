@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Categories\StoreRequest;
 use App\Http\Requests\Categories\UpdateRequest;
 use App\Models\Category;
+use App\Models\Post;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -64,6 +66,12 @@ class CategoryController extends Controller
         //
     }
 
+    public function showAll(Post $post){
+        $this->data['post'] = $post;
+        $this->data['categories'] = Category::get();
+        return view('categories.showAll', $this->data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -88,7 +96,7 @@ class CategoryController extends Controller
         $category->update([
             'name' => $validatedRules['name'],
         ]);
-        return redirect()->route('categories.index');
+        return redirect()->route('home');
     }
 
     /**

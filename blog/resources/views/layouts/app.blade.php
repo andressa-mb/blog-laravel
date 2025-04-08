@@ -55,8 +55,11 @@
                                         {{__('messages.categoria')}}
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        @can('create', \App\Models\Category::class)
                                         <a class="dropdown-item" href="{{route('categories.create')}}"> {{__('messages.criar-categoria')}}</a>
-                                        <a class="dropdown-item" href="{{route('categories.index')}}"> {{__('messages.minhas-categorias')}}</a>
+                                        @endcan
+
+                                        <a class="dropdown-item" href="{{route('categories.index')}}"> {{__('messages.categorias')}}</a>
                                     </div>
                                 </li>
                                 @endauth

@@ -14,6 +14,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            @can('update', $category)
             <form action="{{route('categories.update', $category)}}" method="POST">
                 @csrf
                 @method('PUT')
@@ -23,6 +24,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
+            @endcan
         </div>
     </div>
 </div>

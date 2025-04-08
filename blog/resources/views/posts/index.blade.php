@@ -7,18 +7,16 @@
             <a href="{{route('posts.create')}}" type="button" class="btn btn-success">Criar Post</a>
         </div>
     </div>
-    <div class="row mt-5">
+    <div class="row m-4">
         {{$posts->links()}}
-        <div class="col-md-12 d-flex flex-row justify-content-around">
-            @foreach ($posts as $post)
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{$post->title}}</h5>
-                    <a href="{{route('posts.show', $post)}}" class="btn btn-primary">Abrir post</a>
-                </div>
+        @foreach ($posts as $post)
+        <div class="card d-flex flex-row justify-content-around col-md-3 m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{$post->title}}</h5>
+                <a href="{{route('posts.show', $post)}}" class="btn btn-primary">Abrir post</a>
             </div>
-            @endforeach
         </div>
+        @endforeach
         {{$posts->links()}}
     </div>
 </div>

@@ -2,22 +2,28 @@
 
 @section('content')
 <div class="container">
-    <div class="row mt-5 border border-primary rounded">
-        <div class="h3 mt-4 col-md-12 d-flex flex-row justify-content-around">
+    <div class="row mt-5">
+        <div class="h3 col-md-12 text-center mt-4">
             {{$post->title}}
         </div>
-        <div class="mt-5 card col-md-12 d-flex flex-row justify-content-around">
+        <div class="col-md-6 text-right">
+            <strong>Autor(a):</strong> {{$post->user->name}}
+        </div>
+        <div class="card col-md-6">
             {{$post->content}}
         </div>
-        <div class="h4 mt-4 col-md-6 d-flex flex-row justify-content-center">
-            Autor(a): {{$post->user->name}}
-        </div>
-        <div class="h4 mt-4 col-md-6 d-flex flex-row justify-content-center">
-            Criado: {{$post->created_at->translatedFormat('l, d \d\e F, Y')}}
+        <div class="col-md-12 text-center ml-5 mt-3">
+            <strong>Categorias:</strong>
+            @foreach($post->categories as $category)
+                {{$category->name}}{{$loop->last?'.':', '}}
+            @endforeach
         </div>
 
-        <div class="h4 mt-4 col-md-6 d-flex flex-row justify-content-center">
-
+        <div class="col-md-6 text-right mt-5">
+            <strong>Data de criação:</strong> {{$post->created_at->translatedFormat('l, d \d\e F, Y')}}
+        </div>
+        <div class="col-md-6 text-left mt-5">
+            <strong>Há:</strong>
              @php
                  $minutes = $post->created_at->diffInMinutes(now());
                  $hours = $post->created_at->diffInHours(now());
@@ -28,10 +34,11 @@
              {{trans_choice('messages.minutes_ago', $minutes, ['value' => $minutes])}}
              @endif
         </div>
-        <div class="m-2 col-md-6 d-flex flex-row justify-content-start">
+
+        <div class="col-md-6 text-right mt-5">
             <a href="{{route('posts.edit', [$post])}}" class="btn btn-primary">Editar</a>
         </div>
-        <div class="m-2 col-md-6 d-flex flex-row justify-content-start">
+        <div class="col-md-6 text-left mt-5">
             <form action="{{route('posts.destroy', [$post])}}" method="POST">
                 @csrf
                 @method('DELETE')
@@ -40,7 +47,7 @@
         </div>
     </div>
 
-    <div class="m-2 col-md-6 d-flex flex-row justify-content-start">
+    <div class="col-md-6 mt-2">
         <a href="{{route('posts.index')}}" class="btn btn-primary">Voltar</a>
     </div>
 </div>

@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Posts\GetRequest;
 use App\Http\Requests\Posts\StoreRequest;
 use App\Http\Requests\Posts\UpdateRequest;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class PostController extends Controller
@@ -56,8 +55,7 @@ class PostController extends Controller
                 'title' => $input['title'],
                 'content' => $input['content'],
             ]);
-
-            return redirect()->route('posts.show', [$post]);
+            return redirect()->route('categories.showAll', ['post' => $post]);
         }catch(Throwable $e){
             throw $e;
             return back()->withErrors($e->getMessage());
@@ -86,7 +84,10 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $this->authorize('update', $post);
-        return view('posts.edit', ['post' => $post]);
+        $this->data['post'] = $post;
+        $this->data['categories'] = Category::get();
+        $this->data['categories_ids'] = $post->categoriesIds();
+        return view('posts.edit', $this->data);
     }
 
     /**
@@ -103,8 +104,7 @@ class PostController extends Controller
             'title' => $input['title'],
             'content' => $input['content'],
         ]);
-
-        return redirect()->route('posts.show', [$post]);
+        return redirect()->route('categories.showAll', ['post' => $post]);
     }
 
     /**
