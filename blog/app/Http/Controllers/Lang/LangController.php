@@ -16,7 +16,6 @@ class LangController extends Controller
                 $user->save();
             }
         }
-
         session(['locale' => $lang]);
         return back();
     }

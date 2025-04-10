@@ -24,7 +24,7 @@
             </form>
         </div>
     </div>
-{{--     <div class="row">
+    <div class="row">
         <div class="col-md-12 mt-3">
             <h3>Adicionar imagem:</h3>
             <form action="{{route('posts.add-common-image', $post)}}" method="POST" enctype="multipart/form-data">
@@ -34,7 +34,7 @@
                 </div>
             </form>
         </div>
-    </div> --}}
+    </div>
 <br><br>
     <a href="{{route('posts.show', $post)}}" class="btn btn-primary">Post Concluído</a>
 </div>

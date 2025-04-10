@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -62,4 +63,15 @@ class Post extends Model
         return $categoriesIds;
     }
 
+    public function getMainImage():? PostImage {
+        return $this->images()->main()->latest()->first();
+    }
+
+    public function getThumb():? PostImage {
+        return $this->images()->thumb()->latest()->first();
+    }
+
+    public function getCommonImages(): Collection {
+        return $this->images()->common()->get(['path', 'width', 'height', 'description']);
+    }
 }

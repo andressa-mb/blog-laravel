@@ -22,7 +22,8 @@
                   <label for="name" class="form-label">Nome da Categoria:</label>
                   <input type="text" class="form-control" name="name" value="{{$category->name}}" id="name" aria-describedby="emailHelp" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-success">Enviar</button>
+                <a href="{{route('categories.index')}}" type="button" class="ml-4 btn btn-primary">Voltar</a>
             </form>
             @endcan
         </div>

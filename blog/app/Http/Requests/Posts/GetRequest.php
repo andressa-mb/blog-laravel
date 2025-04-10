@@ -4,6 +4,7 @@ namespace App\Http\Requests\Posts;
 
 use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class GetRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class GetRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(Request $request)
     {
         $post = $this->route()->parameter('post');
         return $this->user()->can('view', $post);

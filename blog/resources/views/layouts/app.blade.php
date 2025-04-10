@@ -34,13 +34,10 @@
                     <ul class="navbar-nav mr-auto">
                         @if (Route::has('login'))
                         <div class="container-fluid">
-                            <a class="navbar-brand" href="{{url('/')}}">Blog</a>
+                            <a class="navbar-brand" href="{{route('home.index')}}">Blog</a>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 @auth
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ url('/home') }}">Home</a>
-                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{__('messages.posts')}}
@@ -83,11 +80,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('messages.login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('messages.registro') }}</a>
                                 </li>
                             @endif
                         @else

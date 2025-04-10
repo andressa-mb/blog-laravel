@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Comment extends Model
 {
     protected $table = 'comment';
+    use Traits\SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'comment', 'post_id'
+        'comments', 'user_id', 'post_id'
     ];
 
     public function user(): BelongsTo{

@@ -27,6 +27,6 @@ class PostsCategoriesController extends Controller
             }
         }
 
-        return redirect()->route('posts.add-image', $post);
+        return redirect()->route('images.add-main-image', $post);
     }
 }

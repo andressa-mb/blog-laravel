@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,24 +13,27 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    //middleware de autenticação - logo só visualiza quem está autenticado
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        $this->data['user']= $request->user();
         $this->data['posts'] = Post::paginate(12);
         return view('home', $this->data);
     }
 
-    public function show(Post $post){
+    public function show(Request $request, Post $post){
+        $this->data['user']= $request->user();
         $this->data['post'] = $post;
-        return view('post', $this->data);
+        return view('show', $this->data);
     }
 }

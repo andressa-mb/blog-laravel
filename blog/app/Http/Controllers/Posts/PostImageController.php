@@ -12,48 +12,56 @@ use Illuminate\Support\Str;
 
 class PostImageController extends Controller
 {
-    public function addImage(Post $post){
-        $this->data['post'] = $post;
-        return view('posts.add-image', $this->data);
+    public function createMainImage(Post $post){
+        return view('images.add-main-image', ['post' => $post]);
     }
 
     public function addMainImage(Request $request, Post $post){
         $type = PostImage::main;
         $size = PostImage::resolveSizeByType($type);
-        $filePath = $request->file('image');
         $post->images()->create([
-            'path' => Storage::putFileAs('main-images', $filePath, $filePath->getClientOriginalName()),
+            'path' => PostImage::resolveMainImage($post, $request->file('image')),
             'type' => $type,
+            'description' => $request->description,
             'width' => $size['width'],
             'height' => $size['height'],
         ]);
+        return redirect()->route('images.add-thumb-image', $post);
+    }
 
-        return back();
+    public function createThumbImage(Post $post){
+        return view('images.add-thumb-image', ['post' => $post]);
     }
 
     public function addThumbImage(Request $request, Post $post){
         $type = PostImage::thumb;
         $size = PostImage::resolveSizeByType($type);
-        $filePath = $request->file('image');
         $post->images()->create([
-            'path' => Storage::putFileAs('thumb-images', $filePath, $filePath->getClientOriginalName()),
+            'path' => PostImage::resolveThumbImage($post, $request->file('image')),
             'type' => $type,
+            'description' => $request->description,
             'width' => $size['width'],
             'height' => $size['height'],
         ]);
 
-        return back();
+        return redirect()->route('images.add-common-image', $post);
+    }
+
+    public function createCommonImage(Post $post){
+        return view('images.add-common-image', ['post' => $post]);
     }
 
     public function addCommonImage(Request $request, Post $post){
         $type = PostImage::common;
         $size = PostImage::resolveSizeByType($type);
-        $filePath = $request->file('image');
         $post->images()->create([
-            'path' => Storage::putFileAs('common-images', $filePath, $filePath->getClientOriginalName()),
+            'path' => PostImage::resolveCommonImage($post, $request->file('image')),
             'type' => $type,
+            'description' => $request->description,
             'width' => $size['width'],
             'height' => $size['height'],
         ]);
+
+        return back();
     }
 }

@@ -2,7 +2,8 @@
 
 return [
     'bem-vindo' => 'Bem vindo(a) :name!',
-    'teste' => 'Em teste.',
+    'login' => 'Login',
+    'registro' => 'Registro',
     'minutes_ago' => '{1} :value minuto atrás|[2,*] :value minutos atrás',
     'hours_ago' => '{1} :value hora atrás|[2,*] :value horas atrás',
     'traducao' => "Tradução",
