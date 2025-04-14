@@ -2,10 +2,12 @@
 
 namespace App;
 
+use App\Models\AlertComment;
 use App\Models\Comment;
+use App\Models\Follower;
+use App\Models\Following;
 use App\Models\Post;
 use App\Models\Role;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -51,6 +53,30 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
+    public function alertComments(): HasMany{
+        return $this->hasMany(AlertComment::class, 'author_id', 'id');
+    }
+
+    public function hasAlertComments(bool $readed): bool{
+        return $this->alertComments()->isReaded($readed)->exists();
+    }
+
+    public function countAlertComments(bool $readed): int{
+        return $this->alertComments()->isReaded($readed)->count();
+    }
+
+    public function hasAnyAlertComments(): bool{
+        return $this->alertComments()->exists();
+    }
+
+    public function countAnyAlertComments(): int{
+        return $this->alertComments()->count();
+    }
+
+    public function queryAlertComments(bool $readed): HasMany{
+        return $this->alertComments()->isReaded($readed);
+    }
+
     public function roles(): BelongsToMany{
         return $this->belongsToMany(Role::class, 'user_roles');
     }
@@ -63,5 +89,16 @@ class User extends Authenticatable
         return $this->isAdmin();
     }
 
+    public function followers(): HasMany{
+        return $this->hasMany(Follower::class, 'author_id', 'id');
+    }
+
+    public function followings(): HasMany{
+        return $this->hasMany(Following::class, 'follower_id', 'id');
+    }
+
+    public function isFollowing(User $user): bool{
+        return $this->followings()->where(['author_id' => $user->id])->exists();
+    }
 
 }

@@ -90,9 +90,30 @@
         <a href="{{route('posts.index')}}" class="btn btn-primary">Meus posts</a>
     </div>
 
+    <div class="col-md-2 mt-3">
+        @auth
+        @if($user->isFollowing($post->author))
+        <form action="{{route('unfollow-author', $post->author)}}" method="POST" class="form-control">
+            @csrf
+            @method('DELETE')
+            <input class="" id="unfollow" onchange="this.form.submit()" type="checkbox" name="following"
+                checked
+            />
+            <label for="unfollow">Deixar de Seguir</label>
+        </form>
+        @else
+        <form action="{{route('follow-author', $post->author)}}" method="POST" class="form-control">
+            @csrf
+            <input class="" id="follow" onchange="this.form.submit()" type="checkbox" name="following"
+            />
+            <label for="follow">Seguir</label>
+        </form>
+        @endif
+        @endauth
+    </div>
+
     @php
         $postsDoUser = $post->where('user_id', $user->id)->get();
-        //$postsDoUser = where('user_id', $request->user()->id )->get();
     @endphp
 
 @if (!$postsDoUser->contains($post->id))

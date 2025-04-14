@@ -34,6 +34,7 @@ class CreateRoleTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
             $table->timestamps();
+           // $table->primary(['user_id', 'role_id'])
         });
         $date = now()->format('Y-m-d H:i:s');
         DB::table('roles')->insert([

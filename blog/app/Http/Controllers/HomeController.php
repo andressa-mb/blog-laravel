@@ -27,7 +27,8 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $this->data['user']= $request->user();
-        $this->data['posts'] = Post::paginate(12);
+        $this->data['posts'] = Post::paginate(6);
+        $this->data['post'] = Post::latest()->first();
         return view('home', $this->data);
     }
 
@@ -35,5 +36,10 @@ class HomeController extends Controller
         $this->data['user']= $request->user();
         $this->data['post'] = $post;
         return view('show', $this->data);
+    }
+
+    public function showPerfil(Request $request){
+        $this->data['user']= $request->user();
+        return view('profile.index', $this->data);
     }
 }

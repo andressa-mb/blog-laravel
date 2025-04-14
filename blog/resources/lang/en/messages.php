@@ -20,4 +20,7 @@ return [
     'criar-post' => 'Create Post',
     'editar-post' => 'Edit Post',
     'deletar-post' => 'Delete Post',
+    'continuar-lendo' => 'Keep reading...',
+    'pt-BR' => 'Portuguese',
+    'en' => 'English',
 ];

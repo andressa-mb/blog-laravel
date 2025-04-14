@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Comments;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comments\StoreComment;
+use App\Jobs\Comments\AlertJob;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -39,13 +40,15 @@ class CommentController extends Controller
         try{
             $input = $request->validated();
             $user = $request->user();
-            $user->comments()->create([
+            $comment = $user->comments()->create([
                 'comments' => $input['comment'],
                 'post_id' => $request->post_id,
             ]);
+            AlertJob::dispatch($comment);
             return back();
         }catch(Throwable $e){
-            return back()->withErrors($e -> getMessage())->withInput();
+            report($e);
+            return back()->withErrors($e->getMessage())->withInput();
         }
     }
 

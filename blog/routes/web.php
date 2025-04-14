@@ -20,8 +20,15 @@ Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/home-show/{post}', 'HomeController@show')->name('home.show');
 Route::post('/set-lang', 'Lang\LangController@setLang')->name('locale.setLang');
 
+//PERFIL USUÁRIO
+Route::get('/home/meu-perfil/{user}', 'HomeController@showPerfil')->name('show-perfil');
+
 //COMENTÁRIOS
 Route::resource('/comments', 'Comments\CommentController');
+
+//FOLLOW
+Route::post('/follow/{author}', 'Follow\FollowerController@follow')->name('follow-author');
+Route::delete('/unfollow/{author}', 'Follow\FollowerController@unfollow')->name('unfollow-author');
 
 //POST
 Route::resource('/posts', 'Posts\PostController');
