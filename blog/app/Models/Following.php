@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Following extends Model
 {
-     //meus seguidores - user que me segue
+     //estou seguindo
      public $incrementing = false;
      protected $table = 'followings';
      protected $fillable = [

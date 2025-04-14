@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Posts\GetRequest;
 use App\Http\Requests\Posts\StoreRequest;
 use App\Http\Requests\Posts\UpdateRequest;
+use App\Jobs\PostAlertJob;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -55,6 +56,10 @@ class PostController extends Controller
                 'title' => $input['title'],
                 'content' => $input['content'],
             ]);
+            $alert = $post->alert()->create([
+                'author_id' => $post->user_id,
+            ]);
+            PostAlertJob::dispatch($alert);
             return redirect()->route('categories.showAll', ['post' => $post]);
         }catch(Throwable $e){
             throw $e;

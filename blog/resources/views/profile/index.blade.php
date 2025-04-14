@@ -22,23 +22,37 @@
             <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="emailHelp" value="{{$user->email}}">
         </div>
         <button type="submit" class="btn btn-success">Atualizar</button>
-
-        <div class="mb-3 mt-3">
-            <label for="alert" class="form-label">Avisos:</label>
-            <input type="text" class="form-control @error('alert') is-invalid @enderror" name="alert" id="alert" aria-describedby="emailHelp">
-        </div>
-        <div class="mb-3">
-            <label for="following" class="form-label">Seguindo:</label>
-            @foreach ($user->followings as $following)
-            <input type="text" class="form-control @error('followers') is-invalid @enderror" name="following" id="following" aria-describedby="emailHelp" value="{{$following->author->name}}">
-            @endforeach
-        </div>
-        <div class="mb-3">
-            <label for="followers" class="form-label">Seguidores:</label>
-            @foreach ($user->followers as $follower)
-            <input type="text" class="form-control @error('followers') is-invalid @enderror" name="followers" id="followers" aria-describedby="emailHelp" value="{{$follower->user->name}}">
-            @endforeach
-        </div>
     </form>
+    <div class="mb-3 mt-3">
+        <label for="alert" class="form-label">Avisos:</label>
+        <input type="text" class="form-control @error('alert') is-invalid @enderror" name="alert" id="alert" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="following" class="form-label">Estou Seguindo:</label>
+        @foreach ($user->followings as $following)
+            <span>{{$user->countPostAlertsFrom($following->author)}}</span>
+        @endforeach
+        <button class="ml-2 btn btn-info" onclick="viewFollowings()">Ver</button>
+    </div>
+    <div id="followingDiv" class="followingDiv invisible" >
+        @foreach ($user->followings as $following)
+            <input type="text" class="form-control @error('followers') is-invalid @enderror" name="following" id="following" aria-describedby="emailHelp" value="{{$following->author->name}}">
+        @endforeach
+    </div>
+    <div class="mb-3">
+        <label for="followers" class="form-label">Meus Seguidores:</label>
+        @foreach ($user->followers as $follower)
+        <input type="text" class="form-control @error('followers') is-invalid @enderror" name="followers" id="followers" aria-describedby="emailHelp" value="{{$follower->user->name}}">
+        @endforeach
+    </div>
+
+
 </div>
 @endsection
+
+<script>
+    function viewFollowings(){
+        var follow = document.getElementById('followingDiv');
+        follow.classList.replace('invisible', 'visible');
+    }
+</script>

@@ -6,7 +6,9 @@ use App\Models\AlertComment;
 use App\Models\Comment;
 use App\Models\Follower;
 use App\Models\Following;
+use App\Models\FollowingAlert;
 use App\Models\Post;
+use App\Models\PostAlert;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -75,6 +77,26 @@ class User extends Authenticatable
 
     public function queryAlertComments(bool $readed): HasMany{
         return $this->alertComments()->isReaded($readed);
+    }
+
+     public function countWhoFollowMeAlerts(){
+       // return $this->hasMany(FollowingAlert::class, 'author_id', 'id');
+    }
+
+    public function postAlerts(): HasMany{
+        return $this->hasMany(FollowingAlert::class, 'follower_id', 'id');
+    }
+
+    public function hasPostAlerts(bool $readed=false): bool{
+        return $this->postAlerts()->isReaded($readed)->exists();
+    }
+
+    public function countPostAlerts(bool $readed=false): bool{
+        return $this->postAlerts()->isReaded($readed)->count();
+    }
+
+    public function countPostAlertsFrom(User $author, bool $readed=false): bool{
+        return $this->postAlerts()->isReaded($readed)->where('author_id', $author->id)->count();
     }
 
     public function roles(): BelongsToMany{

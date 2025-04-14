@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-use App\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AlertComment extends Model
+class FollowingAlert extends Model
 {
     use Traits\Readed;
-    protected $table = 'alert_comments';
+    protected $table = 'following_alerts';
     protected $fillable = [
-        'comment_id', 'post_id', 'author_id', 'readed',
+        'alert_id', 'post_id', 'author_id', 'follower_id', 'readed'
     ];
+
+    public function alert(): BelongsTo{
+        return $this->belongsTo(PostAlert::class, 'alert_id', 'id');
+    }
 
     public function post(): BelongsTo{
         return $this->belongsTo(Post::class, 'post_id', 'id');
@@ -23,7 +25,8 @@ class AlertComment extends Model
         return $this->belongsTo(\App\User::class, 'author_id', 'id');
     }
 
-    public function comment(): BelongsTo{
-        return $this->belongsTo(Comment::class, 'comment_id', 'id');
+    public function follower(): BelongsTo{
+        return $this->belongsTo(\App\User::class, 'follower_id', 'id');
     }
+
 }

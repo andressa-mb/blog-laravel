@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Follower extends Model
 {
-    //seguidor - logo user que eu sigo
+    //quem me segue
     public $incrementing = false;
     protected $table = 'followings';
     protected $fillable = [
@@ -22,5 +22,9 @@ class Follower extends Model
 
     public function user(): BelongsTo{
         return $this->belongsTo(User::class, 'follower_id', 'id');
+    }
+
+    public function alerts(): HasMany{
+        return $this->hasMany(FollowingAlert::class, 'follower_id', 'follower_id');
     }
 }
