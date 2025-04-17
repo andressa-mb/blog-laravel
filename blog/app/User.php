@@ -7,10 +7,9 @@ use App\Models\Comment;
 use App\Models\Follower;
 use App\Models\Following;
 use App\Models\FollowingAlert;
+use App\Models\NewFollowAlert;
 use App\Models\Post;
-use App\Models\PostAlert;
 use App\Models\Role;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -79,10 +78,6 @@ class User extends Authenticatable
         return $this->alertComments()->isReaded($readed);
     }
 
-     public function countWhoFollowMeAlerts(){
-       // return $this->hasMany(FollowingAlert::class, 'author_id', 'id');
-    }
-
     public function postAlerts(): HasMany{
         return $this->hasMany(FollowingAlert::class, 'follower_id', 'id');
     }
@@ -110,11 +105,11 @@ class User extends Authenticatable
     public function getIsAdminAttribute(): bool{
         return $this->isAdmin();
     }
-
+//quem me segue
     public function followers(): HasMany{
         return $this->hasMany(Follower::class, 'author_id', 'id');
     }
-
+//estou seguindo
     public function followings(): HasMany{
         return $this->hasMany(Following::class, 'follower_id', 'id');
     }
@@ -123,4 +118,19 @@ class User extends Authenticatable
         return $this->followings()->where(['author_id' => $user->id])->exists();
     }
 
+    public function countFollowings(): int{
+        return $this->followings()->count();
+    }
+
+    public function countFollowers(): int{
+        return $this->followers()->count();
+    }
+
+    public function followerAlerts(): HasMany{
+        return $this->hasMany(FollowingAlert::class, 'follower_id', 'id');
+    }
+
+    public function newFollowerAlerts(): HasMany{
+        return $this->hasMany(NewFollowAlert::class, 'author_id', 'id');
+    }
 }

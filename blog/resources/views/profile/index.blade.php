@@ -23,36 +23,50 @@
         </div>
         <button type="submit" class="btn btn-success">Atualizar</button>
     </form>
-    <div class="mb-3 mt-3">
-        <label for="alert" class="form-label">Avisos:</label>
-        <input type="text" class="form-control @error('alert') is-invalid @enderror" name="alert" id="alert" aria-describedby="emailHelp">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="following" class="form-label">Estou Seguindo:</label>
+                @foreach ($user->followings as $following)
+                    {{$user->countFollowings()}}
+                   {{-- Conta os posts alerts <span>{{$user->countPostAlertsFrom($following->author)}}</span> --}}
+                    @break
+                @endforeach
+                <button class="ml-2 btn btn-info" onclick="viewFollowings()">Ver</button>
+            </div>
+            <div id="followingDiv" class="followingDiv invisible">
+                @foreach ($user->followings as $following)
+                    <input type="text" class="form-control @error('followers') is-invalid @enderror" name="following" id="following" aria-describedby="emailHelp" value="{{$following->author->name}}">
+                @endforeach
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="followers" class="form-label">Meus Seguidores:</label>
+                @foreach ($user->followers as $follower)
+                    <span>{{$user->countFollowers()}}</span>
+                    @break;
+                @endforeach
+                <button class="ml-2 btn btn-info" onclick="viewFollowers()">Ver</button>
+            </div>
+            <div id="followerDiv" class="followerDiv invisible">
+                @foreach ($user->followers as $follower)
+                    <input type="text" class="form-control @error('followers') is-invalid @enderror" name="followers" id="followers" aria-describedby="emailHelp" value="{{$follower->user->name}}">
+                @endforeach
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="following" class="form-label">Estou Seguindo:</label>
-        @foreach ($user->followings as $following)
-            <span>{{$user->countPostAlertsFrom($following->author)}}</span>
-        @endforeach
-        <button class="ml-2 btn btn-info" onclick="viewFollowings()">Ver</button>
-    </div>
-    <div id="followingDiv" class="followingDiv invisible" >
-        @foreach ($user->followings as $following)
-            <input type="text" class="form-control @error('followers') is-invalid @enderror" name="following" id="following" aria-describedby="emailHelp" value="{{$following->author->name}}">
-        @endforeach
-    </div>
-    <div class="mb-3">
-        <label for="followers" class="form-label">Meus Seguidores:</label>
-        @foreach ($user->followers as $follower)
-        <input type="text" class="form-control @error('followers') is-invalid @enderror" name="followers" id="followers" aria-describedby="emailHelp" value="{{$follower->user->name}}">
-        @endforeach
-    </div>
-
-
 </div>
 @endsection
 
 <script>
     function viewFollowings(){
         var follow = document.getElementById('followingDiv');
+        follow.classList.replace('invisible', 'visible');
+    }
+
+    function viewFollowers(){
+        var follow = document.getElementById('followerDiv');
         follow.classList.replace('invisible', 'visible');
     }
 </script>
