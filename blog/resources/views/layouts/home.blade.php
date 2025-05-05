@@ -89,34 +89,31 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle p-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <img class="text-muted" src="{{asset("storage/sino.png")}}" width="30px" height="30px"/>
                             </a>
-                            @if($user->alertComments()->exists())
-                                @foreach ($user->alertComments()->get() as $alert)
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">
-                                            <p>Novo comentário de: {{$alert->comment->user->name}}</p>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @if($user->alertComments()->exists())
+                                    @foreach ($user->alertComments()->get() as $alert)
+                                        <a class="dropdown-item" href="{{route('posts.show', $alert->post->slug)}}">
+                                            <p>Novo comentário de: {{$alert->comment->user->name}} em {{$alert->created_at->format('d-m-Y')}}</p>
                                         </a>
-                                    </div>
-                                @endforeach
-                           @endif
-                           @if($user->followings()->exists())
-                                @if($user->postAlerts()->exists())
-                                    @foreach ($user->postAlerts()->get() as $alert)
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="#">
-                                                <p>Novo post: {{$alert->author->name}}</p>
-                                            </a>
-                                        </div>
                                     @endforeach
                                 @endif
-                            @endif
-                            @if($user->followerAlerts()->exists())
-                                @php($newFollow = $user->followerAlerts()->orderBy('created_at', 'desc')->first())
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <p>Novo post: {{$newFollow->author->name}}</p>
+                                @if($user->followings()->exists())
+
+                                    @if($user->hasPostAlerts())
+                                        @foreach ($user->notReadedPostAlerts()->get() as $alert)
+                                            <a class="dropdown-item" href="{{route('alert-following-post', $alert)}}">
+                                                <p>Novo post: {{$alert->author->name}} em {{$alert->created_at->format('d-m-Y')}}</p>
+                                            </a>
+                                        @endforeach
+                                    @endif
+                                @endif
+                                @if($user->newFollowerAlerts()->exists())
+                                    @php($newFollow = $user->newFollowerAlerts()->orderBy('created_at', 'desc')->first())
+                                    <a class="dropdown-item" href="{{route('show-perfil', $user)}}">
+                                        <p>Novo seguidor: {{$newFollow->author->name}} em {{$newFollow->created_at->format('d-m-Y')}}</p>
                                     </a>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </li>
 
                         <li class="nav-item dropdown mr-4 d-flex align-items-center">

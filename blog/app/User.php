@@ -82,6 +82,10 @@ class User extends Authenticatable
         return $this->hasMany(FollowingAlert::class, 'follower_id', 'id');
     }
 
+    public function notReadedPostAlerts(): HasMany{
+        return $this->postAlerts()->isReaded(false);
+    }
+
     public function hasPostAlerts(bool $readed=false): bool{
         return $this->postAlerts()->isReaded($readed)->exists();
     }

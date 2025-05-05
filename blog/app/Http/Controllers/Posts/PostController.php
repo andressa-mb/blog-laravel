@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Posts;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\WebController as Controller;
 use App\Http\Requests\Posts\GetRequest;
 use App\Http\Requests\Posts\StoreRequest;
 use App\Http\Requests\Posts\UpdateRequest;
@@ -14,10 +14,6 @@ use Throwable;
 
 class PostController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *

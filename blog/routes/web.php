@@ -19,6 +19,7 @@ Route::get('/', 'HomeController@index')->name('home.index');
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home-show/{post}', 'HomeController@show')->name('home.show');
 Route::post('/set-lang', 'Lang\LangController@setLang')->name('locale.setLang');
+Route::get('/alert/following/post/{alert}', 'Alerts\Posts\ReadAlertController')->name('alert-following-post');
 
 //PERFIL USUÁRIO
 Route::get('/home/meu-perfil/{user}', 'HomeController@showPerfil')->name('show-perfil');
