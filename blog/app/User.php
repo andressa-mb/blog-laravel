@@ -14,10 +14,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'lang', 'role_id',
+        'name', 'email', 'password', 'lang',
     ];
 
     /**
@@ -45,6 +47,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles(): BelongsToMany{
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    public function syncRoles(array $roleName): void {
+        $roleIds = Role::whereIn('name', $roleName)->pluck('id')->toArray();
+        $this->roles()->sync($roleIds);
+    }
+
+    public function getAndSetRole(array $roleName): void{
+        foreach($roleName as $role){
+            $setRole = Role::where('name', $role)->first();
+            $this->roles()->detach($setRole->id);
+            if($setRole){
+                $this->roles()->attach($setRole->id);
+            }
+        }
+    }
+
+    public function isAdmin(): bool{
+        return $this->roles()->admin()->exists();
+    }
+
+    public function getIsAdminAttribute(): bool{
+        return $this->isAdmin();
+    }
 
     public function posts(): HasMany{
         return $this->hasMany(Post::class, 'user_id', 'id');
@@ -98,17 +127,6 @@ class User extends Authenticatable
         return $this->postAlerts()->isReaded($readed)->where('author_id', $author->id)->count();
     }
 
-    public function roles(): BelongsToMany{
-        return $this->belongsToMany(Role::class, 'user_roles');
-    }
-
-    public function isAdmin(): bool{
-        return $this->roles()->admin()->exists();
-    }
-
-    public function getIsAdminAttribute(): bool{
-        return $this->isAdmin();
-    }
 //quem me segue
     public function followers(): HasMany{
         return $this->hasMany(Follower::class, 'author_id', 'id');

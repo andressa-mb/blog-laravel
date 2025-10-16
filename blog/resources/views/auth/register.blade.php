@@ -60,6 +60,28 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <p class="col-md-4 col-form-label text-md-right">Perfil:</p>
+                            <div class="col-md-8">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="roles[]" id="reader" value="reader">
+                                    <label class="form-check-label" for="reader">
+                                        Leitor
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="roles[]" id="author" value="author">
+                                    <label class="form-check-label" for="author">
+                                        Autor
+                                    </label>
+                                </div>
+                                @error('role')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
