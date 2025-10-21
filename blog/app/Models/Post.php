@@ -21,6 +21,21 @@ class Post extends Model
         'user_id', 'title', 'content', 'slug'
     ];
 
+    public static function booted(){
+        parent::booted();
+        static::creating(function (self $model){
+            $model->slug = Str::slug($model->title);
+        });
+
+        static::updating(function (self $model){
+            $model->slug = Str::slug($model->title);
+        });
+
+        static::deleting(function (self $model){
+            $model->slug.= '-delete-' .time();
+        });
+    }
+
     public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
@@ -43,21 +58,6 @@ class Post extends Model
 
     public function images(): HasMany{
         return $this->hasMany(PostImage::class, 'post_id', 'id');
-    }
-
-    public static function booted(){
-        parent::booted();
-        static::creating(function (self $model){
-           $model->slug = Str::slug($model->title);
-        });
-
-        static::updating(function (self $model){
-            $model->slug = Str::slug($model->title);
-        });
-
-        static::deleting(function (self $model){
-            $model->slug.= '-delete-' .time();
-        });
     }
 
     public function getRouteKeyName(){

@@ -62,18 +62,18 @@ class UserController extends Controller
             if($request->user()->isAdmin()){
                 $validated = $this->validator($request->all())->validate();
                 $user = app()->make(UserService::class)->createUser($validated);
-                $token = $user->createToken('tkn_login')->plainTextToken;
 
                 return response()->json([
-                    'user' => UserJson::make($user),
-                    'access_token' => $token,
-                    'token_type' => 'Bearer',
+                    'user' => UserJson::make($user)
                 ], 201);
             }else {
-                return response()->json(['message' => 'Usuário não autorizado.']);
+                return response()->json(['message' => 'Usuário não autorizado.'], 403);
             }
         } catch(Exception $e){
-            return response()->json(['Erro ao criar novo usuário. ' + $e->getMessage()]);
+            return response()->json([
+                'message' => 'Erro ao criar novo usuário. ',
+                'errors' => $e->getMessage()
+            ], 409);
         }
     }
 

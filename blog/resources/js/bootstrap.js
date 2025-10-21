@@ -20,8 +20,7 @@ try {
  */
 
 window.axios = require('axios');
-//para autenticação
-axios.defaults.withCredentials = true;
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

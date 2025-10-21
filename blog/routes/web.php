@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//colocar verificação se é admin para ver a pagina
+Route::get('/list-users', function (){
+    return view('profile.list-users');
+})->name('list-users');
+
 Auth::routes();
 //HOME para usuários e VISITANTES (principalmente)
 Route::get('/', 'HomeController@index')->name('home.index');
@@ -52,3 +57,7 @@ Route::post('/add-category/category/{category}/post/{post}', 'PostCategory\Posts
 Route::delete('/remove-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@removeFromCategory')->name('remove-post-from-category');
 //ASSOCIAÇÃO DA CATEGORIA AO POST
 Route::post('/associate-category/post/{post}', 'PostCategory\PostsCategoriesController@associateCategories')->name('associate-post-to-category');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

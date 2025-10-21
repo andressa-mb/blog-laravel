@@ -23,4 +23,5 @@ return [
     'continuar-lendo' => 'Continuar lendo...',
     'pt-BR' => 'Português',
     'en' => 'Inglês',
+    'usuarios' => 'Usuários',
 ];
