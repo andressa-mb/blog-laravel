@@ -29,7 +29,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::namespace('Api')->group(function () {
         Route::apiResources([
             'users' => 'UserController',
-            'posts' => 'PostsController',
+            'posts' => 'PostController',
+            'roles' => 'RoleController',
         ]);
     });
 });

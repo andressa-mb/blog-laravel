@@ -45,7 +45,7 @@ const closeModal = () => {
 }
 
 function setupModal(){
-    console.log(props.modalMsgType);
+    console.log('setupmodal msg ', props.modalMsgType);
     if(props.modalMsgType === 'success'){
         modalIcon.value = 'fas fa-check-circle';
         modalHeaderClass.value = 'bg-success text-white'

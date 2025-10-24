@@ -12,20 +12,20 @@
         <form @submit.prevent="submitForm">
             <div class="form-group">
                 <label for="name">Nome:</label>
-                <input type="text" class="form-control" id="name" name="name" v-model="form.name">
+                <input type="text" class="form-control" id="name" name="name" v-model="form.name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" v-model="form.email">
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" v-model="form.email" required>
                 <small id="emailHelp" class="form-text text-muted">Nunca compartilhar seu e-mail.</small>
             </div>
             <div class="form-group">
                 <label for="password">Senha:</label>
-                <input type="password" class="form-control" id="password" name="password" v-model="form.password">
+                <input type="password" class="form-control" id="password" name="password" v-model="form.password" required>
             </div>
             <div class="form-group">
                 <label for="password-confirm">Confirmar senha:</label>
-                <input type="password" class="form-control" id="password-confirm" name="password-confirm" v-model="form.password_confirmation">
+                <input type="password" class="form-control" id="password-confirm" name="password-confirm" v-model="form.password_confirmation" required>
             </div>
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="admin" value="admin" name="roles[]" v-model="form.roles">
@@ -49,7 +49,6 @@
             <p>{{form.password}}</p>
             <p>{{form.password_confirm}}</p>
             <p>{{form.roles}}</p>
-
         </div>
 
     </div>
@@ -94,23 +93,25 @@ async function sendForm(url){
     }
 }
 
+function resetForm() {
+    form.name = "",
+    form.email = "",
+    form.password = "",
+    form.password_confirmation = "",
+    form.roles = []
+}
+
 async function submitForm(){
     try{
         console.log('Dados do formulário:', form);
         const createUser = await sendForm("api/admin/create");
         if(createUser) {
             console.log('Usuário criado com sucesso.');
-            form.name = "",
-            form.email = "",
-            form.password = "",
-            form.password_confirmation = "",
-            form.roles = []
+            resetForm();
             modalOpen.value = true;
             modalTitle.value = "Sucesso!";
             modalMessage.value = "Usuário inserido com sucesso no sistema.";
             modalMsgType.value = 'success';
-    console.log(modalTitle.value);
-    console.log(modalOpen.value);
         }
     }catch(error){
         modalOpen.value = true;

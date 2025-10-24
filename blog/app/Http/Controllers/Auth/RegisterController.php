@@ -69,21 +69,16 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'roles' => 'sometimes|array',
         ]);
 
-        $roleNames = $data['roles'] ?? ['reader'];
-
-        foreach($roleNames as $roleName){
-            if($roleName === 'reader'){
-                $roleIds[] = Role::reader()->first()->id;
-            }
-            if($roleName === 'author'){
-                $roleIds[] = Role::author()->first()->id;
-            }
+        if(request()->has('roles')){
+            $formRoleNames = request()->roles;
+            $roles = Role::whereIn('name', $formRoleNames)->get();
+            $user->roles()->attach($roles->pluck('id'));
+        } else {
+            $role = Role::reader()->first();
+            $user->roles()->attach($role->id);
         }
-
-        $user->roles()->sync($roleIds);
 
         return $user;
     }

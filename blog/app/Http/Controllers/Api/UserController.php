@@ -20,7 +20,7 @@ class UserController extends Controller
      *
      */
     public function index(){
-        return UserCollection::make(User::with('roles')->orderBy('id')->get());
+        return UserCollection::make(User::with('roles')->orderBy('id')->paginate());
     }
 
     /**
