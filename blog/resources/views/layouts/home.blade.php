@@ -74,6 +74,7 @@
                         <option value="pt-BR">{{__('messages.portugues')}}</option>
                     </select>
                 </form>
+
                 <ul class="navbar-nav d-flex flex-row ml-4">
                     @guest
                         <li class="nav-item mr-4">
@@ -191,5 +192,7 @@
         @yield('content')
     </main>
 </div>
+@stack('scripts')
+
 </body>
 </html>

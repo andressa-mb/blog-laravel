@@ -5,7 +5,9 @@
                 <div class="modal-content">
                     <div class="modal-header" :class="modalHeaderClass">
                         <h5 class="modal-title" id="messageModalLabel">
-                            <i :class="modalIcon"></i>
+                            <span>
+                                <i :class="modalIconClass"></i>
+                            </span>
                             {{ isEdit ? 'Editar usuário' : 'Excluir usuário' }}
                         </h5>
                         <button type="button" class="close" @click="close">
@@ -51,12 +53,14 @@
                                 </label>
                             </div>
                         </div>
+
                         <div>
                             {{originalForm}}
                         </div>
                         <div>
                             {{form}}
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button class="btn" :class="modalButtonClass" @click="sendChanges()">
@@ -74,6 +78,8 @@
             :modalMessage="modalMessage"
             :modalTitle="modalTitle"
             :modalMsgType="modalMsgType"
+            :isDelete="modalToDelete"
+            @deletar="confirmedDelete"
             @closeModal="closeModal"
         />
     </div>
@@ -83,13 +89,16 @@
 import { ref, onMounted, reactive, watch } from 'vue';
 import Message from '../Message.vue';
 
-const modalIcon = ref('');
+const modalIconClass = ref('');
 const modalHeaderClass = ref('');
 const modalButtonClass = ref('');
+//MessageVue
 const modalMsgOpen = ref(false);
 const modalMessage = ref("");
 const modalTitle = ref("");
 const modalMsgType = ref("");
+const modalToDelete = ref(false);
+//Dados usados
 const user = ref({});
 const listRoles = ref({});
 const originalForm = ref({
@@ -138,6 +147,12 @@ function sendChanges(){
             form.roles = ["reader"];
         }
         editUser(`api/users/${props.userId}`);
+    } else {
+        modalToDelete.value = true;
+        modalMsgType.value = 'danger';
+        modalTitle.value = 'Excluir usuário';
+        modalMessage.value = `Tem certeza que deseja excluir o usuário: ${user.value.name}`
+        modalMsgOpen.value = true;
     }
 }
 
@@ -149,15 +164,42 @@ async function editUser(url){
         }).then(response => {
             modalMsgType.value = 'success';
             modalTitle.value = 'Editado com sucesso!';
-            modalMessage.value = `#${response.data.data.user.id} | Usuário: ${response.data.data.user.name} atualizado. | Status: ${response.statusText}`
+            modalMessage.value = `#${response.data.data.user.id} | Usuário: ${response.data.data.user.name.trim().split(' ')[0]} atualizado. | Status: ${response.statusText}`
             modalMsgOpen.value = true;
         }).catch(error => {
             modalMsgType.value = 'danger';
             modalTitle.value = 'Erro ao editar o usuário!';
             modalMessage.value = `Erro ao editar usuário. | ${error}`;
             modalMsgOpen.value = true;
-            console.log('erro do axios edit ', error)
         });
+}
+
+//DELETAR USUÁRIO
+function confirmedDelete(){
+    try{
+        deleteUser(`api/users/${props.userId}`);
+    }catch(error){
+        console.log('erro na chamada do axios do deletar: ', error)
+    }
+}
+
+//DELETANDO O USUÁRIO
+async function deleteUser(url) {
+    axios.delete(url)
+    .then(response => {
+        modalMsgType.value = 'success';
+        modalTitle.value = 'Excluir';
+        modalMessage.value = `Usuário deletado com sucesso.`
+        modalMsgOpen.value = true;
+        modalToDelete.value = false;
+    })
+    .catch(error => {
+        modalMsgType.value = 'danger';
+        modalTitle.value = 'Excluir - ERRO';
+        modalMessage.value = `Erro ao excluir o usuário. | ${error}`;
+        modalMsgOpen.value = true;
+        modalToDelete.value = false;
+    });
 }
 
 //MONTANDO OS DADOS DO MODAL
@@ -165,11 +207,11 @@ function setupModal() {
     if(props.isEdit) {
         modalHeaderClass.value = 'bg-primary text-white';
         modalButtonClass.value = 'bg-success text-white';
-        modalIcon.value = 'bi bi-pencil';
+        modalIconClass.value = "bi bi-pencil";
     }else {
         modalHeaderClass.value = 'bg-danger text-white';
         modalButtonClass.value = 'bg-danger text-white';
-        modalIcon.value = 'bi bi-trash';
+        modalIconClass.value = "bi bi-trash";
     }
 }
 

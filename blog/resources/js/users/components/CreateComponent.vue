@@ -103,10 +103,11 @@ function resetForm() {
 
 async function submitForm(){
     try{
-        console.log('Dados do formulário:', form);
+        if(JSON.stringify(form.roles) === "[]"){
+            form.roles = ["reader"];
+        }
         const createUser = await sendForm("api/admin/create");
         if(createUser) {
-            console.log('Usuário criado com sucesso.');
             resetForm();
             modalOpen.value = true;
             modalTitle.value = "Sucesso!";
@@ -118,7 +119,6 @@ async function submitForm(){
         modalTitle.value = "Erro!";
         modalMessage.value = `Erro ao inserir no sistema. ${error.response ? error.response.data : error}`;
         modalMsgType.value = 'error';
-        console.log('erro ao conectar ao banco. ' + error.response ? error.response.data : error);
     }
 }
 

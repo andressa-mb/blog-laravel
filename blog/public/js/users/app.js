@@ -22284,20 +22284,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               _context2.prev = 0;
-              console.log('Dados do formulário:', form);
+              if (JSON.stringify(form.roles) === "[]") {
+                form.roles = ["reader"];
+              }
               _context2.next = 4;
               return sendForm("api/admin/create");
             case 4:
               createUser = _context2.sent;
               if (createUser) {
-                console.log('Usuário criado com sucesso.');
                 resetForm();
                 modalOpen.value = true;
                 modalTitle.value = "Sucesso!";
                 modalMessage.value = "Usuário inserido com sucesso no sistema.";
                 modalMsgType.value = 'success';
               }
-              _context2.next = 15;
+              _context2.next = 14;
               break;
             case 8:
               _context2.prev = 8;
@@ -22306,8 +22307,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               modalTitle.value = "Erro!";
               modalMessage.value = "Erro ao inserir no sistema. ".concat(_context2.t0.response ? _context2.t0.response.data : _context2.t0);
               modalMsgType.value = 'error';
-              console.log('erro ao conectar ao banco. ' + _context2.t0.response ? _context2.t0.response.data : 0);
-            case 15:
+            case 14:
             case "end":
               return _context2.stop();
           }
@@ -22352,7 +22352,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
-/* harmony import */ var _modals_user_EditUser_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/user/EditUser.vue */ "./resources/js/users/components/modals/user/EditUser.vue");
+/* harmony import */ var _modals_user_ActionUser_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/user/ActionUser.vue */ "./resources/js/users/components/modals/user/ActionUser.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -22370,6 +22370,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     var modalIsEdit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var modalShow = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var selectedUser = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
+    var msgError = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var listRoles = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
+    var search = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var profile = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     function closeModal() {
       loadUsers('api/users');
       modalShow.value = false;
@@ -22380,16 +22384,27 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
     function _loadUsers() {
       _loadUsers = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(url) {
+        var search,
+          profile,
+          _args = arguments;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              axios.get(url).then(function (_ref2) {
+              search = _args.length > 1 && _args[1] !== undefined ? _args[1] : '';
+              profile = _args.length > 2 && _args[2] !== undefined ? _args[2] : '';
+              axios.get(url, {
+                params: {
+                  search: search,
+                  profile: profile
+                }
+              }).then(function (_ref2) {
                 var data = _ref2.data;
                 users.value = data;
               })["catch"](function (error) {
+                msgError.value = "Usu\xE1rio n\xE3o autorizado. ".concat(error, ".");
                 console.log(error);
               });
-            case 1:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -22403,12 +22418,55 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         modalIsEdit.value = true;
         modalShow.value = true;
       } catch (error) {
+        msgError.value = "Usu\xE1rio n\xE3o autorizado. ".concat(error, ".");
         console.error('Erro ao carregar usuário:', error);
       }
     }
+    function deleteUser(user) {
+      try {
+        selectedUser.value = user;
+        modalIsEdit.value = false;
+        modalShow.value = true;
+      } catch (error) {
+        msgError.value = "Usu\xE1rio n\xE3o autorizado. ".concat(error, ".");
+        console.error('Erro ao carregar usuário:', error);
+      }
+    }
+
+    //CARREGANDO ROLES
+    function loadRoles(_x2) {
+      return _loadRoles.apply(this, arguments);
+    }
+    function _loadRoles() {
+      _loadRoles = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(url) {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              axios.get(url).then(function (_ref3) {
+                var data = _ref3.data;
+                var response = data.roles;
+                listRoles.value = response;
+              })["catch"](function (error) {
+                console.log('Erro ao carregar roles ', error);
+              });
+            case 1:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }));
+      return _loadRoles.apply(this, arguments);
+    }
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(search, function (userSearch) {
+      loadUsers('api/users', userSearch, '');
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(profile, function (userProfile) {
+      loadUsers('api/users', '', userProfile);
+    });
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       console.log('index montado');
       loadUsers('api/users');
+      loadRoles('api/roles');
     });
     var __returned__ = {
       route: route,
@@ -22416,15 +22474,22 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       modalIsEdit: modalIsEdit,
       modalShow: modalShow,
       selectedUser: selectedUser,
+      msgError: msgError,
+      listRoles: listRoles,
+      search: search,
+      profile: profile,
       closeModal: closeModal,
       loadUsers: loadUsers,
       editUser: editUser,
+      deleteUser: deleteUser,
+      loadRoles: loadRoles,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
+      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
       get useRoute() {
         return vue_router__WEBPACK_IMPORTED_MODULE_1__.useRoute;
       },
-      EditUser: _modals_user_EditUser_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+      ActionUser: _modals_user_ActionUser_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -22454,14 +22519,15 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     modalTitle: String,
     modalMessage: String,
-    modalMsgType: String
+    modalMsgType: String,
+    isDelete: Boolean
   },
-  emits: ['closeModal'],
+  emits: ['closeModal', 'deletar'],
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose,
       __emit = _ref.emit;
     __expose();
-    var modalIcon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var modalIconClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var modalHeaderClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var modalButtonClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var props = __props;
@@ -22469,16 +22535,18 @@ __webpack_require__.r(__webpack_exports__);
     var closeModal = function closeModal() {
       emit('closeModal');
     };
+    function deleteUser() {
+      emit('deletar');
+    }
     function setupModal() {
-      console.log('setupmodal msg ', props.modalMsgType);
       if (props.modalMsgType === 'success') {
-        modalIcon.value = 'fas fa-check-circle';
+        modalIconClass.value = 'fas fa-check-circle';
         modalHeaderClass.value = 'bg-success text-white';
         modalButtonClass.value = 'btn-success';
       } else {
-        modalIcon.value = 'fas fa-exclamation-triangle';
+        modalIconClass.value = 'fas fa-exclamation-triangle';
         modalHeaderClass.value = 'bg-danger text-white';
-        modalButtonClass.value = 'btn-danger';
+        modalButtonClass.value = 'btn-secondary';
       }
     }
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
@@ -22488,18 +22556,18 @@ __webpack_require__.r(__webpack_exports__);
       setupModal();
     });
     var __returned__ = {
-      modalIcon: modalIcon,
+      modalIconClass: modalIconClass,
       modalHeaderClass: modalHeaderClass,
       modalButtonClass: modalButtonClass,
       props: props,
       emit: emit,
       closeModal: closeModal,
+      deleteUser: deleteUser,
       setupModal: setupModal,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
       watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
-      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
-      nextTick: vue__WEBPACK_IMPORTED_MODULE_0__.nextTick
+      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -22511,10 +22579,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/EditUser.vue?vue&type=script&setup=true&lang=js":
-/*!*******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/EditUser.vue?vue&type=script&setup=true&lang=js ***!
-  \*******************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/ActionUser.vue?vue&type=script&setup=true&lang=js":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/ActionUser.vue?vue&type=script&setup=true&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22531,7 +22599,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __name: 'EditUser',
+  __name: 'ActionUser',
   props: {
     userId: {
       type: Number,
@@ -22547,13 +22615,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     var __expose = _ref.expose,
       __emit = _ref.emit;
     __expose();
-    var modalIcon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var modalIconClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var modalHeaderClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var modalButtonClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    //MessageVue
     var modalMsgOpen = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var modalMessage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
     var modalTitle = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
     var modalMsgType = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
+    var modalToDelete = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    //Dados usados
     var user = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
     var listRoles = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
     var originalForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
@@ -22591,11 +22662,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           form.roles = ["reader"];
         }
         editUser("api/users/".concat(props.userId));
+      } else {
+        modalToDelete.value = true;
+        modalMsgType.value = 'danger';
+        modalTitle.value = 'Excluir usuário';
+        modalMessage.value = "Tem certeza que deseja excluir o usu\xE1rio: ".concat(user.value.name);
+        modalMsgOpen.value = true;
       }
     }
     function editUser(_x) {
       return _editUser.apply(this, arguments);
-    } //MONTANDO OS DADOS DO MODAL
+    } //DELETAR USUÁRIO
     function _editUser() {
       _editUser = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(url) {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -22609,14 +22686,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               }).then(function (response) {
                 modalMsgType.value = 'success';
                 modalTitle.value = 'Editado com sucesso!';
-                modalMessage.value = "#".concat(response.data.data.user.id, " | Usu\xE1rio: ").concat(response.data.data.user.name, " atualizado. | Status: ").concat(response.statusText);
+                modalMessage.value = "#".concat(response.data.data.user.id, " | Usu\xE1rio: ").concat(response.data.data.user.name.trim().split(' ')[0], " atualizado. | Status: ").concat(response.statusText);
                 modalMsgOpen.value = true;
               })["catch"](function (error) {
                 modalMsgType.value = 'danger';
                 modalTitle.value = 'Erro ao editar o usuário!';
                 modalMessage.value = "Erro ao editar usu\xE1rio. | ".concat(error);
                 modalMsgOpen.value = true;
-                console.log('erro do axios edit ', error);
               });
             case 2:
             case "end":
@@ -22626,26 +22702,64 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }));
       return _editUser.apply(this, arguments);
     }
+    function confirmedDelete() {
+      try {
+        deleteUser("api/users/".concat(props.userId));
+      } catch (error) {
+        console.log('erro na chamada do axios do deletar: ', error);
+      }
+    }
+
+    //DELETANDO O USUÁRIO
+    function deleteUser(_x2) {
+      return _deleteUser.apply(this, arguments);
+    } //MONTANDO OS DADOS DO MODAL
+    function _deleteUser() {
+      _deleteUser = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(url) {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              axios["delete"](url).then(function (response) {
+                modalMsgType.value = 'success';
+                modalTitle.value = 'Excluir';
+                modalMessage.value = "Usu\xE1rio deletado com sucesso.";
+                modalMsgOpen.value = true;
+                modalToDelete.value = false;
+              })["catch"](function (error) {
+                modalMsgType.value = 'danger';
+                modalTitle.value = 'Excluir - ERRO';
+                modalMessage.value = "Erro ao excluir o usu\xE1rio. | ".concat(error);
+                modalMsgOpen.value = true;
+                modalToDelete.value = false;
+              });
+            case 1:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }));
+      return _deleteUser.apply(this, arguments);
+    }
     function setupModal() {
       if (props.isEdit) {
         modalHeaderClass.value = 'bg-primary text-white';
         modalButtonClass.value = 'bg-success text-white';
-        modalIcon.value = 'bi bi-pencil';
+        modalIconClass.value = "bi bi-pencil";
       } else {
         modalHeaderClass.value = 'bg-danger text-white';
         modalButtonClass.value = 'bg-danger text-white';
-        modalIcon.value = 'bi bi-trash';
+        modalIconClass.value = "bi bi-trash";
       }
     }
 
     //CARREGANDO DADOS DO USUARIO
-    function loadUser(_x2) {
+    function loadUser(_x3) {
       return _loadUser.apply(this, arguments);
     } //CARREGANDO ROLES
     function _loadUser() {
-      _loadUser = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(url) {
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+      _loadUser = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(url) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
               axios.get(url).then(function (_ref2) {
                 var data = _ref2.data;
@@ -22664,19 +22778,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 1:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
-        }, _callee2);
+        }, _callee3);
       }));
       return _loadUser.apply(this, arguments);
     }
-    function loadRoles(_x3) {
+    function loadRoles(_x4) {
       return _loadRoles.apply(this, arguments);
     } //VERIFICANDO ATUALIZAÇÕES
     function _loadRoles() {
-      _loadRoles = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(url) {
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
+      _loadRoles = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4(url) {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
               axios.get(url).then(function (_ref3) {
                 var data = _ref3.data;
@@ -22687,9 +22801,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 1:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
-        }, _callee3);
+        }, _callee4);
       }));
       return _loadRoles.apply(this, arguments);
     }
@@ -22711,13 +22825,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       loadRoles("api/roles");
     });
     var __returned__ = {
-      modalIcon: modalIcon,
+      modalIconClass: modalIconClass,
       modalHeaderClass: modalHeaderClass,
       modalButtonClass: modalButtonClass,
       modalMsgOpen: modalMsgOpen,
       modalMessage: modalMessage,
       modalTitle: modalTitle,
       modalMsgType: modalMsgType,
+      modalToDelete: modalToDelete,
       user: user,
       listRoles: listRoles,
       originalForm: originalForm,
@@ -22729,6 +22844,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       hasChanges: hasChanges,
       sendChanges: sendChanges,
       editUser: editUser,
+      confirmedDelete: confirmedDelete,
+      deleteUser: deleteUser,
       setupModal: setupModal,
       loadUser: loadUser,
       loadRoles: loadRoles,
@@ -22909,160 +23026,163 @@ var _hoisted_1 = {
   "class": "container"
 };
 var _hoisted_2 = {
+  "class": "form-inline my-3 border border-dark p-3 w-50 shadow p-3 mb-5 bg-white rounded d-flex align-items-center flex-wrap gap-3"
+};
+var _hoisted_3 = {
+  "class": "form-group d-flex align-items-center gap-2"
+};
+var _hoisted_4 = ["value"];
+var _hoisted_5 = {
+  "class": "form-group d-flex align-items-center gap-2"
+};
+var _hoisted_6 = {
+  key: 0
+};
+var _hoisted_7 = {
+  "class": "font-weight-normal text-center"
+};
+var _hoisted_8 = {
   key: 2,
   "class": "btn btn-secondary border rounded border-dark border-top-0 text-center mx-2",
   disabled: ""
 };
-var _hoisted_3 = {
+var _hoisted_9 = {
   "class": "d-flex flex-wrap justify-content-around"
 };
-var _hoisted_4 = {
+var _hoisted_10 = {
   "class": "card-body"
 };
-var _hoisted_5 = {
+var _hoisted_11 = {
   "class": "card-title"
 };
-var _hoisted_6 = {
+var _hoisted_12 = {
   "class": "card-text"
 };
-var _hoisted_7 = {
+var _hoisted_13 = {
   "class": "card-footer d-flex justify-content-around"
 };
-var _hoisted_8 = ["onClick"];
-var _hoisted_9 = {
+var _hoisted_14 = ["onClick"];
+var _hoisted_15 = ["onClick"];
+var _hoisted_16 = {
   key: 2,
   "class": "btn btn-secondary border rounded border-dark border-top-0 text-center mx-2",
   disabled: ""
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" BARRA DE PESQUISA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "profile"
+  }, "Perfil", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "profile",
+    "class": "form-control",
+    name: "profile",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $setup.profile = $event;
+    })
+  }, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: ""
+  }, "Todos", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.listRoles, function (role) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: role.id,
+      value: role.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(role.name), 9 /* TEXT, PROPS */, _hoisted_4);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.profile]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "name"
+  }, "Nome:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-control mr-sm-2",
+    id: "name",
+    type: "search",
+    placeholder: "Sabrina",
+    name: "search",
+    "aria-label": "Search",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $setup.search = $event;
+    })
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.search]])])]), $setup.msgError !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.msgError), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PAGINAÇÃO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "btn btn-info mx-2",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
+    onClick: _cache[2] || (_cache[2] = function ($event) {
       return $setup.loadUsers($setup.users.links.first);
     })
   }, "1")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links && $setup.users.links.prev != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     "class": "btn btn-primary mx-2",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
       return $setup.loadUsers($setup.users.links.prev);
     })
-  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "16",
-    height: "16",
-    fill: "currentColor",
-    "class": "bi bi-box-arrow-left",
-    viewBox: "0 0 16 16"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"
-  })], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.meta ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.users.meta.current_page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links && $setup.users.links.next != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-box-arrow-left"
+  }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.meta ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.users.meta.current_page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links && $setup.users.links.next != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 3,
     "class": "btn btn-primary mx-2",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
+    onClick: _cache[4] || (_cache[4] = function ($event) {
       return $setup.loadUsers($setup.users.links.next);
     })
-  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "16",
-    height: "16",
-    fill: "currentColor",
-    "class": "bi bi-box-arrow-right",
-    viewBox: "0 0 16 16"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
-  })], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-box-arrow-right"
+  }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 4,
     "class": "btn btn-info mx-2",
-    onClick: _cache[3] || (_cache[3] = function ($event) {
+    onClick: _cache[5] || (_cache[5] = function ($event) {
       return $setup.loadUsers($setup.users.links.last);
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.users.meta.last_page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MODAIS EDIT E DELETE "), $setup.selectedUser && $setup.modalShow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["EditUser"], {
-    key: 0,
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.users.meta.last_page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MODAIS EDIT E DELETE "), $setup.selectedUser && $setup.modalShow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["ActionUser"], {
+    key: 1,
     isEdit: $setup.modalIsEdit,
     userId: $setup.selectedUser.id,
     onCloseMod: $setup.closeModal
-  }, null, 8 /* PROPS */, ["isEdit", "userId"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.users.data, function (user, index) {
+  }, null, 8 /* PROPS */, ["isEdit", "userId"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.users.data, function (user, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "card m-2",
       style: {
         "width": "18rem"
       },
       key: index
-    }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "#",
       "class": "card-img-top",
       alt: "imgUser"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "E-mail:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.email), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Idioma:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.lang), 1 /* TEXT */)]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(user.roles, function (role) {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "E-mail:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.email), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Idioma:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.lang), 1 /* TEXT */)]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(user.roles, function (role) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: role.id
-      }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Perfil:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(role.name), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Perfil:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(role.name), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "javascript:void(0)",
       onClick: function onClick($event) {
         return $setup.editUser(user);
       },
       "class": "btn btn-warning"
-    }, "Editar", 8 /* PROPS */, _hoisted_8), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: "#",
+    }, "Editar", 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $setup.deleteUser(user);
+      },
       "class": "btn btn-danger"
-    }, "Excluir", -1 /* CACHED */))])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, "Excluir", 8 /* PROPS */, _hoisted_15)])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PAGINAÇÃO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "btn btn-info mx-2",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
+    onClick: _cache[6] || (_cache[6] = function ($event) {
       return $setup.loadUsers($setup.users.links.first);
     })
   }, "1")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links && $setup.users.links.prev != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     "class": "btn btn-primary mx-2",
-    onClick: _cache[5] || (_cache[5] = function ($event) {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $setup.loadUsers($setup.users.links.prev);
     })
-  }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "16",
-    height: "16",
-    fill: "currentColor",
-    "class": "bi bi-box-arrow-left",
-    viewBox: "0 0 16 16"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"
-  })], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.meta ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.users.meta.current_page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links && $setup.users.links.next != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-box-arrow-left"
+  }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.meta ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.users.meta.current_page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links && $setup.users.links.next != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 3,
     "class": "btn btn-primary mx-2",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
       return $setup.loadUsers($setup.users.links.next);
     })
-  }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "16",
-    height: "16",
-    fill: "currentColor",
-    "class": "bi bi-box-arrow-right",
-    viewBox: "0 0 16 16"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-    "fill-rule": "evenodd",
-    d: "M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
-  })], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-box-arrow-right"
+  }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.users.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 4,
     "class": "btn btn-info mx-2",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $setup.loadUsers($setup.users.links.last);
     })
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.users.meta.last_page), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
@@ -23147,14 +23267,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["modal-header", $setup.modalHeaderClass])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($setup.modalIcon)
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($setup.modalIconClass)
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.modalTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "close",
     onClick: $setup.closeModal
-  }, _toConsumableArray(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
-  }, "×", -1 /* CACHED */)])))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.modalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "×", -1 /* CACHED */)])))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.modalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [$props.isDelete ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    "class": "btn btn-danger",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $setup.deleteUser();
+    })
+  }, " Excluir ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", $setup.modalButtonClass]),
     onClick: $setup.closeModal
@@ -23163,10 +23290,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/EditUser.vue?vue&type=template&id=c072ee98":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/EditUser.vue?vue&type=template&id=c072ee98 ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/ActionUser.vue?vue&type=template&id=3f905f20":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/ActionUser.vue?vue&type=template&id=3f905f20 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -23240,9 +23367,9 @@ var _hoisted_16 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["modal-header", $setup.modalHeaderClass])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($setup.modalIcon)
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.isEdit ? 'Editar usuário' : 'Excluir usuário'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($setup.modalIconClass)
+  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.isEdit ? 'Editar usuário' : 'Excluir usuário'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "close",
     onClick: $setup.close
@@ -23299,8 +23426,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     modalMessage: $setup.modalMessage,
     modalTitle: $setup.modalTitle,
     modalMsgType: $setup.modalMsgType,
+    isDelete: $setup.modalToDelete,
+    onDeletar: $setup.confirmedDelete,
     onCloseModal: $setup.closeModal
-  }, null, 8 /* PROPS */, ["modalMessage", "modalTitle", "modalMsgType"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, 8 /* PROPS */, ["modalMessage", "modalTitle", "modalMsgType", "isDelete"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -61869,10 +61998,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/users/components/modals/user/EditUser.vue":
-/*!****************************************************************!*\
-  !*** ./resources/js/users/components/modals/user/EditUser.vue ***!
-  \****************************************************************/
+/***/ "./resources/js/users/components/modals/user/ActionUser.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/users/components/modals/user/ActionUser.vue ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -61880,15 +62009,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _EditUser_vue_vue_type_template_id_c072ee98__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditUser.vue?vue&type=template&id=c072ee98 */ "./resources/js/users/components/modals/user/EditUser.vue?vue&type=template&id=c072ee98");
-/* harmony import */ var _EditUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditUser.vue?vue&type=script&setup=true&lang=js */ "./resources/js/users/components/modals/user/EditUser.vue?vue&type=script&setup=true&lang=js");
+/* harmony import */ var _ActionUser_vue_vue_type_template_id_3f905f20__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActionUser.vue?vue&type=template&id=3f905f20 */ "./resources/js/users/components/modals/user/ActionUser.vue?vue&type=template&id=3f905f20");
+/* harmony import */ var _ActionUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ActionUser.vue?vue&type=script&setup=true&lang=js */ "./resources/js/users/components/modals/user/ActionUser.vue?vue&type=script&setup=true&lang=js");
 /* harmony import */ var _home_andressamb_estudos_php_laravel_blog_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_andressamb_estudos_php_laravel_blog_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_EditUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_EditUser_vue_vue_type_template_id_c072ee98__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/users/components/modals/user/EditUser.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_andressamb_estudos_php_laravel_blog_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_ActionUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ActionUser_vue_vue_type_template_id_3f905f20__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/users/components/modals/user/ActionUser.vue"]])
 /* hot reload */
 if (false) // removed by dead control flow
 {}
@@ -61898,34 +62027,34 @@ if (false) // removed by dead control flow
 
 /***/ }),
 
-/***/ "./resources/js/users/components/modals/user/EditUser.vue?vue&type=script&setup=true&lang=js":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/users/components/modals/user/EditUser.vue?vue&type=script&setup=true&lang=js ***!
-  \***************************************************************************************************/
+/***/ "./resources/js/users/components/modals/user/ActionUser.vue?vue&type=script&setup=true&lang=js":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/users/components/modals/user/ActionUser.vue?vue&type=script&setup=true&lang=js ***!
+  \*****************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ActionUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EditUser.vue?vue&type=script&setup=true&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/EditUser.vue?vue&type=script&setup=true&lang=js");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ActionUser_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ActionUser.vue?vue&type=script&setup=true&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/ActionUser.vue?vue&type=script&setup=true&lang=js");
  
 
 /***/ }),
 
-/***/ "./resources/js/users/components/modals/user/EditUser.vue?vue&type=template&id=c072ee98":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/users/components/modals/user/EditUser.vue?vue&type=template&id=c072ee98 ***!
-  \**********************************************************************************************/
+/***/ "./resources/js/users/components/modals/user/ActionUser.vue?vue&type=template&id=3f905f20":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/users/components/modals/user/ActionUser.vue?vue&type=template&id=3f905f20 ***!
+  \************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditUser_vue_vue_type_template_id_c072ee98__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ActionUser_vue_vue_type_template_id_3f905f20__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditUser_vue_vue_type_template_id_c072ee98__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EditUser.vue?vue&type=template&id=c072ee98 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/EditUser.vue?vue&type=template&id=c072ee98");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ActionUser_vue_vue_type_template_id_3f905f20__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ActionUser.vue?vue&type=template&id=3f905f20 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/users/components/modals/user/ActionUser.vue?vue&type=template&id=3f905f20");
 
 
 /***/ }),

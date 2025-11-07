@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ValidatorUser;
 use App\Http\Resources\Users\UserJson;
 use App\Http\Resources\Users\UserCollection;
+use App\Models\Role;
 use App\User;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use \Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 
@@ -19,8 +21,27 @@ class UserController extends Controller
      * Lista de usuários cadastrados no sistema.
      *
      */
-    public function index(){
-        return UserCollection::make(User::with('roles')->orderBy('id')->paginate());
+    public function index(Request $req){
+        if(request()->user()->isAdmin()){
+            $users = User::query()->with('roles');
+
+            if($req->has('search') && $req->search != ''){
+                $search = $req->input('search');
+                $users->where('name', 'ilike', "%$search%");
+            }
+
+            if($req->has('profile') && $req->input('profile') != ''){
+                $profile = $req->input('profile');
+                $users->whereHas('roles', function(Builder $query) use($profile){
+                    $query->where('roles.id', $profile);
+                });
+            }
+            return UserCollection::make($users->orderBy('id')->paginate());
+        }else {
+            return response()->json([
+                'message' => 'Usuário não autorizado',
+            ], 403);
+        }
     }
 
     /**

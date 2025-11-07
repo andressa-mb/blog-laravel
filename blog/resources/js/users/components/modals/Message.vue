@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header" :class="modalHeaderClass">
                     <h5 class="modal-title" id="messageModalLabel">
-                        <i :class="modalIcon"></i>
+                        <i :class="modalIconClass"></i>
                         {{ modalTitle }}
                     </h5>
                     <button type="button" class="close" @click="closeModal">
@@ -15,6 +15,9 @@
                     {{ modalMessage }}
                 </div>
                 <div class="modal-footer">
+                    <button v-if="isDelete" type="button" class="btn btn-danger" @click="deleteUser()">
+                        Excluir
+                    </button>
                     <button type="button" class="btn" :class="modalButtonClass" @click="closeModal">
                         Fechar
                     </button>
@@ -26,34 +29,38 @@
 </template>
 
 <script setup>
-import { onMounted, watch, reactive, ref, nextTick} from 'vue';
+import { onMounted, watch, reactive, ref } from 'vue';
 
-const modalIcon = ref('');
+const modalIconClass = ref('');
 const modalHeaderClass = ref('');
 const modalButtonClass = ref('');
 
 const props = defineProps({
     modalTitle: String,
     modalMessage: String,
-    modalMsgType: String
+    modalMsgType: String,
+    isDelete: Boolean,
 });
 
-const emit = defineEmits(['closeModal']);
+const emit = defineEmits(['closeModal', 'deletar']);
 
 const closeModal = () => {
     emit('closeModal');
 }
 
+function deleteUser(){
+    emit('deletar');
+}
+
 function setupModal(){
-    console.log('setupmodal msg ', props.modalMsgType);
     if(props.modalMsgType === 'success'){
-        modalIcon.value = 'fas fa-check-circle';
+        modalIconClass.value = 'fas fa-check-circle';
         modalHeaderClass.value = 'bg-success text-white'
         modalButtonClass.value = 'btn-success';
     }else {
-        modalIcon.value = 'fas fa-exclamation-triangle';
+        modalIconClass.value = 'fas fa-exclamation-triangle';
         modalHeaderClass.value = 'bg-danger text-white';
-        modalButtonClass.value = 'btn-danger';
+        modalButtonClass.value = 'btn-secondary';
     }
 }
 
