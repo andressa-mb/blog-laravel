@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 //colocar verificação se é admin para ver a pagina
 Route::get('/list-users', function (){
     return view('profile.list-users');
-})->name('list-users');
+})->middleware('auth', 'checkRole')->name('list-users');
 
 Auth::routes();
 //HOME para usuários e VISITANTES (principalmente)
