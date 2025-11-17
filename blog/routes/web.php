@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//colocar verificação se é admin para ver a pagina
 Route::get('/list-users', function (){
     return view('profile.list-users');
 })->middleware('auth', 'checkRole')->name('list-users');
+
+Route::get('/list-posts', function() {
+    return view('posts.list-posts');
+})->name('list-posts');
 
 Auth::routes();
 //HOME para usuários e VISITANTES (principalmente)

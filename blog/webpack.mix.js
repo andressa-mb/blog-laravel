@@ -15,3 +15,4 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
 mix.js('resources/js/users/app.js', 'public/js/users').vue({ version: 3 });
+mix.js('resources/js/posts/app.js', 'public/js/posts').vue({ version: 3 });

@@ -26,7 +26,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer([
-           'layouts.app',
+           '*',
         ], function ($view){
             $view->with('user', Auth::user());
         });

@@ -21,6 +21,12 @@ class Post extends Model
         'user_id', 'title', 'content', 'slug'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'updated_at' => 'datetime:d-m-Y',
+        'deleted_at' => 'datetime:d-m-Y',
+    ];
+
     public static function booted(){
         parent::booted();
         static::creating(function (self $model){

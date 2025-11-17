@@ -7,8 +7,6 @@ use App\Http\Requests\Categories\StoreRequest;
 use App\Http\Requests\Categories\UpdateRequest;
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Http\Request;
 use Throwable;
 
 class CategoryController extends Controller

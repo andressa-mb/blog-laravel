@@ -25,12 +25,15 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('logout', 'Api\Auth\ConnectionController@logout');
     Route::post('admin/logout-all', 'Api\Auth\ConnectionController@logoutAllUsers');
     Route::post('admin/create', 'Api\UserController@adminStore');
+    Route::get('admin/all-posts', 'Api\PostController@allPosts');
+
 
     Route::namespace('Api')->group(function () {
         Route::apiResources([
             'users' => 'UserController',
             'posts' => 'PostController',
             'roles' => 'RoleController',
+            'categories' => 'CategoryController',
         ]);
     });
 });

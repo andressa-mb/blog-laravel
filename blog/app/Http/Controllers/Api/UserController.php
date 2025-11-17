@@ -187,12 +187,4 @@ class UserController extends Controller
             ], 500);
         }
     }
-
-    /*
-    "SQLSTATE[23503]: Foreign key violation: 7 ERROR:
-
-    update or delete on table \"users\" violates foreign key constraint
-    \"posts_user_id_foreign\" on table \"posts\"\nDETAIL:  Key (id)=(3) is still referenced from table \"posts\". (SQL: delete from \"users\" where \"id\" = 3)"
-
-    */
 }

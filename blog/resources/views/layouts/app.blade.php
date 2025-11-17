@@ -76,6 +76,15 @@
                                             <a class="dropdown-item" href="{{route('list-users')}}">{{__('messages.usuarios')}}</a>
                                         </div>
                                     </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" id="listPostsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__('messages.posts')}}
+                                        </a>
+                                        <div class="dropdown-menu w-100 text-center" aria-labelledby="listPostsDropdown">
+                                            <a class="dropdown-item" href="{{route('list-posts')}}">
+                                                {{__('messages.posts')}}</a>
+                                        </div>
+                                    </li>
                                 @endif
                             @endauth
                             {{-- IDIOMAS --}}
