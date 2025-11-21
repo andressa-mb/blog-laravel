@@ -16,6 +16,10 @@ class Comment extends Model
         'comments', 'user_id', 'post_id'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+    ];
+
     public function user(): BelongsTo{
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

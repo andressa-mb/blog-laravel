@@ -13,6 +13,6 @@ class ReadAlertController extends Controller
     {
         $alert->readed = true;
         $alert->save();
-        return redirect()->route('posts.show', $alert->post);
+        return redirect()->route('web.posts.show', $alert->post);
     }
 }

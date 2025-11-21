@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form action="{{route('posts.store')}}" method="POST">
+            <form action="{{route('web.posts.store')}}" method="POST">
                 @csrf
                 <div class="mb-3">
                   <label for="title" class="form-label">Título:</label>

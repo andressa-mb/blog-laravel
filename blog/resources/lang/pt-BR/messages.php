@@ -6,6 +6,7 @@ return [
     'registro' => 'Registro',
     'minutes_ago' => '{1} :value minuto atrás|[2,*] :value minutos atrás',
     'hours_ago' => '{1} :value hora atrás|[2,*] :value horas atrás',
+    'days_ago' => '{1} :value dia e :hours hora atrás|[2,*] :value dias e :hours horas atrás',
     'traducao' => "Tradução",
     'ingles' => 'Inglês',
     'portugues' => 'Português',

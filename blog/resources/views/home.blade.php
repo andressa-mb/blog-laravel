@@ -1,26 +1,24 @@
 @extends('layouts.app')
-
 @section('content')
-
-      <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
         <div class="col-md-6 px-0">
-          <h1 class="display-4 font-italic">{{$post->title}}</h1>
-          <p>Autor: {{$post->author->name}}</p>
-          <div class="mb-1 text-muted">{{$post->created_at->translatedFormat('l, d \d\e F, Y')}}</div>
-          <p class="lead my-3">{{Str::limit($post->content, 200)}}</p>
-          <p class="lead mb-0"><a href="{{route('posts.show', $post)}}" class="text-white font-weight-bold">{{__('messages.continuar-lendo')}}</a></p>
+            <h1 class="display-4 font-italic">{{$post->title}}</h1>
+            <p>Autor: {{$post->author->name}}</p>
+            <div class="mb-1 text-muted">{{$post->created_at->translatedFormat('l, d \d\e F, Y')}}</div>
+            <p class="lead my-3">{{Str::limit($post->content, 200)}}</p>
+            <p class="lead mb-0"><a href="{{route('web.posts.show', $post)}}" class="text-white font-weight-bold">{{__('messages.continuar-lendo')}}</a></p>
         </div>
-      </div>
+    </div>
 
     @component('layouts.components.page-links')
-    {{$posts->appends(Request::query())->links()}}
+        {{$posts->appends(Request::query())->links()}}
     @endcomponent
 
-      <div class="row mb-2">
+    <div class="row mb-2">
         @foreach($posts as $post)
             @include('layouts.components.post-details', ['post' => $post])
         @endforeach
-      </div>
+    </div>
     @component('layouts.components.page-links')
       {{$posts->appends(Request::query())->links()}}
     @endcomponent

@@ -9,6 +9,7 @@ use App\Http\Requests\Posts\UpdateRequest;
 use App\Jobs\PostAlertJob;
 use App\Models\Category;
 use App\Models\Post;
+use Exception;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -23,7 +24,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $posts = $user->posts()->select(['id', 'title', 'slug'])->paginate();
+        $posts = $user->posts()->orderBy('created_at', 'desc')->paginate();
         return view('posts.index', ['posts' => $posts]);
     }
 
@@ -34,7 +35,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.createAll', ['categories' => Category::get()]);
     }
 
     /**
@@ -46,22 +47,34 @@ class PostController extends Controller
     public function store(StoreRequest $request)
     {
         try{
-            $user = $request->user();
-            $input = $request->validated();
-            $post = $user->posts()->create([
-                'title' => $input['title'],
-                'content' => $input['content'],
-            ]);
+            $user = $this->userLogged();
+            $validate = $request->validated();
+            if($validate){
+                $post = $user->posts()->create([
+                    'title' => $validate['title'],
+                    'content' => $validate['content'],
+                ]);
+
+                if($request->has('categories')){
+                    foreach($request->categories as $category_id){
+                        $post->categories()->attach($category_id);
+                    }
+                }
+            }else {
+                throw new Exception('Erro de validação.');
+            }
+
             $alert = $post->alert()->create([
                 'author_id' => $post->user_id,
             ]);
             PostAlertJob::dispatch($alert);
-            return redirect()->route('categories.showAll', ['post' => $post]);
+
+            return redirect()->route('insert-images', $post);
+            //return redirect()->route('categories.showAll', ['post' => $post]);
         }catch(Throwable $e){
             throw $e;
             return back()->withErrors($e->getMessage());
         }
-
     }
 
     /**
@@ -118,6 +131,6 @@ class PostController extends Controller
     {
         $this->authorize('delete', $post);
         $post->delete();
-        return redirect()->route('posts.index');
+        return redirect()->route('web.posts.index');
     }
 }

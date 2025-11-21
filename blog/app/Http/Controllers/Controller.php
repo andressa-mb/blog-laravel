@@ -17,7 +17,7 @@ class Controller extends BaseController
      */
     protected $data;
 
-    public function user():? User{
+    public function userLogged():? User{
         return Auth::user();
     }
 
@@ -26,6 +26,6 @@ class Controller extends BaseController
     }
 
     public function loggedUserIsAdmin():? bool{
-        return $this->user()->isAdmin();
+        return $this->userLogged()->isAdmin();
     }
 }

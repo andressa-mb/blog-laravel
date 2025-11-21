@@ -36,6 +36,6 @@
         </div>
     </div>
 <br><br>
-    <a href="{{route('posts.show', $post)}}" class="btn btn-primary">Post Concluído</a>
+    <a href="{{route('web.posts.show', $post)}}" class="btn btn-primary">Post Concluído</a>
 </div>
 @endsection

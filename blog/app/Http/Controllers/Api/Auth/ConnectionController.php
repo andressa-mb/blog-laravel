@@ -26,8 +26,8 @@ class ConnectionController extends Controller {
         return $user->createToken('tkn_login')->plainTextToken;
     }
 
-    public function user(Request $request) {
-        return $request->user();
+    public function user() {
+        return $this->userLogged();
     }
 
     public function logoutAllUsers(Request $request) {

@@ -37,8 +37,8 @@
                                 {{__('messages.posts')}}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{route('posts.create')}}">{{__('messages.criar-post')}}</a>
-                                <a class="dropdown-item" href="{{route('posts.index')}}">{{__('messages.meus-posts')}}</a>
+                                <a class="dropdown-item" href="{{route('web.posts.create')}}">{{__('messages.criar-post')}}</a>
+                                <a class="dropdown-item" href="{{route('web.posts.index')}}">{{__('messages.meus-posts')}}</a>
                             </div>
                         </li>
                     @endauth
@@ -93,7 +93,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 @if($user->alertComments()->exists())
                                     @foreach ($user->alertComments()->get() as $alert)
-                                        <a class="dropdown-item" href="{{route('posts.show', $alert->post->slug)}}">
+                                        <a class="dropdown-item" href="{{route('web.posts.show', $alert->post->slug)}}">
                                             <p>Novo comentário de: {{$alert->comment->user->name}} em {{$alert->created_at->format('d-m-Y')}}</p>
                                         </a>
                                     @endforeach
@@ -150,8 +150,8 @@
                             {{__('messages.posts')}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{route('posts.create')}}">{{__('messages.criar-post')}}</a>
-                            <a class="dropdown-item" href="{{route('posts.index')}}">{{__('messages.meus-posts')}}</a>
+                            <a class="dropdown-item" href="{{route('web.posts.create')}}">{{__('messages.criar-post')}}</a>
+                            <a class="dropdown-item" href="{{route('web.posts.index')}}">{{__('messages.meus-posts')}}</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

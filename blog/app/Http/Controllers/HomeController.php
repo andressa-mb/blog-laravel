@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $this->data['user']= $request->user();
-        $this->data['posts'] = Post::paginate(6);
+        $this->data['posts'] = Post::orderBy('created_at', 'desc')->paginate(6);
         $this->data['recentPosts'] = Post::orderBy('created_at', 'desc')->limit(3)->get();
         $this->data['post'] = Post::latest()->first();
         return view('home', $this->data);

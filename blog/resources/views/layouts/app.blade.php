@@ -3,11 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name', 'Blog') }}</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Blog') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -17,13 +16,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
+{{--     <link href="{{ asset('css/blog.css') }}" rel="stylesheet"> --}}
 
 </head>
 <body>
@@ -50,8 +45,8 @@
                                         {{__('messages.posts')}}
                                     </a>
                                     <div class="dropdown-menu w-100 text-center" aria-labelledby="postDropdown">
-                                        <a class="dropdown-item" href="{{route('posts.create')}}">{{__('messages.criar-post')}}</a>
-                                        <a class="dropdown-item" href="{{route('posts.index')}}">{{__('messages.meus-posts')}}</a>
+                                        <a class="dropdown-item" href="{{route('web.posts.create')}}">{{__('messages.criar-post')}}</a>
+                                        <a class="dropdown-item" href="{{route('web.posts.index')}}">{{__('messages.meus-posts')}}</a>
                                     </div>
                                 </li>
                                 {{-- CATEGORIAS --}}
@@ -131,7 +126,7 @@
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertDropdown">
                                         @if($user->alertComments()->exists())
                                             @foreach ($user->alertComments()->get() as $alert)
-                                                <a class="dropdown-item" href="{{route('posts.show', $alert->post->slug)}}">
+                                                <a class="dropdown-item" href="{{route('web.posts.show', $alert->post->slug)}}">
                                                     <p>Novo comentário de: {{$alert->comment->user->name}} em {{$alert->created_at->format('d-m-Y')}}</p>
                                                 </a>
                                             @endforeach
@@ -185,6 +180,26 @@
         </header>
 
         <main class="py-4">
+            <div id="alert-messages">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if (session('info'))
+                    <div class="alert alert-info">
+                        {{ session('info') }}
+                    </div>
+                @endif
+            </div>
+
             @yield('content')
         </main>
     </div>

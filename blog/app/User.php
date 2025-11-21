@@ -7,11 +7,13 @@ use App\Models\Comment;
 use App\Models\Follower;
 use App\Models\Following;
 use App\Models\FollowingAlert;
+use App\Models\Image;
 use App\Models\NewFollowAlert;
 use App\Models\Post;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -81,6 +83,10 @@ class User extends Authenticatable
 
     public function comments(): HasMany{
         return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
+
+    public function image(): MorphOne {
+        return $this->morphOne(Image::class, 'img');
     }
 
     public function alertComments(): HasMany{
