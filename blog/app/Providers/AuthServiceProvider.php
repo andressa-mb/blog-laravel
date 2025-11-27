@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostImage;
 use App\Policies\CategoryPolicy;
 use App\Policies\PostPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -30,6 +31,14 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('post-image', function($user, $post){
+            return $user->id === $post->user_id;
+        });
+
+        Gate::define('delete-image', function($user, PostImage $image) {
+            return $user->id === $image->post->user_id;
+        });
 
         Gate::define('create-posts', function ($user) {
             return $user->isAdmin;

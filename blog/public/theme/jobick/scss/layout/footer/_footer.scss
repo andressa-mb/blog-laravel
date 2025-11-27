@@ -1,0 +1,21 @@
+
+.footer {
+    padding-#{$dlab-pos-left}: var(--dz-sidebar-width);
+    background-color: var(--card);
+    font-size: 0.675rem;
+    .copyright {
+        padding: 0.7375rem;
+        p {
+            text-align: center;
+            margin: 0;
+			color:var(--text-gray);
+			
+        }
+
+        a{
+            color: var(--primary);
+        }
+    }
+}
+
+

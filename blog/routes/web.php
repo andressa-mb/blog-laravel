@@ -45,17 +45,11 @@ Route::name('web.')->group(function () {
 });
 
 //NOVO REFERENTE A ASSOCIAÇÃO DE IMAGENS
-Route::get('/insert-images/{post}', 'Posts\PostImageController@addImages')->name('insert-images');
-Route::post('/store-images/{post}', 'Posts\PostImageController@storeImages')->name('store-images');
-
-//POST IMAGES
-/* Route::post('posts/create/main-image/{post}', 'Posts\PostImageController@addMainImage')->name('posts.add-main-image');
-Route::post('posts/create/thumb-image/{post}', 'Posts\PostImageController@addThumbImage')->name('posts.add-thumb-image');
-Route::post('posts/create/images/{post}', 'Posts\PostImageController@addCommonImage')->name('posts.add-common-image');
-
-Route::get('posts/add/main-image/{post}', 'Posts\PostImageController@createMainImage')->name('images.add-main-image');
-Route::get('posts/add/thumb-image/{post}', 'Posts\PostImageController@createThumbImage')->name('images.add-thumb-image');
-Route::get('posts/add/common-image/{post}', 'Posts\PostImageController@createCommonImage')->name('images.add-common-image'); */
+Route::get('/insert-images/{post}', 'Posts\PostImageController@addImages')->name('insert-images'); //ok
+Route::post('/store-images/{post}', 'Posts\PostImageController@storeImages')->name('store-images'); //ok
+Route::get('/change-image/{post}/image/{typeImg}', 'Posts\PostImageController@changeImage')->name('change-image'); // ok
+Route::get('/delete-image/{image}', 'Posts\PostImageController@deleteImage')->name('delete-image');
+Route::get('/edit-images/{post}', 'Posts\PostImageController@editImages')->name('edit-images'); //view ok
 
 //CATEGORIA
 Route::resource('/categories', 'Categories\CategoryController');
@@ -70,3 +64,8 @@ Route::post('/associate-category/post/{post}', 'PostCategory\PostsCategoriesCont
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Ver o thema do Bootstrap 5 no jobick
+Route::get('/jobick', function () {
+    return view('jobick.jobick-view');
+});

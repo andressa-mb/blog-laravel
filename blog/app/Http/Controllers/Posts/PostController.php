@@ -3,65 +3,56 @@
 namespace App\Http\Controllers\Posts;
 
 use App\Http\Controllers\WebController as Controller;
-use App\Http\Requests\Posts\GetRequest;
 use App\Http\Requests\Posts\StoreRequest;
 use App\Http\Requests\Posts\UpdateRequest;
 use App\Jobs\PostAlertJob;
 use App\Models\Category;
 use App\Models\Post;
 use Exception;
-use Illuminate\Http\Request;
 use Throwable;
 
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function index(Request $request)
+     * Lista de Posts do usuário autenticado.
+     * @return View
+    */
+    public function index()
     {
-        $user = $request->user();
+        $user = $this->userLogged();
         $posts = $user->posts()->orderBy('created_at', 'desc')->paginate();
         return view('posts.index', ['posts' => $posts]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+     * Form para criação de um novo post, informando a lista de categorias para associar
+     * @return View
+    */
     public function create()
     {
-        return view('posts.createAll', ['categories' => Category::get()]);
+        return view('posts.create', ['categories' => Category::get()]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Armazenar um novo post e associa a categorias se for selecionado.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+     * @param App\Http\Requests\Posts\StoreRequest $request
+     * @return \Illuminate\Routing\Redirector
+    */
     public function store(StoreRequest $request)
     {
         try{
             $user = $this->userLogged();
             $validate = $request->validated();
-            if($validate){
-                $post = $user->posts()->create([
-                    'title' => $validate['title'],
-                    'content' => $validate['content'],
-                ]);
+            $post = $user->posts()->create([
+                'title' => $validate['title'],
+                'content' => $validate['content'],
+            ]);
 
-                if($request->has('categories')){
-                    foreach($request->categories as $category_id){
-                        $post->categories()->attach($category_id);
-                    }
+            if($request->has('categories')){
+                foreach($request->categories as $category_id){
+                    $post->categories()->attach($category_id);
                 }
-            }else {
-                throw new Exception('Erro de validação.');
             }
 
             $alert = $post->alert()->create([
@@ -70,7 +61,6 @@ class PostController extends Controller
             PostAlertJob::dispatch($alert);
 
             return redirect()->route('insert-images', $post);
-            //return redirect()->route('categories.showAll', ['post' => $post]);
         }catch(Throwable $e){
             throw $e;
             return back()->withErrors($e->getMessage());
@@ -78,22 +68,21 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Página do post selecionado.
      *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Post $post
+     * @return View
      */
-    public function show(GetRequest $request, Post $post)
+    public function show(Post $post)
     {
-        $this->data['post'] = $post;
-        return view('posts.show', $this->data);
+        return view('posts.show', ['post' => $post]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Form de edição do post específico e suas categorias associadas.
      *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Post $post
+     * @return View
      */
     public function edit(Post $post)
     {
@@ -105,32 +94,56 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualizar um post específico e as categorias se houver alterações.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\Posts\UpdateRequest $request
+     * @param  \App\Models\Post $post
+     * @return \Illuminate\Routing\Redirector
      */
     public function update(UpdateRequest $request, Post $post)
     {
-        $input = $request->validated();
-        $post->update([
-            'title' => $input['title'],
-            'content' => $input['content'],
-        ]);
-        return redirect()->route('categories.showAll', ['post' => $post]);
+        try{
+            $validate = $request->validated();
+            $post->update([
+                'title' => $validate['title'],
+                'content' => $validate['content'],
+            ]);
+
+            if($request->has('categories')){
+                $post->categories()->detach();
+                if(is_array($request->categories)){
+                    foreach($request->categories as $category_id){
+                        $post->categories()->attach($category_id);
+                    }
+                }
+            }
+
+            if(!$post->imagesPost()->exists()){
+                return redirect()->route('insert-images', ['post' => $post]);
+            }
+
+            return redirect()->route('edit-images', ['post' => $post]);
+        }catch(Throwable $e){
+            throw $e;
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove um post em específico
      *
      * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Routing\Redirector
      */
     public function destroy(Post $post)
     {
-        $this->authorize('delete', $post);
-        $post->delete();
-        return redirect()->route('web.posts.index');
+        try{
+            $this->authorize('delete', $post);
+            $post->delete();
+            return redirect()->route('web.posts.index')->with('success', 'Post deletado com sucesso.');
+        }catch(Exception $e){
+            throw $e;
+            return back()->withErrors($e->getMessage());
+        }
     }
 }

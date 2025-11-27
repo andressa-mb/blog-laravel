@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -40,6 +41,10 @@ class Post extends Model
 
         static::deleting(function (self $model){
             $model->slug.= '-delete-' .time();
+
+            foreach($model->imagesPost as $image){
+                Storage::disk('public')->delete($image->url);
+            }
         });
     }
 
@@ -63,12 +68,12 @@ class Post extends Model
         return $this->belongsToMany(Category::class, 'categories_posts');
     }
 
-/*     public function images(): HasMany{
-        return $this->hasMany(PostImage::class, 'post_id', 'id');
+/*     public function imagesPost(): MorphMany {
+        return $this->morphMany(Image::class, 'img');
     } */
 
-    public function imagesPost(): MorphMany {
-        return $this->morphMany(Image::class, 'img');
+    public function imagesPost(): HasMany {
+        return $this->hasMany(PostImage::class, 'post_id', 'id');
     }
 
     public function getRouteKeyName(){
@@ -82,16 +87,4 @@ class Post extends Model
         }
         return $categoriesIds;
     }
-
-/*     public function getMainImage():? PostImage {
-        return $this->images()->main()->latest()->first();
-    }
-
-    public function getThumb():? Image {
-        return $this->imagesPost()->thumb()->latest()->first();
-    }
-
-    public function getCommonImages(): Collection {
-        return $this->images()->common()->get(['path', 'width', 'height', 'description']);
-    } */
 }

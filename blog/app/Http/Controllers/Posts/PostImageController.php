@@ -3,41 +3,47 @@
 namespace App\Http\Controllers\Posts;
 
 use App\Http\Controllers\Controller;
-use App\Models\Image;
+use App\Models\PostImage;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\PostImage;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\File;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Gate;
 
 class PostImageController extends Controller
 {
+    /**
+     * Direcionar para view de add imagens ao post
+     *
+     * @param App\Models\Post $post
+     * @return View
+     */
     public function addImages(Post $post){
+        Gate::authorize('post-image', $post);
         $typeImages = $post->imagesPost()->whereIn('type', [1,3])->pluck('type')->all();
         $main = in_array(1, $typeImages);
         $thumb = in_array(3, $typeImages);
-        return view('posts.imgToPost', ['post' => $post,  'hasThumb' => $thumb, 'hasMain' => $main]);
+        return view('images.addImgToPost', ['post' => $post,  'hasThumb' => $thumb, 'hasMain' => $main]);
     }
 
+    /**
+     * Armazenar imagens à um post.
+     *
+     * @param Illuminate\Http\Request $request
+     * @return \Illuminate\Routing\Redirector
+     */
     public function storeImages(Post $post, Request $request){
         try{
             $validatedData = $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif', // 2MB max, deve ser imagem
-                'typeImages' => 'required|in:1,2,3', // O tipo deve ser um desses valores
+                'image_file' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'typeImages' => 'required|in:1,2,3',
                 'description' => 'nullable|string|max:255',
             ]);
 
-            if(!$validatedData){
-                dump('entrou no if do validate da imagem');
-                throw new Exception;
-            }
-            $size = Image::resolveSizeByType($validatedData['typeImages']);
-            $typeName = Image::nameType($validatedData['typeImages']);
+            $file = $request->file('image_file');
+            $size = PostImage::resolveSizeByType($validatedData['typeImages']);
+            $typeName = PostImage::nameType($validatedData['typeImages']);
             $post->imagesPost()->create([
-                'url' => Image::resolvePathImage($post, $typeName, $validatedData['image']),
+                'path' => PostImage::resolvePathImage($post, $typeName, $file),
                 'type' => $validatedData['typeImages'],
                 'description' => $validatedData['description'],
                 'width' => $size['width'],
@@ -46,61 +52,51 @@ class PostImageController extends Controller
 
             return back()->with('success', 'Imagem adicionada com sucesso!');
         }catch(Exception $e){
-            return back()->with('error', "Erro ao adicionar as imagens. $e");
+            throw $e;
+            return back()->with('error', "Erro ao validar imagens.");
         }
     }
 
-
-    /* public function createMainImage(Post $post){
-        return view('images.add-main-image', ['post' => $post]);
+    /**
+     * View para edição de imagens
+     *
+     * @param App\Models\Post $post
+     * @return View
+     */
+    public function editImages(Post $post){
+        Gate::authorize('post-image', $post);
+        return view('images.edit-images', ['post' => $post]);
     }
 
-    public function addMainImage(Request $request, Post $post){
-        $type = PostImage::main;
-        $size = PostImage::resolveSizeByType($type);
-        $post->images()->create([
-            'path' => PostImage::resolveMainImage($post, $request->file('image')),
-            'type' => $type,
-            'description' => $request->description,
-            'width' => $size['width'],
-            'height' => $size['height'],
-        ]);
-        return redirect()->route('images.add-thumb-image', $post);
+    /**
+     * Edição de imagens relacionadas à um post
+     *
+     * @param App\Models\Post $post
+     * @return \Illuminate\Routing\Redirector
+    */
+    public function changeImage(Post $post, PostImage $typeImg){
+        try{
+            if($typeImg->type == 1 || $typeImg->type == 3){
+                PostImage::deleteImage($typeImg);
+            }
+
+            return redirect()->route('insert-images', $post);
+        }catch(Exception $e) {
+            throw $e;
+            return back()->with('error', "Erro ao editar a imagem.");
+        }
     }
 
-    public function createThumbImage(Post $post){
-        return view('images.add-thumb-image', ['post' => $post]);
+    /**
+     * Deletar imagem
+     *
+     * @return \Illuminate\Routing\Redirector
+     */
+    public function deleteImage(PostImage $image){
+        Gate::authorize('delete-image', $image);
+        $deleted = PostImage::deleteImage($image);
+        if(!$deleted) return back()->with('error', "Erro ao deletar a imagem.");
+
+        return redirect()->back()->with('message', 'Imagem excluída com sucesso.');
     }
-
-    public function addThumbImage(Request $request, Post $post){
-        $type = PostImage::thumb;
-        $size = PostImage::resolveSizeByType($type);
-        $post->images()->create([
-            'path' => PostImage::resolveThumbImage($post, $request->file('image')),
-            'type' => $type,
-            'description' => $request->description,
-            'width' => $size['width'],
-            'height' => $size['height'],
-        ]);
-
-        return redirect()->route('images.add-common-image', $post);
-    }
-
-    public function createCommonImage(Post $post){
-        return view('images.add-common-image', ['post' => $post]);
-    }
-
-    public function addCommonImage(Request $request, Post $post){
-        $type = PostImage::common;
-        $size = PostImage::resolveSizeByType($type);
-        $post->images()->create([
-            'path' => PostImage::resolveCommonImage($post, $request->file('image')),
-            'type' => $type,
-            'description' => $request->description,
-            'width' => $size['width'],
-            'height' => $size['height'],
-        ]);
-
-        return back();
-    } */
 }

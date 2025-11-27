@@ -13,12 +13,12 @@ use Throwable;
 class PostImage extends Model
 {
     const main = 1;
-    const thumb = 2;
-    const common = 3;
+    const common = 2;
+    const thumb = 3;
     const sizes = [
-        self::main => ['width' => 250, 'height' => 520],
-        self::thumb => ['width' => 70, 'height' => 100],
-        self::common => ['width' => 400, 'height' => 480],
+        self::main => ['width' => 640, 'height' => 520],
+        self::common => ['width' => 520, 'height' => 480],
+        self::thumb => ['width' => 100, 'height' => 100],
     ];
     protected $table = 'post_images';
     protected $fillable = [
@@ -36,7 +36,49 @@ class PostImage extends Model
        return static::sizes[static::common];
     }
 
-    public function scopeByType(Builder $q, int $type) : Builder {
+    public static function nameType(int $type): string{
+        $typeName = '';
+        if($type == static::main){
+            $typeName = 'main';
+        } else if($type == static::common){
+            $typeName = 'common';
+        }else {
+            $typeName = 'thumb';
+        }
+
+        return $typeName;
+    }
+
+    public static function storageImage(string $path, UploadedFile $file): string {
+        try {
+            /** @var Storage */
+            $disk = Storage::disk('public');
+            return $disk->putFileAs($path, $file, $file->getClientOriginalName());
+        } catch(Throwable $e) {
+            throw $e;
+        }
+    }
+
+    public static function resolvePathImage(Post $post, string $typeName, UploadedFile $file): string {
+        try {
+            $date = $post->created_at->format('d-m-Y');
+            return static::storageImage("posts/$post->id/$typeName-images/$date", $file);
+        } catch(Throwable $e) {
+            throw $e;
+        }
+    }
+
+    public static function deleteImage(PostImage $image): bool{
+        try{
+            Storage::disk('public')->delete($image->url);
+            $image->delete();
+            return true;
+        } catch(Throwable $e) {
+            throw $e;
+        }
+    }
+
+/*     public function scopeByType(Builder $q, int $type) : Builder {
         return $q->where([$this->qualifyColumn('type') => $type]);
     }
 
@@ -54,7 +96,7 @@ class PostImage extends Model
 
     public static function resolveImage(string $path, UploadedFile $file): string {
         try {
-            /** @var Storage */
+
             $disk = Storage::disk('public');
             return $disk->putFileAs($path, $file, $file->getClientOriginalName());
         } catch(Throwable $e) {
@@ -87,7 +129,7 @@ class PostImage extends Model
         } catch(Throwable $e) {
             throw $e;
         }
-    }
+    } */
 
 
 }

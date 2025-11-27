@@ -15,8 +15,8 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     Fechar
                 </button>
-                <button form="{{ $form_id ?? ''}}" class="btn btn-primary" type="submit">
-                    Adicionar
+                <button type="submit" form="{{ $form_id }}" class="{{ $classBtn ?? 'btn btn-primary' }}" type="submit">
+                    {{$btnText ?? 'Adicionar'}}
                 </button>
             </div>
         </div>

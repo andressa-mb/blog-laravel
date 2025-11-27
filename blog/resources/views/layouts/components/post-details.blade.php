@@ -13,7 +13,7 @@
         <a href="{{route('web.posts.show', $post)}}">{{__('messages.continuar-lendo')}}</a>
     </div>
     @if(!is_null($thumb))
-        <img class="card-img-right flex-auto d-none d-md-block" src="{{asset("storage/{$thumb->url}")}}" alt="{{$thumb->description}}" width="{{$thumb->width}}" height="{{$thumb->height}}">
+        <img class="card-img-right flex-auto d-none d-md-block" src="{{asset("storage/{$thumb->path}")}}" alt="{{$thumb->description}}" width="{{$thumb->width}}" height="{{$thumb->height}}">
     @endif
     </div>
 </div>
