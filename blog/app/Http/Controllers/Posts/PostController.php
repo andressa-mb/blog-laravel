@@ -8,6 +8,7 @@ use App\Http\Requests\Posts\UpdateRequest;
 use App\Jobs\PostAlertJob;
 use App\Models\Category;
 use App\Models\Post;
+use App\Services\Categories\CategoryService;
 use Exception;
 use Throwable;
 
@@ -49,10 +50,9 @@ class PostController extends Controller
                 'content' => $validate['content'],
             ]);
 
+            //Associando novas categorias ao post
             if($request->has('categories')){
-                foreach($request->categories as $category_id){
-                    $post->categories()->attach($category_id);
-                }
+                CategoryService::new()->addToCategory($request->categories, $post);
             }
 
             $alert = $post->alert()->create([
@@ -109,13 +109,9 @@ class PostController extends Controller
                 'content' => $validate['content'],
             ]);
 
+            //Removendo e acionando novas categorias
             if($request->has('categories')){
-                $post->categories()->detach();
-                if(is_array($request->categories)){
-                    foreach($request->categories as $category_id){
-                        $post->categories()->attach($category_id);
-                    }
-                }
+                CategoryService::new()->associateCategories($request->categories, $post);
             }
 
             if(!$post->imagesPost()->exists()){
