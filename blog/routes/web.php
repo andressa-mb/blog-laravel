@@ -39,6 +39,11 @@ Route::resource('/comments', 'Comments\CommentController');
 Route::post('/follow/{author}', 'Follow\FollowerController@follow')->name('follow-author');
 Route::delete('/unfollow/{author}', 'Follow\FollowerController@unfollow')->name('unfollow-author');
 
+//CATEGORIA
+Route::name('web.')->group(function () {
+    Route::resource('/categories', 'Categories\CategoryController');
+});
+
 //POST
 Route::name('web.')->group(function () {
     Route::resource('/posts', 'Posts\PostController');
@@ -51,9 +56,7 @@ Route::get('/change-image/{post}/image/{typeImg}', 'Posts\PostImageController@ch
 Route::get('/delete-image/{image}', 'Posts\PostImageController@deleteImage')->name('delete-image');
 Route::get('/edit-images/{post}', 'Posts\PostImageController@editImages')->name('edit-images'); //view ok
 
-//CATEGORIA
-Route::resource('/categories', 'Categories\CategoryController');
-Route::get('/categorias/showAll/{post}', 'Categories\CategoryController@showAll')->name('categories.showAll');
+
 
 //RELAÇÃO ADIÇÃO E REMOÇÃO - CATEGORIA E POST
 Route::post('/add-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@addToCategory')->name('add-post-to-category');

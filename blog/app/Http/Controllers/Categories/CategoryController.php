@@ -6,36 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Categories\StoreRequest;
 use App\Http\Requests\Categories\UpdateRequest;
 use App\Models\Category;
-use App\Models\Post;
 use Throwable;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista de categorias
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function index()
     {
-        return view('categories.index', ['categories' => Category::paginate(10)]);
+        return view('categories.index', ['categories' => Category::orderBy('id', 'desc')->paginate(10)]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Salvar a categoria.
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('categories.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\Categories\StoreRequest $request
+     * @return \Illuminate\Routing\Redirector
      */
     public function store(StoreRequest $request)
     {
@@ -45,7 +34,7 @@ class CategoryController extends Controller
                 'name' => $validatedRules['name']
             ]);
 
-            return redirect()->route('categories.index');
+            return redirect()->back()->with('success', 'Nova categoria salva com sucesso.');
 
         }catch(Throwable $error){
             throw $error;
@@ -54,58 +43,41 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Atualizar categoria em específico.
      *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    public function showAll(Post $post){
-        $this->data['post'] = $post;
-        $this->data['categories'] = Category::get();
-        return view('categories.showAll', $this->data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        return view('categories.edit', ['category' => $category] );
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\Categories\UpdateRequest $request
+     * @param  \App\Models\Category $category
+     * @return \Illuminate\Routing\Redirector
      */
     public function update(UpdateRequest $request, Category $category)
     {
-        $validatedRules = $request->validated();
-        $category->update([
-            'name' => $validatedRules['name'],
-        ]);
-        return redirect()->route('home');
+        try{
+            $validatedRules = $request->validated();
+            $category->update([
+                'name' => $validatedRules['name'],
+            ]);
+
+            return redirect()->back()->with('message', 'Categoria atualizada!');
+        }catch(Throwable $error){
+            throw $error;
+            return back()->withErrors($error->getMessage());
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remover categoria em específico.
      *
      * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Routing\Redirector
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-        return redirect()->back()->with('message', 'Excluído com sucesso.');
+        try{
+            $category->delete();
+            return redirect()->back()->with('success', 'Excluído com sucesso.');
+        }catch(Throwable $error){
+            throw $error;
+            return back()->withErrors($error->getMessage());
+        }
     }
 }

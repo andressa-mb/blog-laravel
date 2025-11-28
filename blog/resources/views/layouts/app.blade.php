@@ -56,11 +56,7 @@
                                         {{__('messages.categoria')}}
                                     </a>
                                     <div class="dropdown-menu w-100 text-center" aria-labelledby="catDropdown">
-                                        @can('create', \App\Models\Category::class)
-                                        <a class="dropdown-item" href="{{route('categories.create')}}"> {{__('messages.criar-categoria')}}</a>
-                                        @endcan
-
-                                        <a class="dropdown-item" href="{{route('categories.index')}}"> {{__('messages.categorias')}}</a>
+                                        <a class="dropdown-item" href="{{route('web.categories.index')}}"> {{__('messages.categorias')}}</a>
                                     </div>
                                 </li>
                                 @if ($user->isAdmin())
@@ -187,16 +183,20 @@
                         {{ session('success') }}
                     </div>
                 @endif
-
+                @if (session('message'))
+                    <div class="alert alert-info">
+                        <h4>{{session('message')}}</h4>
+                    </div>
+                @endif
                 @if (session('error'))
                     <div class="alert alert-danger">
                         {{ session('error') }}
                     </div>
                 @endif
 
-                @if (session('info'))
-                    <div class="alert alert-info">
-                        {{ session('info') }}
+                @if (session('warning'))
+                    <div class="alert alert-warning">
+                        {{ session('warning') }}
                     </div>
                 @endif
 
