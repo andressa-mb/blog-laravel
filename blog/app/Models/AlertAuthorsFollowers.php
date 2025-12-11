@@ -7,24 +7,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property int $comment_id
+ * @property int $alertPost_id
  * @property int $post_id
  * @property int $author_id
+ * @property int $follower_id
  * @property bool $readed
  * @property \Carbon\Carbon|null $processed_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  *
+ * @property \App\Models\AlertPost $alertPost
  * @property \App\Models\Post $post
  * @property \App\User $author
- * @property \App\Models\Comment $comment
+ * @property \App\User $follower
  */
-class AlertComment extends Model
+class AlertAuthorsFollowers extends Model
 {
     use Traits\Readed;
-    protected $table = 'alert_comments';
+    protected $table = 'alert_authors_followers';
     protected $fillable = [
-        'comment_id', 'post_id', 'author_id', 'readed', 'processed_at'
+        'alertPost_id', 'post_id', 'author_id', 'follower_id', 'readed', 'processed_at'
     ];
 
     protected $casts = [
@@ -34,18 +36,24 @@ class AlertComment extends Model
         'updated_at' => 'datetime:d-m-Y',
     ];
 
-    /** Post onde o comentário foi feito */
+    /** Alerta principal a que este registro está vinculado */
+    public function alertPost(): BelongsTo{
+        return $this->belongsTo(AlertPost::class, 'alertPost_id', 'id');
+    }
+
+    /** Post relacionado ao alerta */
     public function post(): BelongsTo{
         return $this->belongsTo(Post::class, 'post_id', 'id');
     }
 
-    /** Autor que gerou o alerta (quem comentou) */
+    /** Autor que foi seguido */
     public function author(): BelongsTo{
         return $this->belongsTo(\App\User::class, 'author_id', 'id');
     }
 
-    /** Comentário que disparou o alerta */
-    public function comment(): BelongsTo{
-        return $this->belongsTo(Comment::class, 'comment_id', 'id');
+    /** Seguidor que deve receber o alerta */
+    public function follower(): BelongsTo{
+        return $this->belongsTo(\App\User::class, 'follower_id', 'id');
     }
+
 }
