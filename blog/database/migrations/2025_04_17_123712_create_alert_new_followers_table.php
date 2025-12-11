@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostAlertsTable extends Migration
+class CreateAlertNewFollowersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,20 @@ class CreatePostAlertsTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_alerts', function (Blueprint $table) {
+        Schema::create('alert_new_followers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')
-            ->references('id')
-            ->on('posts')
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
             $table->foreignId('author_id')
             ->references('id')
             ->on('users')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
+            $table->foreignId('follower_id')
+            ->references('id')
+            ->on('users')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+            $table->boolean('readed')->default(false);
+            $table->timestamp('processed_at')->nullable();
             $table->timestamps();
         });
     }
@@ -36,6 +38,6 @@ class CreatePostAlertsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_alerts');
+        Schema::dropIfExists('alert_new_followers');
     }
 }

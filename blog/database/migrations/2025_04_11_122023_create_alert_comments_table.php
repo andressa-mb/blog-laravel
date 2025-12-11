@@ -17,7 +17,7 @@ class CreateAlertCommentsTable extends Migration
             $table->id();
             $table->foreignId('comment_id')
             ->references('id')
-            ->on('comment')
+            ->on('comments')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
             $table->foreignId('post_id')
@@ -31,6 +31,7 @@ class CreateAlertCommentsTable extends Migration
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
             $table->boolean('readed')->default(false);
+            $table->timestamp('processed_at')->nullable();
             $table->timestamps();
         });
     }

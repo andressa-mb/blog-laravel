@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFollowingsTable extends Migration
+class CreateFollowsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateFollowingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('followings', function (Blueprint $table) {
-            $table->foreignId('author_id')
-            ->references('id')
-            ->on('users')
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
+        Schema::create('follows', function (Blueprint $table) {
             $table->foreignId('follower_id')
             ->references('id')
             ->on('users')
+            ->cascadeOnDelete();
+            $table->foreignId('followed_id')
+            ->references('id')
+            ->on('users')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
-            $table->timestamps();
-            $table->primary(['author_id', 'follower_id']);
+            $table->timestamp('created_at');
+            $table->primary(['follower_id', 'followed_id']);
         });
     }
 
@@ -36,6 +35,6 @@ class CreateFollowingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('followings');
+        Schema::dropIfExists('follows');
     }
 }

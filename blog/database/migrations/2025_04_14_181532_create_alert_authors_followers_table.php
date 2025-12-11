@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFollowingAlertsTable extends Migration
+class CreateAlertAuthorsFollowersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateFollowingAlertsTable extends Migration
      */
     public function up()
     {
-        Schema::create('following_alerts', function (Blueprint $table) {
+        Schema::create('alert_authors_followers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alert_id')
+            $table->foreignId('alertPost_id')
             ->references('id')
-            ->on('post_alerts')
+            ->on('alert_posts')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
             $table->foreignId('post_id')
@@ -36,6 +36,7 @@ class CreateFollowingAlertsTable extends Migration
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
             $table->boolean('readed')->default(false);
+            $table->timestamp('processed_at')->nullable();
             $table->timestamps();
         });
     }
@@ -47,6 +48,6 @@ class CreateFollowingAlertsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('following_alerts');
+        Schema::dropIfExists('alert_authors_followers');
     }
 }

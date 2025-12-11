@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('categories_posts', function (Blueprint $table) {
+        Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')
                 ->references('id')
@@ -32,7 +32,6 @@ class CreateCategoriesTable extends Migration
                 ->on('categories')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->timestamps();
         });
     }
 
@@ -43,7 +42,7 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories_posts');
+        Schema::dropIfExists('post_categories');
         Schema::dropIfExists('categories');
     }
 }

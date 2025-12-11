@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoleTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -33,14 +33,18 @@ class CreateRoleTable extends Migration
                 ->on('roles')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->timestamps();
            // $table->primary(['user_id', 'role_id'])
         });
+
         $date = now()->format('Y-m-d H:i:s');
         DB::table('roles')->insert([
             ['id' => 1, 'name' => 'admin', 'created_at' => $date, 'updated_at' => $date],
             ['id' => 2, 'name' => 'author', 'created_at' => $date, 'updated_at' => $date],
             ['id' => 3, 'name' => 'reader', 'created_at' => $date, 'updated_at' => $date],
+        ]);
+
+        DB::table('user_roles')->insert([
+            'user_id' => 1, 'role_id' => 1
         ]);
     }
 
