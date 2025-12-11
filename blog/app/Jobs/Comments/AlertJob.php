@@ -34,7 +34,7 @@ class AlertJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->comment->alert()->create([
+        $this->comment->alertComment()->create([
             'post_id' => $this->comment->post_id,
             'author_id' => $this->comment->post->user_id,
         ]);

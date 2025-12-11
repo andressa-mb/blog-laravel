@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Followers;
 
-use App\Models\Following;
-use App\Models\FollowingAlert;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class FollowJob implements ShouldQueue
+class AlertJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -43,8 +41,9 @@ class FollowJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->author->newFollowerAlerts()->create([
+        $this->author->alertNewFollowers()->create([
             'follower_id' => $this->follow_id,
         ]);
+        //SETAR Q FOI PROCESSADO NA FILA
     }
 }

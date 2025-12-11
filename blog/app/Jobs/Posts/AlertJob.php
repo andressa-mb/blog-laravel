@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Posts;
 
-use App\Models\PostAlert;
+use App\Models\AlertPost;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class PostAlertJob implements ShouldQueue
+class AlertJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -22,7 +23,7 @@ class PostAlertJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(PostAlert $alert)
+    public function __construct(AlertPost $alert)
     {
         $this->alert = $alert;
     }
@@ -35,12 +36,20 @@ class PostAlertJob implements ShouldQueue
     public function handle()
     {
         $author = $this->alert->author;
+        Log::info($this->alert);
+
+        if ($this->alert->processed_at !== null) {
+            return;
+        }
+
         foreach($author->followers as $follower){
-            $follower->alerts()->create([
+            $follower->alertFollowers()->create([
                 'alert_id' => $this->alert->id,
                 'author_id' => $author->id,
                 'post_id' => $this->alert->post_id,
             ]);
         }
+
+        $this->alert->update(['processed_at' => now()]);
     }
 }
