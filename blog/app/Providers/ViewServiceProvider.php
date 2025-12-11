@@ -28,7 +28,10 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
            '*',
         ], function ($view){
-            $view->with('user', Auth::user());
+            $view->with([
+                'user' => Auth::user(),
+                'request' => request()
+            ]);
         });
     }
 }
