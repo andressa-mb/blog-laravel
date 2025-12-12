@@ -5,7 +5,7 @@
             <nav class="col-2">
                 <h5 class="text-center">MENU POSTS</h5>
                <ul class="nav nav-tabs flex-column">
-                @if($user->isAdmin)
+                @if($user->is_admin)
                    <li class="nav-item m-2 font-weight-bold border border-info border-top-0 rounded-bottom" style="font-size: 20px;">
                        <router-link to="/" class="text-dark pl-2 text-decoration-none">Posts</router-link>
                    </li>
