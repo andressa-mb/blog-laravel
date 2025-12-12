@@ -12,26 +12,25 @@ use Illuminate\Queue\SerializesModels;
 class AlertJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * @var App\User
      */
-    public $follow_id;
+    public $follower_id;
 
     /**
     * @var App\User
     */
-    public $author;
+    public $authorToFollow;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $author, int $follow_id)
+    public function __construct(User $authorToFollow, int $follower_id)
     {
-        $this->author = $author;
-        $this->follow_id = $follow_id;
+        $this->authorToFollow = $authorToFollow;
+        $this->follower_id = $follower_id;
     }
 
     /**
@@ -41,9 +40,9 @@ class AlertJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->author->alertNewFollowers()->create([
-            'follower_id' => $this->follow_id,
+        $this->authorToFollow->alertNewFollowers()->create([
+            'follower_id' => $this->follower_id,
+            'processed_at' => now()
         ]);
-        //SETAR Q FOI PROCESSADO NA FILA
     }
 }

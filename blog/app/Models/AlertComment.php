@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \App\Models\Post $post
  * @property \App\User $author
  * @property \App\Models\Comment $comment
+ * @method static \Illuminate\Database\Eloquent\Builder isReaded(bool $isReaded = true)
  */
 class AlertComment extends Model
 {

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Follow;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\FollowJob;
+use App\Jobs\Followers\AlertJob;
 use App\User;
-use Illuminate\Http\Request;
 
 class FollowerController extends Controller
 {
@@ -13,21 +12,21 @@ class FollowerController extends Controller
         $this->middleware('auth');
     }
 
-    public function follow(User $author){
-        /**  @var \App\User */
-        $user = auth()->user();
-        $follow = $user->followings()->firstOrCreate([
-            'author_id' => $author->id,
+    public function follow(User $authorToFollow){
+        /**  @var \App\User $user */
+        $user = $this->userLogged();
+        $follow = $user->followings()->create([
+            'followed_id' => $authorToFollow->id,
         ]);
-        //quero disparar para o autor que alguem seguiu ele
-        FollowJob::dispatch($author, $follow->follower_id);
+
+        AlertJob::dispatch($authorToFollow, $follow->follower_id);
         return back();
     }
 
-    public function unfollow(User $author){
-        /**  @var \App\User */
-        $user = auth()->user();
-        $user->followings()->where(['author_id' => $author->id])->delete();
+    public function unfollow(User $authorToUnfollow){
+        /**  @var \App\User $user */
+        $user = $this->userLogged();
+        $user->followings()->where(['followed_id' => $authorToUnfollow->id])->delete();
 
         return back();
     }

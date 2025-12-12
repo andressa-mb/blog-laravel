@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class AlertJob implements ShouldQueue
 {
@@ -34,9 +35,11 @@ class AlertJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->comment->alertComment()->create([
+        $alert = $this->comment->alertComment()->create([
             'post_id' => $this->comment->post_id,
             'author_id' => $this->comment->post->user_id,
         ]);
+
+        $alert->update(['processed_at' => now()]);
     }
 }

@@ -8,7 +8,7 @@ use App\Models\AlertComment;
 
 class ReadAlertController extends Controller
 {
-    //controller para marcar se está lido ou não
+    //** Função para marcar como lido o alerta de novo comentário */
     public function __invoke(AlertComment $alert)
     {
         $alert->readed = true;
