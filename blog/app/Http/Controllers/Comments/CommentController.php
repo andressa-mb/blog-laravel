@@ -30,7 +30,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Armazenar um novo comentário
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -41,7 +41,7 @@ class CommentController extends Controller
             $input = $request->validated();
             $user = $request->user();
             $comment = $user->comments()->create([
-                'comments' => $input['comment'],
+                'comment' => $input['comment'],
                 'post_id' => $request->post_id,
             ]);
             AlertJob::dispatch($comment);

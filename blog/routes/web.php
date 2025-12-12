@@ -27,7 +27,9 @@ Route::get('/', 'HomeController@index')->name('home.index');
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home-show/{post}', 'HomeController@show')->name('home.show');
 Route::post('/set-lang', 'Lang\LangController@setLang')->name('locale.setLang');
-Route::get('/alert/following/post/{alert}', 'Alerts\Posts\ReadAlertController')->name('alert-following-post');
+
+
+
 
 //PERFIL USUÁRIO
 Route::get('/home/meu-perfil/{user}', 'HomeController@showPerfil')->name('show-perfil');
@@ -36,33 +38,28 @@ Route::get('/home/meu-perfil/{user}', 'HomeController@showPerfil')->name('show-p
 Route::resource('/comments', 'Comments\CommentController');
 
 //FOLLOW
-Route::post('/follow/{author}', 'Follow\FollowerController@follow')->name('follow-author');
-Route::delete('/unfollow/{author}', 'Follow\FollowerController@unfollow')->name('unfollow-author');
+Route::post('/follow/{authorToFollow}', 'Follow\FollowerController@follow')->name('follow-author');
+Route::delete('/unfollow/{authorToUnfollow}', 'Follow\FollowerController@unfollow')->name('unfollow-author');
 
-//CATEGORIA
+//CATEGORIA E POSTS
 Route::name('web.')->group(function () {
-    Route::resource('/categories', 'Categories\CategoryController');
+    Route::get('/check-readed-alert-comment/{alert}/', 'Alerts\Comments\ReadAlertController')->name('check-readed-comment-alert');
+    Route::get('/check-readed-alert-new-post/{alert}', 'Alerts\Posts\ReadAlertController')->name('check-readed-new-post-alert');
+    Route::get('/check-readed-alert-new-follower/{alert}', 'Alerts\Follow\ReadAlertController')->name('check-readed-new-follower-alert');
+
+    Route::resources([
+        'categories' => 'Categories\CategoryController',
+        'posts' => 'Posts\PostController',
+        'users' => 'Users\UserController',
+    ]);
 });
 
-//POST
-Route::name('web.')->group(function () {
-    Route::resource('/posts', 'Posts\PostController');
-});
-
-//NOVO REFERENTE A ASSOCIAÇÃO DE IMAGENS
-Route::get('/insert-images/{post}', 'Posts\PostImageController@addImages')->name('insert-images'); //ok
-Route::post('/store-images/{post}', 'Posts\PostImageController@storeImages')->name('store-images'); //ok
-Route::get('/change-image/{post}/image/{typeImg}', 'Posts\PostImageController@changeImage')->name('change-image'); // ok
+// IMAGENS
+Route::get('/insert-images/{post}', 'Posts\PostImageController@addImages')->name('insert-images');
+Route::post('/store-images/{post}', 'Posts\PostImageController@storeImages')->name('store-images');
+Route::get('/change-image/{post}/image/{typeImg}', 'Posts\PostImageController@changeImage')->name('change-image');
 Route::get('/delete-image/{image}', 'Posts\PostImageController@deleteImage')->name('delete-image');
-Route::get('/edit-images/{post}', 'Posts\PostImageController@editImages')->name('edit-images'); //view ok
-
-
-
-//RELAÇÃO ADIÇÃO E REMOÇÃO - CATEGORIA E POST
-Route::post('/add-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@addToCategory')->name('add-post-to-category');
-Route::delete('/remove-category/category/{category}/post/{post}', 'PostCategory\PostsCategoriesController@removeFromCategory')->name('remove-post-from-category');
-//ASSOCIAÇÃO DA CATEGORIA AO POST
-Route::post('/associate-category/post/{post}', 'PostCategory\PostsCategoriesController@associateCategories')->name('associate-post-to-category');
+Route::get('/edit-images/{post}', 'Posts\PostImageController@editImages')->name('edit-images');
 
 Auth::routes();
 

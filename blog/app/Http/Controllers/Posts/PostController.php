@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Posts;
 use App\Http\Controllers\WebController as Controller;
 use App\Http\Requests\Posts\StoreRequest;
 use App\Http\Requests\Posts\UpdateRequest;
-use App\Jobs\PostAlertJob;
+use App\Jobs\Posts\AlertJob;
+use App\Models\AlertComment;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\Categories\CategoryService;
@@ -55,10 +56,10 @@ class PostController extends Controller
                 CategoryService::new()->addToCategory($request->categories, $post);
             }
 
-            $alert = $post->alert()->create([
+            $alert = $post->alertPost()->create([
                 'author_id' => $post->user_id,
             ]);
-            PostAlertJob::dispatch($alert);
+            AlertJob::dispatch($alert);
 
             return redirect()->route('insert-images', $post);
         }catch(Throwable $e){
