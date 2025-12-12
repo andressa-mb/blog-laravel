@@ -185,10 +185,12 @@
                                 </h5>
                             </div>
                             <div class="card-body">
-                                <p>{{$comment->comments}}</p>
+                                <p>{{$comment->comment}}</p>
                             </div>
                             <div class="card-footer">
-                                <p class="text-right"><strong>Data de criação:</strong> {{$comment->created_at->format('d/m/Y')}}</p>
+                                <p class="text-right">
+                                    <strong>Data de criação:</strong> {{$comment->created_at->format('d/m/Y')}}
+                                </p>
                             </div>
                         </div>
                     </div>

@@ -59,10 +59,20 @@
                                         <a class="dropdown-item" href="{{route('web.categories.index')}}"> {{__('messages.categorias')}}</a>
                                     </div>
                                 </li>
-                                @if ($user->isAdmin())
+                                {{-- USUÁRIOS --}}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="catDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{__('messages.usuarios')}}
+                                    </a>
+                                    <div class="dropdown-menu w-100 text-center" aria-labelledby="catDropdown">
+                                        <a class="dropdown-item" href="{{route('web.users.index')}}"> {{__('messages.usuarios')}}</a>
+                                    </div>
+                                </li>
+
+                                @if ($user->isAdmin)
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" role="button" id="listUsersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{__('messages.usuarios')}}
+                                            {{__('messages.usuarios')}} API
                                         </a>
                                         <div class="dropdown-menu w-100 text-center" aria-labelledby="listUsersDropdown">
                                             <a class="dropdown-item" href="{{route('list-users')}}">{{__('messages.usuarios')}}</a>
@@ -70,7 +80,7 @@
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" role="button" id="listPostsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{__('messages.posts')}}
+                                            {{__('messages.posts')}} API
                                         </a>
                                         <div class="dropdown-menu w-100 text-center" aria-labelledby="listPostsDropdown">
                                             <a class="dropdown-item" href="{{route('list-posts')}}">
@@ -111,8 +121,8 @@
                                     </li>
                                 @endif
                             @else
-                                <li>
-                                    @yield('li-bem-vindo')
+                                <li class="nav-item">
+                                    <p class="my-2">Bem vindo {{$user->name}}</p>
                                 </li>
 
                                 {{-- NOTIFICAÇÕES --}}
@@ -120,31 +130,27 @@
                                     <a id="alertDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         <img class="text-muted" src="{{asset("storage/sino.png")}}" width="30px" height="30px"/>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertDropdown">
-                                        @if($user->alertComments()->exists())
-                                            @foreach ($user->alertComments()->get() as $alert)
-                                                <a class="dropdown-item" href="{{route('web.posts.show', $alert->post->slug)}}">
-                                                    <p>Novo comentário de: {{$alert->comment->user->name}} em {{$alert->created_at->format('d-m-Y')}}</p>
+                                    @if ($user->alertComments()->exists() || $user->followings()->exists() || $user->alertNewFollowers()->exists())
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertDropdown">
+                                            @foreach ($user->queryAlertComments(false)->get() as $alertComment)
+                                                <a class="dropdown-item" href="{{route('web.check-readed-comment-alert', [$alertComment->id])}}">
+                                                    <p>{{$alertComment->id}} Novo comentário de: {{$alertComment->comment->user->name}} em {{$alertComment->created_at->format('d-m-Y')}}</p>
                                                 </a>
                                             @endforeach
-                                        @endif
-
-                                        @if($user->followings()->exists())
-                                            @if($user->hasPostAlerts())
-                                                @foreach ($user->notReadedPostAlerts()->get() as $alert)
-                                                    <a class="dropdown-item" href="{{route('alert-following-post', $alert)}}">
-                                                        <p>Novo post: {{$alert->author->name}} em {{$alert->created_at->format('d-m-Y')}}</p>
+                                            @if($user->hasAnyAlertNewPost())
+                                                @foreach ($user->queryAlertReadedNewPost(false)->get() as $newPost)
+                                                    <a class="dropdown-item" href="{{route('web.check-readed-new-post-alert', $newPost)}}">
+                                                        <p>Novo post: {{$newPost->author->name}} em {{$newPost->created_at->format('d-m-Y')}}</p>
                                                     </a>
                                                 @endforeach
                                             @endif
-                                        @endif
-                                        @if($user->newFollowerAlerts()->exists())
-                                            @php($newFollow = $user->newFollowerAlerts()->orderBy('created_at', 'desc')->first())
-                                            <a class="dropdown-item" href="{{route('show-perfil', $user)}}">
-                                                <p>Novo seguidor: {{$newFollow->author->name}} em {{$newFollow->created_at->format('d-m-Y')}}</p>
-                                            </a>
-                                        @endif
-                                    </div>
+                                            @foreach ($user->queryAlertNewFollowers(false)->get() as $newFollow)
+                                                <a class="dropdown-item" href="{{route('web.check-readed-new-follower-alert', $newFollow)}}">
+                                                    <p>Novo seguidor: {{$newFollow->follower->name}} em {{$newFollow->created_at->format('d-m-Y')}}</p>
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </li>
 
                                 {{-- PERFIL / LOGGOUT --}}
@@ -185,15 +191,15 @@
                 @endif
                 @if (session('message'))
                     <div class="alert alert-info">
-                        <h4>{{session('message')}}</h4>
+                        {{ session('message') }}
                     </div>
                 @endif
+
                 @if (session('error'))
                     <div class="alert alert-danger">
                         {{ session('error') }}
                     </div>
                 @endif
-
                 @if (session('warning'))
                     <div class="alert alert-warning">
                         {{ session('warning') }}
@@ -210,6 +216,10 @@
                     </div>
                 @endif
             </div>
+
+            @auth
+                <p>Alerta não lembro pra que coloquei isso, depois ver: {{$user->alertNewFollowers}}</p>
+            @endauth
 
             @yield('content')
         </main>

@@ -2,7 +2,6 @@
 @section('content')
 
 <div class="row">
-
     <div class="col-md-12">
         @can('create', \App\Models\Category::class)
             <button class="btn btn-success" data-target="#create_category" data-toggle="modal">
@@ -14,12 +13,12 @@
     <div class="col-md-12 mt-5">
         <div class="row justify-content-center">
             @foreach($categories as $category)
-                <div class="card m-3 col-2">
+                <div class="card m-3 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="card-body row">
                         <div class="col-md-6 d-flex align-items-center">
-                            <h5 class="card-title">{{$category->name}}</h5>
+                            <h5 class="card-title" style="word-break: break-word;">{{$category->name}}</h5>
                         </div>
-                        @if($user->isAdmin())
+                        @if($user->is_admin)
                             <div class="col-md-6">
                                 <div class="row">
                                     <button class="btn col-12" data-target="#edit_category_{{$category->id}}" data-toggle="modal" title="Editar">

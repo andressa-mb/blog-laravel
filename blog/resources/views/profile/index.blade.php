@@ -1,21 +1,17 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="container">
-    @if($user->isAdmin())
-        <p>Administrador</p>
-    @endif
-    <form action="#" method="POST">
+<div class="row">
+    <form action="#" method="POST" class="col-md-12">
         @csrf
         <div class="mb-3">
           <label for="role" class="form-label">Perfil do usuário:</label>
           @foreach ($user->roles as $role)
-            <input type="text" class="form-control @error('role') is-invalid @enderror" name="role" id="role" aria-describedby="emailHelp" value="{{$role->name}}" disabled>
+            <input type="text" class="form-control @error('role') is-invalid @enderror" name="role" id="role" value="{{$role->name}}" disabled>
           @endforeach
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Nome:</label>
-            <input type="text" class="form-control" name="user_id" id="name" aria-describedby="emailHelp" value="{{$user->name}}">
+            <input type="text" class="form-control" name="user_id" id="name" value="{{$user->name}}">
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">E-mail:</label>
@@ -23,7 +19,7 @@
         </div>
         <button type="submit" class="btn btn-success">Atualizar</button>
     </form>
-    <div class="row">
+
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="following" class="form-label">Estou Seguindo:</label>
@@ -36,7 +32,7 @@
             </div>
             <div id="followingDiv" class="followingDiv invisible">
                 @foreach ($user->followings as $following)
-                    <input type="text" class="form-control @error('followers') is-invalid @enderror" name="following" id="following" aria-describedby="emailHelp" value="{{$following->author->name}}">
+                    <input type="text" class="form-control @error('followers') is-invalid @enderror" name="following" id="following" value="{{$following->followed->name}}">
                 @endforeach
             </div>
         </div>
@@ -51,11 +47,11 @@
             </div>
             <div id="followerDiv" class="followerDiv invisible">
                 @foreach ($user->followers as $follower)
-                    <input type="text" class="form-control @error('followers') is-invalid @enderror" name="followers" id="followers" aria-describedby="emailHelp" value="{{$follower->user->name}}">
+                    <input type="text" class="form-control @error('followers') is-invalid @enderror" name="followers" id="followers" value="{{$follower->follower->name}}">
                 @endforeach
             </div>
         </div>
-    </div>
+
 </div>
 @endsection
 
