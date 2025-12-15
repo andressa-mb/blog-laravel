@@ -24,166 +24,164 @@
 </head>
 <body>
     <div id="app" class="container-fluid">
-        <header class="blog-header">
-            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-                <div class="container-fluid">
-                    {{-- HAMBURGUER --}}
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHamburguerContent" aria-controls="navbarHamburguerContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    {{-- TITULO --}}
-                    <a class="navbar-brand mx-auto blog-header-logo" href="{{route('home.index')}}">
-                        Blog
-                    </a>
+        <header class="row">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light border border-black">
+                {{-- TITULO --}}
+                <a class="navbar-brand" href="{{route('home.index')}}">
+                    Blog
+                </a>
+                {{-- HAMBURGUER --}}
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHamburguerContent" aria-controls="navbarHamburguerContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    {{-- lado esquerdo da nav --}}
-                    <div class="collapse navbar-collapse text-center" id="navbarHamburguerContent">
-                        <ul class="navbar-nav mx-auto">
-                            @auth
-                                {{-- POSTS --}}
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{__('messages.posts')}}
-                                    </a>
-                                    <div class="dropdown-menu w-100 text-center" aria-labelledby="postDropdown">
-                                        <a class="dropdown-item" href="{{route('web.posts.create')}}">{{__('messages.criar-post')}}</a>
-                                        <a class="dropdown-item" href="{{route('web.posts.index')}}">{{__('messages.meus-posts')}}</a>
-                                    </div>
-                                </li>
-                                {{-- CATEGORIAS --}}
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="catDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{__('messages.categoria')}}
-                                    </a>
-                                    <div class="dropdown-menu w-100 text-center" aria-labelledby="catDropdown">
-                                        <a class="dropdown-item" href="{{route('web.categories.index')}}"> {{__('messages.categorias')}}</a>
-                                    </div>
-                                </li>
-                                {{-- USUÁRIOS --}}
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="catDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{__('messages.usuarios')}}
-                                    </a>
-                                    <div class="dropdown-menu w-100 text-center" aria-labelledby="catDropdown">
-                                        <a class="dropdown-item" href="{{route('web.users.index')}}"> {{__('messages.usuarios')}}</a>
-                                    </div>
-                                </li>
 
-                                @if ($user->isAdmin)
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" id="listUsersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{__('messages.usuarios')}} API
-                                        </a>
-                                        <div class="dropdown-menu w-100 text-center" aria-labelledby="listUsersDropdown">
-                                            <a class="dropdown-item" href="{{route('list-users')}}">{{__('messages.usuarios')}}</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" id="listPostsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{__('messages.posts')}} API
-                                        </a>
-                                        <div class="dropdown-menu w-100 text-center" aria-labelledby="listPostsDropdown">
-                                            <a class="dropdown-item" href="{{route('list-posts')}}">
-                                                {{__('messages.posts')}}</a>
-                                        </div>
-                                    </li>
-                                @endif
-                            @endauth
-                            {{-- IDIOMAS --}}
-                            <li class="nav-item">
-                                <form action="{{ route('locale.setLang') }}" method="POST" class="">
-                                @csrf
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text bg-white border-0">🌐</span>
-                                        </div>
-                                        <select class="form-select border-0 bg-white" name="lang" onchange="this.form.submit()" required>
-                                            <option disabled selected>{{ __('Idioma') }}</option>
-                                            <option value="en">🇺🇸 English</option>
-                                            <option value="pt-BR">🇧🇷 Português</option>
-                                        </select>
-                                    </div>
-                                </form>
+                {{-- LADO ESQUERDO NAV --}}
+                <div class="collapse navbar-collapse text-center" id="navbarHamburguerContent">
+                     <ul class="navbar-nav mx-auto">
+                        @auth
+                            {{-- POSTS --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{__('messages.posts')}}
+                                </a>
+                                <div class="dropdown-menu w-100 text-center" aria-labelledby="postDropdown">
+                                    <a class="dropdown-item" href="{{route('web.posts.create')}}">{{__('messages.criar-post')}}</a>
+                                    <a class="dropdown-item" href="{{route('web.posts.index')}}">{{__('messages.meus-posts')}}</a>
+                                </div>
                             </li>
-                        </ul>
-                    </div>
+                            {{-- CATEGORIAS --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="catDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{__('messages.categoria')}}
+                                </a>
+                                <div class="dropdown-menu w-100 text-center" aria-labelledby="catDropdown">
+                                    <a class="dropdown-item" href="{{route('web.categories.index')}}"> {{__('messages.categorias')}}</a>
+                                </div>
+                            </li>
+                            {{-- USUÁRIOS --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="catDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{__('messages.usuarios')}}
+                                </a>
+                                <div class="dropdown-menu w-100 text-center" aria-labelledby="catDropdown">
+                                    <a class="dropdown-item" href="{{route('web.users.index')}}"> {{__('messages.usuarios')}}</a>
+                                </div>
+                            </li>
 
-                    <!-- lado direito da Navbar -->
-                    <div class="collapse navbar-collapse text-center" id="navbarHamburguerContent">
-                        <ul class="navbar-nav ml-auto text-center">
-                            @guest
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('messages.login') }}</a>
-                                </li>
-                                @if (Route::has('register'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('register') }}">{{ __('messages.registro') }}</a>
-                                    </li>
-                                @endif
-                            @else
-                                <li class="nav-item">
-                                    <p class="my-2">Bem vindo {{$user->name}}</p>
-                                </li>
-
-                                {{-- NOTIFICAÇÕES --}}
-                                <li class="nav-item dropdown mr-4">
-                                    <a id="alertDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        <img class="text-muted" src="{{asset("storage/sino.png")}}" width="30px" height="30px"/>
+                            @if ($user->isAdmin)
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="listUsersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{__('messages.usuarios')}} API
                                     </a>
-                                    @if ($user->alertComments()->exists() || $user->followings()->exists() || $user->alertNewFollowers()->exists())
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertDropdown">
-                                            @foreach ($user->queryAlertComments(false)->get() as $alertComment)
-                                                <a class="dropdown-item" href="{{route('web.check-readed-comment-alert', [$alertComment->id])}}">
-                                                    <p>{{$alertComment->id}} Novo comentário de: {{$alertComment->comment->user->name}} em {{$alertComment->created_at->format('d-m-Y')}}</p>
-                                                </a>
-                                            @endforeach
-                                            @if($user->hasAnyAlertNewPost())
-                                                @foreach ($user->queryAlertReadedNewPost(false)->get() as $newPost)
-                                                    <a class="dropdown-item" href="{{route('web.check-readed-new-post-alert', $newPost)}}">
-                                                        <p>Novo post: {{$newPost->author->name}} em {{$newPost->created_at->format('d-m-Y')}}</p>
-                                                    </a>
-                                                @endforeach
-                                            @endif
-                                            @foreach ($user->queryAlertNewFollowers(false)->get() as $newFollow)
-                                                <a class="dropdown-item" href="{{route('web.check-readed-new-follower-alert', $newFollow)}}">
-                                                    <p>Novo seguidor: {{$newFollow->follower->name}} em {{$newFollow->created_at->format('d-m-Y')}}</p>
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </li>
-
-                                {{-- PERFIL / LOGGOUT --}}
-                                <li class="nav-item dropdown mt-2">
-                                    <a id="userDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }}
-                                    </a>
-
-                                    <div class="dropdown-menu w-100 text-center" aria-labelledby="userDropdown">
-                                        <a class="dropdown-item" href="{{route('show-perfil', Auth::user()->id)}}">
-                                            Meu perfil
-                                        </a>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                            document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
+                                    <div class="dropdown-menu w-100 text-center" aria-labelledby="listUsersDropdown">
+                                        <a class="dropdown-item" href="{{route('list-users')}}">{{__('messages.usuarios')}}</a>
                                     </div>
                                 </li>
-                            @endguest
-                        </ul>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="listPostsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{__('messages.posts')}} API
+                                    </a>
+                                    <div class="dropdown-menu w-100 text-center" aria-labelledby="listPostsDropdown">
+                                        <a class="dropdown-item" href="{{route('list-posts')}}">
+                                            {{__('messages.posts')}}</a>
+                                    </div>
+                                </li>
+                            @endif
+                        @endauth
+                        {{-- IDIOMAS --}}
+                        <li class="nav-item">
+                            <form action="{{ route('locale.setLang') }}" method="POST" class="">
+                            @csrf
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white border-0">🌐</span>
+                                    </div>
+                                    <select class="form-select border-0 bg-white" name="lang" onchange="this.form.submit()" required>
+                                        <option disabled selected>{{ __('Idioma') }}</option>
+                                        <option value="en">🇺🇸 English</option>
+                                        <option value="pt-BR">🇧🇷 Português</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
 
-                    </div>
+                {{-- LADO DIREITO NAV --}}
+                <div class="collapse navbar-collapse text-center" id="navbarHamburguerContent">
+                    <ul class="navbar-nav ml-auto text-center">
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('messages.login') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('messages.registro') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item">
+                                <p class="my-2">Bem vindo {{$user->name}}</p>
+                            </li>
+
+                            {{-- NOTIFICAÇÕES --}}
+                            <li class="nav-item dropdown mr-4">
+                                <a id="alertDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <img class="text-muted" src="{{asset("storage/sino.png")}}" width="30px" height="30px"/>
+                                </a>
+                                @if ($user->alertComments()->exists() || $user->followings()->exists() || $user->alertNewFollowers()->exists())
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertDropdown">
+                                        @foreach ($user->queryAlertComments(false)->get() as $alertComment)
+                                            <a class="dropdown-item" href="{{route('web.check-readed-comment-alert', [$alertComment->id])}}">
+                                                <p>{{$alertComment->id}} Novo comentário de: {{$alertComment->comment->user->name}} em {{$alertComment->created_at->format('d-m-Y')}}</p>
+                                            </a>
+                                        @endforeach
+                                        @if($user->hasAnyAlertNewPost())
+                                            @foreach ($user->queryAlertReadedNewPost(false)->get() as $newPost)
+                                                <a class="dropdown-item" href="{{route('web.check-readed-new-post-alert', $newPost)}}">
+                                                    <p>Novo post: {{$newPost->author->name}} em {{$newPost->created_at->format('d-m-Y')}}</p>
+                                                </a>
+                                            @endforeach
+                                        @endif
+                                        @foreach ($user->queryAlertNewFollowers(false)->get() as $newFollow)
+                                            <a class="dropdown-item" href="{{route('web.check-readed-new-follower-alert', $newFollow)}}">
+                                                <p>Novo seguidor: {{$newFollow->follower->name}} em {{$newFollow->created_at->format('d-m-Y')}}</p>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </li>
+
+                            {{-- PERFIL / LOGGOUT --}}
+                            <li class="nav-item dropdown">
+                                <a id="userDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ $user->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="{{route('home.show-my-profile', $user->id)}}">
+                                        Meu perfil
+                                    </a>
+                                    <a class="dropdown-item dropdown-left" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
                 </div>
             </nav>
         </header>
 
-        <main class="py-4">
-            <div id="alert-messages">
+
+        <main class="row" style="padding-top: 100px">
+            <div id="alert-messages" class="col-md-12">
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
@@ -217,11 +215,9 @@
                 @endif
             </div>
 
-            @auth
-                <p>Alerta não lembro pra que coloquei isso, depois ver: {{$user->alertNewFollowers}}</p>
-            @endauth
-
-            @yield('content')
+            <div class="col-md-12">
+                @yield('content')
+            </div>
         </main>
     </div>
 

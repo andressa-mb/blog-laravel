@@ -1,98 +1,110 @@
 @extends('layouts.app')
 @section('content')
-    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-        <div class="col-md-6 px-0">
-            <h1 class="display-4 font-italic">{{$post->title}}</h1>
-            <p>Autor: {{$post->author->name}}</p>
-            <div class="mb-1 text-muted">{{$post->created_at->translatedFormat('l, d \d\e F, Y')}}</div>
-            <p class="lead my-3">{{Str::limit($post->content, 200)}}</p>
-            <p class="lead mb-0"><a href="{{route('web.posts.show', $post)}}" class="text-white font-weight-bold">{{__('messages.continuar-lendo')}}</a></p>
-        </div>
-    </div>
-
-    @component('layouts.components.page-links')
-        {{$posts->appends(Request::query())->links()}}
-    @endcomponent
-
-    <div class="row mb-2">
-        @foreach($posts as $post)
-            @include('layouts.components.post-details', ['post' => $post])
-        @endforeach
-    </div>
-    @component('layouts.components.page-links')
-      {{$posts->appends(Request::query())->links()}}
-    @endcomponent
-
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8 blog-main">
-          <h3 class="pb-3 mb-4 font-italic border-bottom">
-            Posts mais recentes
-          </h3>
-            @foreach ($recentPosts as $post)
-                <div class="blog-post">
-                    <h2 class="blog-post-title"> {{$post->title}}</h2>
-                    <p class="blog-post-meta">{{$post->created_at->translatedFormat('l, d \d\e F, Y')}} by <a href="#">{{$post->author->name}}</a></p>
-                    <p>{{$post->content}}</p>
+<div class="row">
+    @if ($post)
+        <div class="col-md-12">
+            <div class="row p-4 mb-4 rounded text-white bg-dark">
+                <div class="col-lg-6 px-0">
+                    <h1 class="display-4 font-italic">{{$post->title}}</h1>
+                    <div class="mb-1 text-muted">
+                        <em>Autor(a): {{$post->author->name}}</em>
+                        <br>
+                        <em>{{$post->created_at->translatedFormat('l, d \d\e F, Y')}}</em>
+                    </div>
+                    <p class="lead my-3">{{Str::limit($post->content, 200)}}</p>
+                    <p class="lead mb-0">
+                        <a href="{{route('web.posts.show', $post)}}" class="text-decoration-none text-white-50">
+                            {{__('messages.continuar-lendo')}}
+                        </a>
+                    </p>
                 </div>
-            @endforeach
-{{--
-          <nav class="blog-pagination">
-            <a class="btn btn-outline-primary" href="#">Older</a>
-            <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-          </nav> --}}
+            </div>
         </div>
-        <!-- /.blog-main -->
+    @endif
 
-        <aside class="col-md-4 blog-sidebar">
-          <div class="p-3 mb-3 bg-light rounded">
-            <h4 class="font-italic">Sobre</h4>
-            <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-          </div>
+    @if($posts)
+        <div class="row mx-3">
+            <div class="col-md-12">
+                @component('layouts.components.page-links')
+                    {{$posts->appends(Request::query())->links()}}
+                @endcomponent
 
-          <div class="p-3">
-            <h4 class="font-italic">Archives</h4>
-            <ol class="list-unstyled mb-0">
-              <li><a href="#">March 2014</a></li>
-              <li><a href="#">February 2014</a></li>
-              <li><a href="#">January 2014</a></li>
-              <li><a href="#">December 2013</a></li>
-              <li><a href="#">November 2013</a></li>
-              <li><a href="#">October 2013</a></li>
-              <li><a href="#">September 2013</a></li>
-              <li><a href="#">August 2013</a></li>
-              <li><a href="#">July 2013</a></li>
-              <li><a href="#">June 2013</a></li>
-              <li><a href="#">May 2013</a></li>
-              <li><a href="#">April 2013</a></li>
-            </ol>
-          </div>
+                <div class="row">
+                    @foreach($posts as $post)
+                        @include('layouts.components.post-details', ['post' => $post])
+                    @endforeach
+                </div>
 
-          <div class="p-3">
-            <h4 class="font-italic">Elsewhere</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">GitHub</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">Facebook</a></li>
-            </ol>
-          </div>
-        </aside><!-- /.blog-sidebar -->
+                @component('layouts.components.page-links')
+                    {{$posts->appends(Request::query())->links()}}
+                @endcomponent
+            </div>
+        </div>
+    @endif
 
-      </div><!-- /.row -->
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="pb-3 mb-4 mx-3 font-italic border-bottom">
+                    Posts mais recentes
+                </h3>
+                @if ($recentPosts)
+                    @foreach ($recentPosts as $post)
+                        <div class="mx-3 border border-black p-2">
+                            <h2> {{$post->title}}</h2>
+                            <p class="text-muted">
+                                {{$post->created_at->translatedFormat('l, d \d\e F, Y')}} by
+                                <a href="{{route('web.users.show', $post->author->id)}}" class="text-white bg-dark text-decoration-none font-italic">{{$post->author->name}}</a>
+                            </p>
+                            <p>{{$post->content}}</p>
+                        </div>
+                    @endforeach
+                @else
+                    <p class="mx-3">Não há posts registrados.</p>
+                @endif
+            </div>
 
-    </main><!-- /.container -->
+            <aside class="col-md-4">
+                <div class="p-3 mb-3 mx-3 bg-light rounded">
+                    <h4 class="font-italic">Sobre</h4>
+                    <p class="">
+                       Blog criado como forma de juntar <em>várias comunidades</em> num local para postar as informações que gostem, compartilhar ideias, etc.
+                    </p>
+                </div>
 
-    @auth
-        @foreach ($user->newFollowerAlerts()->isReaded(false)->get() as $alertFollow)
-            {{$alertFollow->follower->name}} <br>
-            {{$alertFollow->created_at->format('d-m-Y')}}
-        @endforeach
-    @endauth
+                <div class="p-3 mb-3 mx-3">
+                    <h4 class="font-italic">Usuários mais recentes inscritos</h4>
+                    <ol class="list-unstyled mb-0">
+                        @foreach ($users as $blogger)
+                            <li>
+                                <a href="{{route('web.users.show', $blogger)}}" class="text-black-50 text-decoration-none font-italic">
+                                    {{$blogger->name}} desde {{$blogger->created_at->format('d-m-Y')}}
+                                </a>
+                            </li>
+                        @endforeach
+                        <li><a href="{{route('web.users.index')}}" class="text-dark text-decoration-none font-weight-bold">Ver todos</a></li>
+                    </ol>
+                </div>
 
-    <footer class="blog-footer">
-      <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-      <p>
-        <a href="#">Back to top</a>
-      </p>
+                <div class="p-3 mx-3">
+                    <h4 class="font-italic">Redes Sociais</h4>
+                    <ol class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">GitHub</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Twitter</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Facebook</a></li>
+                    </ol>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer class="col-md-12">
+        <p class="mx-3">
+            Blog template built for <a href="https://getbootstrap.com/" class="text-dark text-decoration-none font-italic">Bootstrap</a> by <a href="https://twitter.com/mdo" class="text-dark text-decoration-none font-italic">@mdo</a>.
+        </p>
+        <p class="mx-3">
+            <a href="#" class="text-dark text-decoration-none font-weight-bold">Back to top</a>
+        </p>
     </footer>
+</div>
 @endsection

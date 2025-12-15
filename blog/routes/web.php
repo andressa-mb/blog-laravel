@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
+// VUE ROTAS
 Route::get('/list-users', function (){
     return view('profile.list-users');
 })->middleware('auth', 'checkRole')->name('list-users');
@@ -21,18 +23,14 @@ Route::get('/list-posts', function() {
     return view('posts.list-posts');
 })->name('list-posts');
 
-Auth::routes();
-//HOME para usuários e VISITANTES (principalmente)
-Route::get('/', 'HomeController@index')->name('home.index');
-//Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home-show/{post}', 'HomeController@show')->name('home.show');
+/** Alteração de local para alterar idioma */
 Route::post('/set-lang', 'Lang\LangController@setLang')->name('locale.setLang');
 
+/** Página principal - HOME para usuários e VISITANTES */
+Route::get('/', 'HomeController@index')->name('home.index');
 
-
-
-//PERFIL USUÁRIO
-Route::get('/home/meu-perfil/{user}', 'HomeController@showPerfil')->name('show-perfil');
+/** Página do perfil do usuário logado */
+Route::get('/home/my-profile/{user}', 'HomeController@showProfile')->name('home.show-my-profile');
 
 //COMENTÁRIOS
 Route::resource('/comments', 'Comments\CommentController');
@@ -61,11 +59,8 @@ Route::get('/change-image/{post}/image/{typeImg}', 'Posts\PostImageController@ch
 Route::get('/delete-image/{image}', 'Posts\PostImageController@deleteImage')->name('delete-image');
 Route::get('/edit-images/{post}', 'Posts\PostImageController@editImages')->name('edit-images');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 //Ver o thema do Bootstrap 5 no jobick
 Route::get('/jobick', function () {
     return view('jobick.jobick-view');
 });
+
