@@ -77,6 +77,17 @@ class User extends Authenticatable
         }
     }
 
+    /** Método para pegar os ids das roles relacionados ao usuário */
+    public function roleIdsFromUser(): array{
+        $roleIds = [];
+        //dump($this->roles()->get(['roles.id'])->toArray());
+        foreach($this->roles()->get(['roles.id']) as $role){
+            $roleIds[] = $role->pivot->role_id;
+        }
+
+        return $roleIds;
+    }
+
     /**
      * Verifiva se existe neste usuário a role ADMIN
      * @return bool

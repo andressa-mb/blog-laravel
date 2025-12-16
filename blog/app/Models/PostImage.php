@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\UploadedFile;
@@ -101,4 +102,17 @@ class PostImage extends Model
             throw $e;
         }
     }
+
+    public function scopeGetMainImgPost(Builder $query){
+        return $query->where('type', 1);
+    }
+
+    public function scopeGetCommonImgPost(Builder $query){
+        return $query->where('type', 2);
+    }
+
+    public function scopeGetThumbImgPost(Builder $query){
+        return $query->where('type', 3);
+    }
+
 }

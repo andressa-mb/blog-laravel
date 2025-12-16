@@ -1,7 +1,7 @@
-@php($thumb = $post->imagesPost()->where('type', 3)->first())
+@php($thumb = $post->imagesPost()->getThumbImgPost()->first())
 
-<div class="col-md-6">
-    <div class="card mb-3 shadow p-3 mb-5 bg-white rounded">
+<div class="col-md-6 d-flex justify-content-around">
+    <div class="card mb-3 shadow p-3 mb-5 bg-white rounded" style="width: 650px">
         <div class="row no-gutters">
             <div class="col-md-8">
                 <div class="card-body">

@@ -1,33 +1,33 @@
 @extends('layouts.app')
 @section('content')
-<div class="row">
-    <form action="#" method="POST" class="col-md-12">
-        @csrf
-        <div class="mb-3">
-          <label for="role" class="form-label">Perfil do usuário:</label>
-          @foreach ($user->roles as $role)
-            <input type="text" class="form-control @error('role') is-invalid @enderror" name="role" id="role" value="{{$role->name}}" disabled>
-          @endforeach
-        </div>
-        <div class="mb-3">
-            <label for="name" class="form-label">Nome:</label>
-            <input type="text" class="form-control" name="user_id" id="name" value="{{$user->name}}">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">E-mail:</label>
-            <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="emailHelp" value="{{$user->email}}">
-        </div>
-        <button type="submit" class="btn btn-success">Atualizar</button>
-    </form>
+    <div class="row">
+        <form action="{{route('web.users.update', $user)}}" method="POST" class="col-md-12">
+            @method('PUT')
+            @csrf
+            <div class="mb-3">
+                <label class="form-label">Perfil do usuário:</label>
+                @foreach ($user->roles as $role)
+                    <p class="badge badge-primary p-2">{{$role->name}}</p>
+                @endforeach
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome:</label>
+                <input type="text" class="form-control" name="name" id="name" value="{{$user->name}}">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail:</label>
+                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="emailHelp" value="{{$user->email}}">
+            </div>
+            <button type="submit" class="btn btn-success">Atualizar</button>
+        </form>
 
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="following" class="form-label">Estou Seguindo:</label>
-                @foreach ($user->followings as $following)
-                    {{$user->countFollowings()}}
-                   {{-- Conta os posts alerts <span>{{$user->countPostAlertsFrom($following->author)}}</span> --}}
-                    @break
-                @endforeach
+                    @foreach ($user->followings as $following)
+                        {{$user->countFollowings()}}
+                        @break
+                    @endforeach
                 <button class="ml-2 btn btn-info" onclick="viewFollowings()">Ver</button>
             </div>
             <div id="followingDiv" class="followingDiv invisible">
@@ -51,8 +51,7 @@
                 @endforeach
             </div>
         </div>
-
-</div>
+    </div>
 @endsection
 
 <script>

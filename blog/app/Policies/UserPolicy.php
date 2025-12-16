@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class UserPolicy
 {
@@ -52,7 +53,9 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        //
+        if($user->is_admin || $user->id == $model->id){
+            return true;
+        }
     }
 
     /**
@@ -64,7 +67,9 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        //
+        if($user->is_admin || $user->id == $model->id){
+            return true;
+        }
     }
 
     /**

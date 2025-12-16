@@ -3,8 +3,8 @@
 
 <div class="row">
     @php
-        $imageMain = $post->imagesPost()->where('type', 1)->first();
-        $imagesCommon = $post->imagesPost()->where('type', 2)->get();
+        $imageMain = $post->imagesPost()->getMainImgPost()->first();
+        $imagesCommon = $post->imagesPost()->getCommonImgPost()->get();
         $isPostCreator = $user->id == $post->user_id;
     @endphp
     <div class="col-md-12">
@@ -24,11 +24,11 @@
                 </div>
 
                 <a class="carousel-control-prev" href="#imagesCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
+                    <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
                 <a class="carousel-control-next"  href="#imagesCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon bg-black" aria-hidden="true"></span>
+                    <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
             </div>
@@ -84,7 +84,7 @@
                             <div class="col-md-6 text-left">
                                 <button type="button" class="btn btn-danger"
                                 data-toggle="modal" data-target="#modal_delete">
-                                Excluir
+                                    Excluir
                                 </button>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
 
                     {{-- MEUS POSTS --}}
                     <div class="col-md-12 mt-2 d-flex justify-content-end">
-                        <a href="{{route('web.posts.index')}}" class="btn btn-info">Meus posts</a>
+                        <a href="{{route('web.users.show', $user)}}" class="btn btn-info">Meus posts</a>
                     </div>
                 </div>
             </div>
@@ -106,9 +106,9 @@
             ])
 
                 <form action="{{route('web.posts.destroy', [$post])}}" method="POST" id="confirm-delete">
-                        @csrf
-                        @method('DELETE')
-                        <p>Tem certeza que quer excluir o post selecionado?</p>
+                    @csrf
+                    @method('DELETE')
+                    <p>Tem certeza que quer excluir o post selecionado?</p>
                 </form>
             @endcomponent
         </div>
@@ -119,27 +119,29 @@
         @if (!$isPostCreator)
             {{-- SEGUIR --}}
             <div class="col-md-12 mt-2">
-                @if($user->isFollowing($post->author))
-                    <form action="{{route('unfollow-author', $post->author)}}" method="POST" class="form-control" style="width: 22rem">
-                        @csrf
-                        @method('DELETE')
-                        <div class="form-check">
-                            <input class="form-check-input" id="unfollow" onchange="this.form.submit()" type="checkbox" name="following"
-                                checked
-                            />
-                            <label for="unfollow" class="form-check-label">Deixar de Seguir {{$post->author->name}}</label>
-                        </div>
-                    </form>
-                @else
-                    <form action="{{route('follow-author', $post->author)}}" method="POST" class="form-control" style="width: 22rem">
-                        @csrf
-                        <div class="form-check">
-                            <input class="form-check-input" id="follow" onchange="this.form.submit()" type="checkbox" name="following"
-                            />
-                            <label for="follow" class="form-check-label">Seguir {{$post->author->name}}</label>
-                        </div>
-                    </form>
-                @endif
+                <div class="w-50 mx-auto">
+                    @if($user->isFollowing($post->author))
+                        <form action="{{route('unfollow-author', $post->author)}}" method="POST" class="form-control" style="width: 22rem">
+                            @csrf
+                            @method('DELETE')
+                            <div class="form-check">
+                                <input class="form-check-input" id="unfollow" onchange="this.form.submit()" type="checkbox" name="following"
+                                    checked
+                                />
+                                <label for="unfollow" class="form-check-label">Deixar de Seguir {{$post->author->name}}</label>
+                            </div>
+                        </form>
+                    @else
+                        <form action="{{route('follow-author', $post->author)}}" method="POST" class="form-control" style="width: 22rem">
+                            @csrf
+                            <div class="form-check">
+                                <input class="form-check-input" id="follow" onchange="this.form.submit()" type="checkbox" name="following"
+                                />
+                                <label for="follow" class="form-check-label">Seguir {{$post->author->name}}</label>
+                            </div>
+                        </form>
+                    @endif
+                </div>
             </div>
 
             {{-- ADD COMENTÁRIOS --}}
@@ -147,7 +149,7 @@
                 <div class="row justify-content-center mx-auto w-50">
                     <div class="col-md-12">
                         <h3>Adicionar comentários:</h3>
-                        <form action="{{route('comments.store')}}" method="POST">
+                        <form action="{{route('web.comments.store')}}" method="POST">
                             @csrf
                             <div class="form-group row mb-3">
                                 <label for="name" class="form-label col-md-3">Nome:</label>

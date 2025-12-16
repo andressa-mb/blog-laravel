@@ -24,8 +24,8 @@
         </div>
     </div>
 
-@push('scripts')
-    <script src="{{mix('js/posts/app.js')}}"></script>
-@endpush
+    @push('scripts')
+        <script src="{{mix('js/posts/app.js')}}"></script>
+    @endpush
 
 @endsection

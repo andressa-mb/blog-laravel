@@ -12,9 +12,7 @@
 
         <div class="row d-flex justify-content-around">
             @foreach ($posts as $post)
-                @php
-                    $thumb = $post->imagesPost()->where('type', 3)->first();
-                @endphp
+                @php($thumb = $post->imagesPost()->getThumbImgPost()->first())
 
                 <div class="card mx-3 my-3" style="width: 540px;">
                     <div class="row no-gutters">
@@ -46,7 +44,6 @@
         @component('layouts.components.page-links', ['class' => 'float-right'])
             {{$posts->links()}}
         @endcomponent
-
     </div>
 </div>
 @endsection

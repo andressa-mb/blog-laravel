@@ -4,9 +4,9 @@
     <div class="row">
         @php
             $hasImages = $post->imagesPost()->exists();
-            $thumb = $hasImages ? $post->imagesPost()->where('type', 3)->first() : null;
-            $main = $hasImages ? $post->imagesPost()->where('type', 1)->first() : null;
-            $commonImages = $hasImages ? $post->imagesPost()->where('type', 2)->get() : null ;
+            $thumb = $hasImages ? $post->imagesPost()->getThumbImgPost()->first() : null;
+            $main = $hasImages ? $post->imagesPost()->getMainImgPost()->first() : null;
+            $commonImages = $hasImages ? $post->imagesPost()->getCommonImgPost()->get() : null ;
         @endphp
 
         @if (!$hasImages)

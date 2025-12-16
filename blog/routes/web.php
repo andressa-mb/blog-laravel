@@ -16,11 +16,11 @@ Auth::routes();
 
 // VUE ROTAS
 Route::get('/list-users', function (){
-    return view('profile.list-users');
+    return view('vue.users.list-users');
 })->middleware('auth', 'checkRole')->name('list-users');
 
 Route::get('/list-posts', function() {
-    return view('posts.list-posts');
+    return view('vue.posts.list-posts');
 })->name('list-posts');
 
 /** Alteração de local para alterar idioma */
@@ -32,14 +32,11 @@ Route::get('/', 'HomeController@index')->name('home.index');
 /** Página do perfil do usuário logado */
 Route::get('/home/my-profile/{user}', 'HomeController@showProfile')->name('home.show-my-profile');
 
-//COMENTÁRIOS
-Route::resource('/comments', 'Comments\CommentController');
-
-//FOLLOW
+// (UN)FOLLOW
 Route::post('/follow/{authorToFollow}', 'Follow\FollowerController@follow')->name('follow-author');
 Route::delete('/unfollow/{authorToUnfollow}', 'Follow\FollowerController@unfollow')->name('unfollow-author');
 
-//CATEGORIA E POSTS
+/** Rotas nomeadas da web para POSTS, CATEGORIES e COMMENTS */
 Route::name('web.')->group(function () {
     Route::get('/check-readed-alert-comment/{alert}/', 'Alerts\Comments\ReadAlertController')->name('check-readed-comment-alert');
     Route::get('/check-readed-alert-new-post/{alert}', 'Alerts\Posts\ReadAlertController')->name('check-readed-new-post-alert');
@@ -49,6 +46,7 @@ Route::name('web.')->group(function () {
         'categories' => 'Categories\CategoryController',
         'posts' => 'Posts\PostController',
         'users' => 'Users\UserController',
+        'comments' => 'Comments\CommentController',
     ]);
 });
 

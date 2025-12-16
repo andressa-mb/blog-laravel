@@ -2,12 +2,12 @@
 @section('content')
 
 <div class="row">
-    <form action="" id="search-form" class="col-md-12">
+    <form action="" id="listUsers" class="col-md-12">
         <select class="form-control" name="usersId" id="listUsers" onchange="this.form.submit()">
             <option value=""></option>
-            @foreach ($bloggers as $blog_user)
-                <option value="{{$blog_user->id}}" @if($request->usersId == $blog_user->id) selected @endif>
-                    {{$blog_user->name}}
+            @foreach ($bloggers as $blogUser)
+                <option value="{{$blogUser->id}}" @if($request->usersId == $blogUser->id) selected @endif>
+                    {{$blogUser->name}}
                 </option>
             @endforeach
         </select>
@@ -17,42 +17,110 @@
 <div class="row">
     <div class="col-md-12 mt-5">
         <div class="row justify-content-center">
-            @foreach($bloggers as $blog_user)
+            @foreach($bloggers as $blogUser)
                 <div class="card m-3 p-0 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="card-header m-0 p-2">
-                        <h5 class="card-title">{{$blog_user->name}}</h5>
+                        <h5 class="card-title text-center">
+                            <a href="{{route('web.users.show', $blogUser->id)}}" class="text-dark text-decoration-none">{{$blogUser->name}}</a>
+                        </h5>
                     </div>
-                    <div class="card-body p-2 d-flex justify-content-around">
-                        @foreach ($blog_user->roles as $role)
-                            <p>| {{$role->name}}</p>
+                    <div class="card-body d-flex justify-content-around">
+                        @foreach ($blogUser->roles as $role)
+                            <p class="p-2 m-0 badge badge-primary">{{$role->name}}</p>
                         @endforeach
                     </div>
-                    <div class="card-footer m-0 p-2">
-                        @if ($user->id !== $blog_user->id)
-                            @if($user->isFollowing($blog_user))
-                                <form action="{{route('unfollow-author', $blog_user)}}" method="POST" class="form-control">
-                                    @csrf
-                                    @method('DELETE')
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="unfollow" onchange="this.form.submit()" type="checkbox" name="following"
-                                            checked
-                                        />
-                                        <label for="unfollow" class="form-check-label">Não seguir</label>
-                                    </div>
-                                </form>
-                            @else
-                                <form action="{{route('follow-author', $blog_user)}}" method="POST" class="form-control">
-                                    @csrf
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="follow" onchange="this.form.submit()" type="checkbox" name="following"
-                                        />
-                                        <label for="follow" class="form-check-label">Seguir</label>
-                                    </div>
-                                </form>
-                            @endif
+                    @auth
+                        @if($user->is_admin)
+                            <div class="card-body">
+                                <button type="button" class="btn btn-sm btn-warning"
+                                    data-toggle="modal" data-target="#modal_edit_user_{{$blogUser->id}}">Editar</button>
+
+                                <button type="button" class="btn btn-sm btn-danger"
+                                    data-toggle="modal" data-target="#modal_delete_user_{{$blogUser->id}}">
+                                        Excluir
+                                </button>
+                            </div>
                         @endif
-                    </div>
+                        <div class="card-footer d-flex justify-content-around align-items-center">
+                            @if ($user->id !== $blogUser->id)
+                                @if($user->isFollowing($blogUser))
+                                    <form action="{{route('unfollow-author', $blogUser)}}" method="POST" class="border border-dark rounded m-3 p-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="form-check">
+                                            <input class="form-check-input" id="unfollow-{{$blogUser->id}}" onchange="this.form.submit()" type="checkbox" name="following"
+                                                checked
+                                            />
+                                            <label for="unfollow-{{$blogUser->id}}" class="form-check-label">Não seguir {{$blogUser->id}}</label>
+                                        </div>
+                                    </form>
+                                @else
+                                    <form action="{{route('follow-author', $blogUser)}}" method="POST" class="border border-dark rounded m-3 p-2">
+                                        @csrf
+                                        <div class="form-check">
+                                            <input class="form-check-input" id="follow-{{$blogUser->id}}" onchange="this.form.submit()" type="checkbox" name="following"
+                                            />
+                                            <label for="follow-{{$blogUser->id}}" class="form-check-label">Seguir {{$blogUser->id}}</label>
+                                        </div>
+                                    </form>
+                                @endif
+                            @endif
+                            <div class="">
+                                <a href="{{route('web.users.show', $blogUser->id)}}" class="btn btn-info">Ver perfil</a>
+                            </div>
+                        </div>
+                    @endauth
                 </div>
+
+                @component('layouts.components.modal', [
+                    'modal_id' => 'modal_edit_user_' . $blogUser->id,
+                    'title' => 'Editar usuário?',
+                    'classBtn' => 'btn btn-success',
+                    'form_id' => 'confirm-edit-user-' . $blogUser->id,
+                    'btnText' => 'Atualizar',
+                ])
+
+                    <form action="{{route('web.users.update', [$blogUser->id])}}" method="POST" id="confirm-edit-user-{{$blogUser->id}}">
+                        @csrf
+                        @method('PUT')
+                        <div class="">
+                            <label for="name" class="form-label">Nome</label>
+                            <input type="text" value="{{$blogUser->name}}" id="name" name="name" class="form-control" required>
+                        </div>
+                        <div>
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="text" value="{{$blogUser->email}}" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mt-2">
+                            <h5>Perfil do usuário:</h5>
+                            @foreach (App\Models\Role::get() as $role)
+                                @php
+                                    $userRoles = $blogUser->roleIdsFromUser();
+                                    $checked = in_array($role->id, $userRoles)
+                                @endphp
+                                <div class="form-group form-check flex-row">
+                                    <input type="checkbox" class="form-check-input" id="user-role-{{$role->id}}" value="{{$role->id}}" name="roles[]" {{ $checked ? 'checked' : '' }}>
+                                    <label for="user-role-{{$role->id}}" class="form-check-label">{{$role->name}}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </form>
+                @endcomponent
+
+                @component('layouts.components.modal', [
+                    'modal_id' => 'modal_delete_user_'.$blogUser->id,
+                    'title' => 'Excluir usuário?',
+                    'classBtn' => 'btn btn-danger',
+                    'form_id' => 'confirm-delete-user-'.$blogUser->id,
+                    'btnText' => 'Excluir',
+                ])
+
+                    <form action="{{route('web.users.destroy', [$blogUser])}}" method="POST" id="confirm-delete-user-{{$blogUser->id}}">
+                        @csrf
+                        @method('DELETE')
+                        <p>Tem certeza que quer excluir o usuário selecionado?</p>
+                    </form>
+                @endcomponent
             @endforeach
         </div>
     </div>
