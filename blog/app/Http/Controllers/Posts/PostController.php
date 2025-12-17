@@ -15,6 +15,11 @@ use Throwable;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['show']);
+    }
+
     /**
      * Lista de Posts do usuário autenticado.
      * @return View

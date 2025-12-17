@@ -5,7 +5,7 @@
     @php
         $imageMain = $post->imagesPost()->getMainImgPost()->first();
         $imagesCommon = $post->imagesPost()->getCommonImgPost()->get();
-        $isPostCreator = $user->id == $post->user_id;
+        $isPostCreator = $user ? $user->id == $post->user_id : null;
     @endphp
     <div class="col-md-12">
         @if(!is_null($imageMain))
@@ -91,9 +91,11 @@
                     @endif
 
                     {{-- MEUS POSTS --}}
-                    <div class="col-md-12 mt-2 d-flex justify-content-end">
-                        <a href="{{route('web.users.show', $user)}}" class="btn btn-info">Meus posts</a>
-                    </div>
+                    @auth
+                        <div class="col-md-12 mt-2 d-flex justify-content-end">
+                            <a href="{{route('web.users.show', $user)}}" class="btn btn-info">Meus posts</a>
+                        </div>
+                    @endauth
                 </div>
             </div>
 
