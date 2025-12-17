@@ -30,7 +30,7 @@ class UserController extends Controller
      * Mostra um usuário em específico.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function show(User $user)
     {
@@ -41,9 +41,9 @@ class UserController extends Controller
     /**
      * Atualiza no sistema os dados de um usuário em específico.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\User $user
+     * @return \Illuminate\Routing\Redirector
      */
     public function update(Request $request, User $user)
     {
@@ -72,13 +72,20 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deleta o usuário selecionado.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Routing\Redirector
      */
     public function destroy(User $user)
     {
+        try{
+            $this->authorize('delete', $user);
+            $user->delete();
 
+            return back()->with('success', 'Usuário excluído com sucesso.');
+        }catch(Exception $e){
+            return back()->with('error', "Não pôde ser excluído o usuário selecionado, pode haver posts vinculados. ");
+        }
     }
 }
