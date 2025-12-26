@@ -68,6 +68,15 @@
                                     <a class="dropdown-item" href="{{route('web.users.index')}}"> {{__('messages.usuarios')}}</a>
                                 </div>
                             </li>
+                            {{-- COMENTÁRIOS --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="catDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{__('messages.comentarios')}}
+                                </a>
+                                <div class="dropdown-menu w-100 text-center" aria-labelledby="catDropdown">
+                                    <a class="dropdown-item" href="{{route('web.comments.index')}}"> {{__('messages.comentarios')}}</a>
+                                </div>
+                            </li>
 
                             @if ($user->isAdmin)
                                 <li class="nav-item dropdown">

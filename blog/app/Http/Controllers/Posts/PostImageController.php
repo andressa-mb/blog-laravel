@@ -19,7 +19,7 @@ class PostImageController extends Controller
      */
     public function addImages(Post $post){
         Gate::authorize('post-image', $post);
-        $typeImages = $post->imagesPost()->whereIn('type', [1,3])->pluck('type')->all();
+        $typeImages = $post->images()->whereIn('type', [1,3])->pluck('type')->all();
         $main = in_array(1, $typeImages);
         $thumb = in_array(3, $typeImages);
         return view('images.addImgToPost', ['post' => $post,  'hasThumb' => $thumb, 'hasMain' => $main]);
@@ -42,7 +42,7 @@ class PostImageController extends Controller
             $file = $request->file('image_file');
             $size = PostImage::resolveSizeByType($validatedData['typeImages']);
             $typeName = PostImage::nameType($validatedData['typeImages']);
-            $post->imagesPost()->create([
+            $post->images()->create([
                 'path' => PostImage::resolvePathImage($post, $typeName, $file),
                 'type' => $validatedData['typeImages'],
                 'description' => $validatedData['description'],

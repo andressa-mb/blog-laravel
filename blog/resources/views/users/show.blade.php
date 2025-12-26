@@ -21,7 +21,7 @@
         </div>
         @foreach ($blogger->posts()->orderBy('created_at', 'desc')->get() as $post)
             @php
-                $thumb = $post->imagesPost()->where('type', 3)->first();
+                $thumb = $post->images()->where('type', 3)->first();
             @endphp
 
             <div class="card mx-3 my-3" style="width: 540px;">

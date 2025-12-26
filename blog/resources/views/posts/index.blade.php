@@ -12,7 +12,7 @@
 
         <div class="row d-flex justify-content-around">
             @foreach ($posts as $post)
-                @php($thumb = $post->imagesPost()->getThumbImgPost()->first())
+                @php($thumb = $post->images()->getThumbImgPost()->first())
 
                 <div class="card mx-3 my-3" style="width: 540px;">
                     <div class="row no-gutters">

@@ -1,4 +1,4 @@
-@php($thumb = $post->imagesPost()->getThumbImgPost()->first())
+@php($thumb = $post->images()->getThumbImgPost()->first())
 
 <div class="col-md-6 d-flex justify-content-around">
     <div class="card mb-3 shadow p-3 mb-5 bg-white rounded" style="width: 650px">

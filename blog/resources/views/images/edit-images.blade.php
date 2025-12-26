@@ -3,10 +3,10 @@
 <div class="container">
     <div class="row">
         @php
-            $hasImages = $post->imagesPost()->exists();
-            $thumb = $hasImages ? $post->imagesPost()->getThumbImgPost()->first() : null;
-            $main = $hasImages ? $post->imagesPost()->getMainImgPost()->first() : null;
-            $commonImages = $hasImages ? $post->imagesPost()->getCommonImgPost()->get() : null ;
+            $hasImages = $post->images()->exists();
+            $thumb = $hasImages ? $post->images()->getThumbImgPost()->first() : null;
+            $main = $hasImages ? $post->images()->getMainImgPost()->first() : null;
+            $commonImages = $hasImages ? $post->images()->getCommonImgPost()->get() : null ;
         @endphp
 
         @if (!$hasImages)

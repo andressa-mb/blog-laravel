@@ -3,8 +3,8 @@
 
 <div class="row">
     @php
-        $imageMain = $post->imagesPost()->getMainImgPost()->first();
-        $imagesCommon = $post->imagesPost()->getCommonImgPost()->get();
+        $imageMain = $post->images()->getMainImgPost()->first();
+        $imagesCommon = $post->images()->getCommonImgPost()->get();
         $isPostCreator = $user ? $user->id == $post->user_id : null;
     @endphp
     <div class="col-md-12">
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-md-6 text-left">
                                 <button type="button" class="btn btn-danger"
-                                data-toggle="modal" data-target="#modal_delete">
+                                data-toggle="modal" data-target="#modal_post_delete">
                                     Excluir
                                 </button>
                             </div>
@@ -100,14 +100,14 @@
             </div>
 
             @component('layouts.components.modal', [
-                'modal_id' => 'modal_delete',
+                'modal_id' => 'modal_post_delete',
                 'title' => 'Excluir post?',
                 'classBtn' => 'btn btn-danger',
-                'form_id' => 'confirm-delete',
+                'form_id' => 'confirm-post-delete',
                 'btnText' => 'Excluir',
             ])
 
-                <form action="{{route('web.posts.destroy', [$post])}}" method="POST" id="confirm-delete">
+                <form action="{{route('web.posts.destroy', [$post])}}" method="POST" id="confirm-post-delete">
                     @csrf
                     @method('DELETE')
                     <p>Tem certeza que quer excluir o post selecionado?</p>
@@ -195,6 +195,55 @@
                                 <p class="text-right">
                                     <strong>Data de criação:</strong> {{$comment->created_at->format('d/m/Y')}}
                                 </p>
+                                @if ($user && $comment->user->id === $user->id)
+                                    <div class="row">
+                                        <div class="col-md-6 text-right">
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                            data-toggle="modal" data-target="#modal_comment_edit_{{$comment->id}}">
+                                                Editar
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6 text-left">
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                            data-toggle="modal" data-target="#modal_comment_delete_{{$comment->id}}">
+                                                Excluir
+                                            </button>
+                                        </div>
+                                        @component('layouts.components.modal', [
+                                            'modal_id' => "modal_comment_edit_$comment->id",
+                                            'title' => 'Editar comentário?',
+                                            'classBtn' => 'btn btn-warning',
+                                            'form_id' => "confirm-comment-edit-$comment->id",
+                                            'btnText' => 'Atualizar',
+                                        ])
+
+                                            <form action="{{route('web.comments.update', [$comment])}}" method="POST" id="confirm-comment-edit-{{$comment->id}}">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="row">
+                                                    <label for="comment-{{$comment->id}}" class="form-label col-md-4">Comentário</label>
+                                                    <textarea type="text" id="comment-{{$comment->id}}" name="comment" cols="3" rows="3" class="form-control col-md-8">{{$comment->comment}}</textarea>
+                                                </div>
+                                            </form>
+                                        @endcomponent
+
+                                        @component('layouts.components.modal', [
+                                            'modal_id' => "modal_comment_delete_$comment->id",
+                                            'title' => 'Excluir comentário?',
+                                            'classBtn' => 'btn btn-danger',
+                                            'form_id' => "confirm-comment-delete-$comment->id",
+                                            'btnText' => 'Excluir',
+                                        ])
+
+                                            <form action="{{route('web.comments.destroy', [$comment])}}" method="POST" id="confirm-comment-delete-{{$comment->id}}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <p>Tem certeza que quer excluir o seu comentário?</p>
+                                            </form>
+                                        @endcomponent
+                                    </div>
+
+                                @endif
                             </div>
                         </div>
                     </div>

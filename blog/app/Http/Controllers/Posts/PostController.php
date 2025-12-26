@@ -120,7 +120,7 @@ class PostController extends Controller
                 CategoryService::new()->associateCategories($request->categories, $post);
             }
 
-            if(!$post->imagesPost()->exists()){
+            if(!$post->images()->exists()){
                 return redirect()->route('insert-images', ['post' => $post]);
             }
 

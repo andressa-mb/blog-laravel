@@ -26,7 +26,7 @@ use Illuminate\Support\Str;
  * @property \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property \App\Models\AlertPost|null $alertPost
  * @property \Illuminate\Database\Eloquent\Collection|\App\Category[] $categories
- * @property \Illuminate\Database\Eloquent\Collection|\App\PostImage[] $imagesPost
+ * @property \Illuminate\Database\Eloquent\Collection|\App\PostImage[] $images
  */
 class Post extends Model
 {
@@ -57,7 +57,7 @@ class Post extends Model
         static::deleting(function (self $model){
             $model->slug.= '-delete-' .time();
 
-            foreach($model->imagesPost as $image){
+            foreach($model->images as $image){
                 Storage::disk('public')->delete($image->url);
             }
         });
@@ -89,7 +89,7 @@ class Post extends Model
     }
 
     /** Imagens do post */
-    public function imagesPost(): HasMany {
+    public function images(): HasMany {
         return $this->hasMany(PostImage::class, 'post_id', 'id');
     }
 

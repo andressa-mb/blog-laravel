@@ -15,12 +15,6 @@ class StoreComment extends FormRequest
      */
     public function authorize(Request $request)
     {
-   /*      $postsDoUser = Post::where('user_id', $request->user()->id )->get();
-        if($postsDoUser->contains($request->post_id)){
-            return false;
-        }else {
-            return true;
-        } */
         return true;
     }
 

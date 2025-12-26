@@ -25,4 +25,5 @@ return [
     'pt-BR' => 'Português',
     'en' => 'Inglês',
     'usuarios' => 'Usuários',
+    'comentarios' => 'Comentários',
 ];
