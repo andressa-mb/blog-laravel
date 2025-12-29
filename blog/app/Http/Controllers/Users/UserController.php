@@ -18,8 +18,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $bloggers = User::orderBy('name');
-        $bloggers->when($request->filled('usersId'), function (Builder $query){
-            $query->where(['id' => request('usersId')]);
+        $name = $request->input('userName');
+        $bloggers->when($request->filled('userName'), function (Builder $query) use($name){
+            $query->where('name', 'ilike', "%$name%");
         });
 
         $this->data['bloggers'] = $bloggers->paginate();

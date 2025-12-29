@@ -181,7 +181,7 @@
             <div class="row">
                 <h3 class="col-md-12 text-center">Comentários</h3>
                 @foreach($post->comments()->orderBy('created_at', 'desc')->get() as $comment)
-                    <div class="d-flex justify-content-around col my-3" width="25rem">
+                    <div class="d-flex justify-content-around col-3 my-3" width="25rem">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">

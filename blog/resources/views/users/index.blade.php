@@ -2,15 +2,9 @@
 @section('content')
 
 <div class="row">
-    <form action="" id="listUsers" class="col-md-12">
-        <select class="form-control" name="usersId" id="listUsers" onchange="this.form.submit()">
-            <option value=""></option>
-            @foreach ($bloggers as $blogUser)
-                <option value="{{$blogUser->id}}" @if($request->usersId == $blogUser->id) selected @endif>
-                    {{$blogUser->name}}
-                </option>
-            @endforeach
-        </select>
+    <form action="" id="listUsersName" class="col-md-12">
+        <label for="name" class="form-label">Buscar usuário:</label>
+        <input type="text" class="form-control" name="userName" id="listUsersName" onchange="this.form.submit()">
     </form>
 </div>
 
@@ -51,7 +45,7 @@
                                             <input class="form-check-input" id="unfollow-{{$blogUser->id}}" onchange="this.form.submit()" type="checkbox" name="following"
                                                 checked
                                             />
-                                            <label for="unfollow-{{$blogUser->id}}" class="form-check-label">Não seguir {{$blogUser->id}}</label>
+                                            <label for="unfollow-{{$blogUser->id}}" class="form-check-label">Não seguir</label>
                                         </div>
                                     </form>
                                 @else
@@ -60,7 +54,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" id="follow-{{$blogUser->id}}" onchange="this.form.submit()" type="checkbox" name="following"
                                             />
-                                            <label for="follow-{{$blogUser->id}}" class="form-check-label">Seguir {{$blogUser->id}}</label>
+                                            <label for="follow-{{$blogUser->id}}" class="form-check-label">Seguir</label>
                                         </div>
                                     </form>
                                 @endif

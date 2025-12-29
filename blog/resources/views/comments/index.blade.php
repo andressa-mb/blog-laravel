@@ -16,7 +16,7 @@
                 </h4>
                 <hr>
 
-                @foreach($postData['comments']->forPage(1, 10) as $comment)
+                @foreach($postData['comments']->forPage(1, 5) as $comment)
                 @php
                     $dateCarbon = Carbon\Carbon::parse($comment->created_at);
                 @endphp
