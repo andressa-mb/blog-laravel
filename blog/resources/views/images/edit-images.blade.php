@@ -10,25 +10,25 @@
         @endphp
 
         @if (!$hasImages)
-            <h3>Não há imagens salvas nesse post</h3>
+            <h3>{{__('text.sem_imagens')}}</h3>
         @else
-            <h3>Imagens</h3>
+            <h3>{{__('messages.imagens')}}</h3>
         @endif
 
         @if ($thumb)
             <div class="col-md-12 my-5">
                 <div class="card">
                     <div class="card-header">
-                        Imagem da thumb
+                        {{__('messages.imagens_tamanho', ['tamanho' => __('messages.thumb')] )}}
                     </div>
                     <div class="card-body text-center">
                         <img src="{{asset("storage/{$thumb->path}")}}" width="250" height="250">
                     </div>
                     <div class="card-footer">
-                        <a href="{{route('change-image', [$post, $thumb])}}" type="button" class="btn btn-warning">Trocar imagem?</a>
+                        <a href="{{route('change-image', [$post, $thumb])}}" type="button" class="btn btn-warning">{{__('messages.trocar_imagem')}}?</a>
                         <button type="button" class="btn btn-danger"
                             data-toggle="modal" data-target="#modal_confirma" data-route="{{route('delete-image', $thumb)}}">
-                                Excluir
+                                {{__('messages.excluir')}}
                         </button>
                     </div>
                 </div>
@@ -39,16 +39,16 @@
             <div class="col-md-12 my-5">
                 <div class="card">
                     <div class="card-header">
-                        Imagem principal
+                        {{__('messages.imagens_tamanho', ['tamanho' => __('messages.thumb')] )}}
                     </div>
                     <div class="card-body text-center">
                         <img src="{{asset("storage/{$main->path}")}}" width="250" height="250">
                     </div>
                     <div class="card-footer">
-                        <a href="{{route('change-image', [$post, $main])}}" type="button" class="btn btn-warning">Trocar imagem?</a>
+                        <a href="{{route('change-image', [$post, $main])}}" type="button" class="btn btn-warning">{{__('messages.trocar_imagem')}}?</a>
                         <button type="button" class="btn btn-danger"
                             data-toggle="modal" data-target="#modal_confirma" data-route="{{route('delete-image', $main)}}">
-                                Excluir
+                                {{__('messages.excluir')}}
                         </button>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class="col-md my-5">
                     <div class="card">
                         <div class="card-header">
-                            Imagens do post
+                            {{__('messages.imagens_tamanho', ['tamanho' => __('messages.post')] )}}
                         </div>
                         <div class="card-body text-center">
                             <img src="{{asset("storage/{$common->path}")}}" width="250" height="250">
@@ -68,7 +68,7 @@
                         <div class="card-footer">
                             <button type="button" class="btn btn-danger"
                             data-toggle="modal" data-target="#modal_confirma" data-route="{{route('delete-image', $common)}}">
-                                Excluir
+                                {{__('messages.excluir')}}
                             </button>
                         </div>
                     </div>
@@ -78,23 +78,23 @@
 
         @component('layouts.components.modal-confirma', [
             'modal_id' => 'modal_confirma',
-            'title' => 'Excluir imagem?',
+            'title' => __('messages.excluir_imagem').'?',
             'classBtn' => 'btn btn-danger',
             'idBtn' => 'btn-confirm-delete',
         ])
-            <p>Tem certeza que quer excluir a imagem selecionada?</p>
+            <p>{{__('text.confirma_exclusao_imagem')}}</p>
 
         @endcomponent
 
         @if (!$thumb || !$main || $commonImages )
             <div class="col-md-12 my-2">
-                <a href="{{route('insert-images', $post)}}" class="btn btn-primary">Add imagens ao post</a>
+                <a href="{{route('insert-images', $post)}}" class="btn btn-primary">{{__('text.add_images_post')}}</a>
             </div>
         @endif
 
         <div class="col-md-12 my-2">
             <a href="{{route('web.posts.index')}}" class="btn btn-success">
-                Finalizar edição
+                {{__('messages.finalizar')}}
             </a>
         </div>
 </div>

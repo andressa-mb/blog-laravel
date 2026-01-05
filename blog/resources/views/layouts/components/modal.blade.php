@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Fechar
+                    {{__('messages.fechar')}}
                 </button>
                 <button type="submit" form="{{ $form_id }}" class="{{ $classBtn ?? 'btn btn-primary' }}" type="submit">
                     {{$btnText ?? 'Adicionar'}}

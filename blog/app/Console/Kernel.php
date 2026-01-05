@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command(Commands\Posts\DeleteTrashedCmd::class)->everyTenMinutes();
+        //$schedule->command('posts:dispatch-alerts')->everyMinute();
+        //$schedule->command('queue:work --once')->everyMinute();
     }
 
     /**

@@ -5,30 +5,30 @@
             @method('PUT')
             @csrf
             <div class="mb-3">
-                <label class="form-label">Perfil do usuário:</label>
+                <label class="form-label">{{__('messages.perfil_usuario')}}</label>
                 @foreach ($user->roles as $role)
                     <p class="badge badge-primary p-2">{{$role->name}}</p>
                 @endforeach
             </div>
             <div class="mb-3">
-                <label for="name" class="form-label">Nome:</label>
+                <label for="name" class="form-label">{{__('messages.nome')}}</label>
                 <input type="text" class="form-control" name="name" id="name" value="{{$user->name}}">
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">E-mail:</label>
+                <label for="email" class="form-label">{{__('messages.email')}}</label>
                 <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="emailHelp" value="{{$user->email}}">
             </div>
-            <button type="submit" class="btn btn-success">Atualizar</button>
+            <button type="submit" class="btn btn-success">{{__('messages.atualizar')}}</button>
         </form>
 
         <div class="col-md-6">
             <div class="mb-3">
-                <label for="following" class="form-label">Estou Seguindo:</label>
+                <label for="following" class="form-label">{{__('messages.estou_seguindo')}}<</label>
                     @foreach ($user->followings as $following)
                         {{$user->countFollowings()}}
                         @break
                     @endforeach
-                <button class="ml-2 btn btn-info" onclick="viewFollowings()">Ver</button>
+                <button class="ml-2 btn btn-info" onclick="viewFollowings()">{{__('messages.ver')}}</button>
             </div>
             <div id="followingDiv" class="followingDiv invisible">
                 @foreach ($user->followings as $following)
@@ -38,12 +38,12 @@
         </div>
         <div class="col-md-6">
             <div class="mb-3">
-                <label for="followers" class="form-label">Meus Seguidores:</label>
+                <label for="followers" class="form-label">{{__('messages.meus_seguidores')}}</label>
                 @foreach ($user->followers as $follower)
                     <span>{{$user->countFollowers()}}</span>
                     @break;
                 @endforeach
-                <button class="ml-2 btn btn-info" onclick="viewFollowers()">Ver</button>
+                <button class="ml-2 btn btn-info" onclick="viewFollowers()">{{__('messages.ver')}}</button>
             </div>
             <div id="followerDiv" class="followerDiv invisible">
                 @foreach ($user->followers as $follower)

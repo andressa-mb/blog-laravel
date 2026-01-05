@@ -41,6 +41,7 @@ Route::name('web.')->group(function () {
     Route::get('/check-readed-alert-comment/{alert}/', 'Alerts\Comments\ReadAlertController')->name('check-readed-comment-alert');
     Route::get('/check-readed-alert-new-post/{alert}', 'Alerts\Posts\ReadAlertController')->name('check-readed-new-post-alert');
     Route::get('/check-readed-alert-new-follower/{alert}', 'Alerts\Follow\ReadAlertController')->name('check-readed-new-follower-alert');
+    Route::get('/my-list-of-posts', 'Posts\PostController@myListOfPosts')->name('my-posts');
 
     Route::resources([
         'categories' => 'Categories\CategoryController',

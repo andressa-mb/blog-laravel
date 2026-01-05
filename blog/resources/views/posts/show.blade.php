@@ -25,11 +25,11 @@
 
                 <a class="carousel-control-prev" href="#imagesCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">{{__('pagination.previous')}}</span>
                 </a>
                 <a class="carousel-control-next"  href="#imagesCarousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">{{__('pagination.next')}}</span>
                 </a>
             </div>
         @endif
@@ -43,7 +43,7 @@
                         <h3 class="text-capitalize text-center">{{$post->title}}</h3>
                     </div>
                     <div class="col-md-12">
-                        <strong>Categorias:</strong>
+                        <strong>{{__('messages.categorias')}}:</strong>
                         @foreach($post->categories as $category)
                             <span>{{$category->name}}{{$loop->last?'.':', '}}</span>
                         @endforeach
@@ -53,10 +53,10 @@
                     </div>
 
                     <div class="col-md-12">
-                        <strong>Autor(a):</strong> {{$post->user->name}}
+                        <strong>{{__('messages.autor-a', ['name' => $post->user->name])}}</strong>
                     </div>
                     <div class="col-md-12">
-                        <strong>Data de criação:</strong> {{$post->created_at->translatedFormat('l, d \d\e F, Y')}}
+                        <strong>{{__('messages.data_criacao')}}:</strong> {{$post->created_at->translatedFormat('l, d \d\e F, Y')}}
                     </div>
                     <div class="col-md-12">
                         <strong>Há:</strong>
@@ -79,12 +79,12 @@
                     @if($isPostCreator)
                         <div class="row">
                             <div class="col-md-6 text-right">
-                                <a href="{{route('web.posts.edit', [$post])}}" class="btn btn-primary">Editar</a>
+                                <a href="{{route('web.posts.edit', [$post])}}" class="btn btn-primary">{{__('messages.editar')}}</a>
                             </div>
                             <div class="col-md-6 text-left">
                                 <button type="button" class="btn btn-danger"
                                 data-toggle="modal" data-target="#modal_post_delete">
-                                    Excluir
+                                    {{__('messages.excluir')}}
                                 </button>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                     {{-- MEUS POSTS --}}
                     @auth
                         <div class="col-md-12 mt-2 d-flex justify-content-end">
-                            <a href="{{route('web.users.show', $user)}}" class="btn btn-info">Meus posts</a>
+                            <a href="{{route('web.users.show', $user)}}" class="btn btn-info">{{__('messages.meus-posts')}}</a>
                         </div>
                     @endauth
                 </div>
@@ -101,16 +101,16 @@
 
             @component('layouts.components.modal', [
                 'modal_id' => 'modal_post_delete',
-                'title' => 'Excluir post?',
+                'title' => __('messages.excluir-post') . '?',
                 'classBtn' => 'btn btn-danger',
                 'form_id' => 'confirm-post-delete',
-                'btnText' => 'Excluir',
+                'btnText' => __('messages.excluir'),
             ])
 
                 <form action="{{route('web.posts.destroy', [$post])}}" method="POST" id="confirm-post-delete">
                     @csrf
                     @method('DELETE')
-                    <p>Tem certeza que quer excluir o post selecionado?</p>
+                    <p>{{__('text.confirma_exclusao_post')}}</p>
                 </form>
             @endcomponent
         </div>
@@ -130,7 +130,7 @@
                                 <input class="form-check-input" id="unfollow" onchange="this.form.submit()" type="checkbox" name="following"
                                     checked
                                 />
-                                <label for="unfollow" class="form-check-label">Deixar de Seguir {{$post->author->name}}</label>
+                                <label for="unfollow" class="form-check-label">{{__('messages.nao_seguir')}}: {{$post->author->name}}</label>
                             </div>
                         </form>
                     @else
@@ -139,7 +139,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" id="follow" onchange="this.form.submit()" type="checkbox" name="following"
                                 />
-                                <label for="follow" class="form-check-label">Seguir {{$post->author->name}}</label>
+                                <label for="follow" class="form-check-label">{{__('messages.seguir')}}: {{$post->author->name}}</label>
                             </div>
                         </form>
                     @endif
@@ -150,21 +150,21 @@
             <div class="col-md-12 m-5">
                 <div class="row justify-content-center mx-auto w-50">
                     <div class="col-md-12">
-                        <h3>Adicionar comentários:</h3>
+                        <h3>{{__('messages.adicionar_comentario')}}</h3>
                         <form action="{{route('web.comments.store')}}" method="POST">
                             @csrf
                             <div class="form-group row mb-3">
-                                <label for="name" class="form-label col-md-3">Nome:</label>
+                                <label for="name" class="form-label col-md-3">{{__('messages.nome')}}</label>
                                 <input type="text" class="form-control col-md-9" name="user_id" id="name" value="{{$user->name}}" disabled>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="comment" class="form-label col-md-3">Comentário:</label>
+                                <label for="comment" class="form-label col-md-3">{{__('messages.comentario')}}</label>
                                 <textarea type="text" class="form-control col-md-9" name="comment" id="comment" @error('comment') is-invalid @enderror></textarea>
                             </div>
                             <div class="form-group mb-3">
                                 <input name="post_id" value="{{$post->id}}" hidden/>
                             </div>
-                            <button type="submit" class="btn btn-success">Enviar Comentário</button>
+                            <button type="submit" class="btn btn-success">{{__('messages.enviar-comentario')}}</button>
                             @error('comment')
                                 <div class="mt-3 alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -179,13 +179,13 @@
     @if ($post->comments()->exists())
         <div class="col-md-12">
             <div class="row">
-                <h3 class="col-md-12 text-center">Comentários</h3>
+                <h3 class="col-md-12 text-center">{{__('messages.comentarios')}}</h3>
                 @foreach($post->comments()->orderBy('created_at', 'desc')->get() as $comment)
                     <div class="d-flex justify-content-around col-3 my-3" width="25rem">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">
-                                    <strong>Autor(a): </strong>{{$comment->user->name}}
+                                    <strong>{{__('messages.autor-a', ['name' => $comment->user->name])}} </strong>
                                 </h5>
                             </div>
                             <div class="card-body">
@@ -193,35 +193,35 @@
                             </div>
                             <div class="card-footer">
                                 <p class="text-right">
-                                    <strong>Data de criação:</strong> {{$comment->created_at->format('d/m/Y')}}
+                                    <strong>{{__('messages.data_criacao')}}</strong> {{$comment->created_at->format('d/m/Y')}}
                                 </p>
                                 @if ($user && $comment->user->id === $user->id)
                                     <div class="row">
                                         <div class="col-md-6 text-right">
                                             <button type="button" class="btn btn-sm btn-primary"
                                             data-toggle="modal" data-target="#modal_comment_edit_{{$comment->id}}">
-                                                Editar
+                                                {{__('messages.editar')}}
                                             </button>
                                         </div>
                                         <div class="col-md-6 text-left">
                                             <button type="button" class="btn btn-sm btn-danger"
                                             data-toggle="modal" data-target="#modal_comment_delete_{{$comment->id}}">
-                                                Excluir
+                                                {{__('messages.excluir')}}
                                             </button>
                                         </div>
                                         @component('layouts.components.modal', [
                                             'modal_id' => "modal_comment_edit_$comment->id",
-                                            'title' => 'Editar comentário?',
+                                            'title' => __('messages.editar-comentario').'?',
                                             'classBtn' => 'btn btn-warning',
                                             'form_id' => "confirm-comment-edit-$comment->id",
-                                            'btnText' => 'Atualizar',
+                                            'btnText' => __('messages.atualizar'),
                                         ])
 
                                             <form action="{{route('web.comments.update', [$comment])}}" method="POST" id="confirm-comment-edit-{{$comment->id}}">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="row">
-                                                    <label for="comment-{{$comment->id}}" class="form-label col-md-4">Comentário</label>
+                                                    <label for="comment-{{$comment->id}}" class="form-label col-md-4">__{{('messages.editar-comentario')}}</label>
                                                     <textarea type="text" id="comment-{{$comment->id}}" name="comment" cols="3" rows="3" class="form-control col-md-8">{{$comment->comment}}</textarea>
                                                 </div>
                                             </form>
@@ -229,16 +229,16 @@
 
                                         @component('layouts.components.modal', [
                                             'modal_id' => "modal_comment_delete_$comment->id",
-                                            'title' => 'Excluir comentário?',
+                                            'title' => __('messages.excluir-comentario').'?',
                                             'classBtn' => 'btn btn-danger',
                                             'form_id' => "confirm-comment-delete-$comment->id",
-                                            'btnText' => 'Excluir',
+                                            'btnText' => __('messages.excluir'),
                                         ])
 
                                             <form action="{{route('web.comments.destroy', [$comment])}}" method="POST" id="confirm-comment-delete-{{$comment->id}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <p>Tem certeza que quer excluir o seu comentário?</p>
+                                                <p>{{__('text.confirma_exclusao_comentario')}}</p>
                                             </form>
                                         @endcomponent
                                     </div>

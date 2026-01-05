@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="mx-2 border border-dark rounded-pill">
-            <h4 class="text-center p-2">Página de {{$blogger->name}}</h4>
+            <h4 class="text-center p-2">{{__('messages.pagina', ['name' => $blogger->name])}}</h4>
             <div class="text-center">
                 @foreach ($blogger->roles as $role)
                     <p class="badge badge-primary p-2">{{$role->name}}</p>
@@ -17,7 +17,7 @@
 <div class="row d-flex justify-content-around">
     @if ($blogger->posts()->exists())
         <div class="col-md-12">
-            <h5 class="m-5">Total de posts: {{$blogger->posts()->count()}}</h5>
+            <h5 class="m-5">{{__('messages.total_posts')}} {{$blogger->posts()->count()}}</h5>
         </div>
         @foreach ($blogger->posts()->orderBy('created_at', 'desc')->get() as $post)
             @php
@@ -40,10 +40,10 @@
                             <h5 class="card-title text-capitalize">{{$post->title}}</h5>
                             <p class="card-text text-truncate">{{$post->content}}</p>
                             <p class="card-text text-right">
-                                <small class="text-muted">Inserido por: {{$post->author->name}}</small> <br>
-                                <small class="text-muted">Em: {{$post->created_at->format('d/m/Y')}}</small>
+                                <small class="text-muted">{{__('messages.inserido_por')}} {{$post->author->name}}</small> <br>
+                                <small class="text-muted">{{__('messages.em')}} {{$post->created_at->format('d/m/Y')}}</small>
                             </p>
-                            <a href="{{route('web.posts.show', $post)}}" class="btn btn-sm btn-primary">Abrir post</a>
+                            <a href="{{route('web.posts.show', $post)}}" class="btn btn-sm btn-primary">{{__('messages.abrir_post')}}</a>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
         @endforeach
     @else
         <div class="col-md-12">
-            <h5 class="m-5">Não há posts deste usuário ainda.</h5>
+            <h5 class="m-5">{{__('text.sem_posts')}}</h5>
         </div>
     @endif
 </div>

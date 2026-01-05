@@ -19,8 +19,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-{{--     <link href="{{ asset('css/blog.css') }}" rel="stylesheet"> --}}
-
 </head>
 <body>
     <div id="app" class="container-fluid">
@@ -28,13 +26,12 @@
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light border border-black">
                 {{-- TITULO --}}
                 <a class="navbar-brand" href="{{route('home.index')}}">
-                    Blog
+                    {{__('messages.blog')}}
                 </a>
                 {{-- HAMBURGUER --}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHamburguerContent" aria-controls="navbarHamburguerContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
 
                 {{-- LADO ESQUERDO NAV --}}
                 <div class="collapse navbar-collapse text-center" id="navbarHamburguerContent">
@@ -47,7 +44,8 @@
                                 </a>
                                 <div class="dropdown-menu w-100 text-center" aria-labelledby="postDropdown">
                                     <a class="dropdown-item" href="{{route('web.posts.create')}}">{{__('messages.criar-post')}}</a>
-                                    <a class="dropdown-item" href="{{route('web.posts.index')}}">{{__('messages.meus-posts')}}</a>
+                                    <a class="dropdown-item" href="{{route('web.my-posts')}}">{{__('messages.meus-posts')}}</a>
+                                    <a class="dropdown-item" href="{{route('web.posts.index')}}">{{__('messages.posts')}}</a>
                                 </div>
                             </li>
                             {{-- CATEGORIAS --}}
@@ -108,8 +106,8 @@
                                     </div>
                                     <select class="form-select border-0 bg-white" name="lang" onchange="this.form.submit()" required>
                                         <option disabled selected>{{ __('Idioma') }}</option>
-                                        <option value="en">🇺🇸 English</option>
-                                        <option value="pt-BR">🇧🇷 Português</option>
+                                        <option value="en">🇺🇸 {{__('messages.language', ['language' => 'Inglês'])}}</option>
+                                        <option value="pt-BR">🇧🇷 {{__('messages.language', ['language' => 'Português'])}}</option>
                                     </select>
                                 </div>
                             </form>
@@ -131,7 +129,7 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <p class="my-2">Bem vindo {{$user->name}}</p>
+                                <p class="my-2">{{__('messages.bem-vindo', ['name' => $user->name])}}</p>
                             </li>
 
                             {{-- NOTIFICAÇÕES --}}
@@ -143,19 +141,19 @@
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertDropdown">
                                         @foreach ($user->queryAlertComments(false)->get() as $alertComment)
                                             <a class="dropdown-item" href="{{route('web.check-readed-comment-alert', [$alertComment->id])}}">
-                                                <p>{{$alertComment->id}} Novo comentário de: {{$alertComment->comment->user->name}} em {{$alertComment->created_at->format('d-m-Y')}}</p>
+                                                <p>{{$alertComment->id}} {{__('messages.novo-comentario')}} {{$alertComment->comment->user->name}} em {{$alertComment->created_at->format('d-m-Y')}}</p>
                                             </a>
                                         @endforeach
                                         @if($user->hasAnyAlertNewPost())
                                             @foreach ($user->queryAlertReadedNewPost(false)->get() as $newPost)
                                                 <a class="dropdown-item" href="{{route('web.check-readed-new-post-alert', $newPost)}}">
-                                                    <p>Novo post: {{$newPost->author->name}} em {{$newPost->created_at->format('d-m-Y')}}</p>
+                                                    <p>{{__('messages.novo-post')}}  {{$newPost->author->name}} em {{$newPost->created_at->format('d-m-Y')}}</p>
                                                 </a>
                                             @endforeach
                                         @endif
                                         @foreach ($user->queryAlertNewFollowers(false)->get() as $newFollow)
                                             <a class="dropdown-item" href="{{route('web.check-readed-new-follower-alert', $newFollow)}}">
-                                                <p>Novo seguidor: {{$newFollow->follower->name}} em {{$newFollow->created_at->format('d-m-Y')}}</p>
+                                                <p>{{__('messages.novo-seguidor')}}  {{$newFollow->follower->name}} em {{$newFollow->created_at->format('d-m-Y')}}</p>
                                             </a>
                                         @endforeach
                                     </div>
@@ -170,7 +168,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="{{route('home.show-my-profile', $user->id)}}">
-                                        Meu perfil
+                                        {{__('messages.meu-perfil')}}
                                     </a>
                                     <a class="dropdown-item dropdown-left" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

@@ -5,7 +5,7 @@
     <div class="col-md-12">
         @can('create', \App\Models\Category::class)
             <button class="btn btn-success" data-target="#create_category" data-toggle="modal">
-                Criar Categoria
+                {{__('messages.criar-categoria')}}
             </button>
         @endcan
     </div>
@@ -36,15 +36,15 @@
                 </div>
                 @component('layouts.components.modal', [
                     'modal_id' => "edit_category_$category->id",
-                    'title' => 'Editar Categoria',
+                    'title' => __('messages.editar-categoria').'?',
                     'form_id' => "form_edit_$category->id",
-                    'btnText' => 'Atualizar'
+                    'btnText' => __('messages.atualizar')
                 ])
                     <form action="{{route('web.categories.update', $category)}}" method="POST" id="form_edit_{{$category->id}}">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="category-id-{{$category->id}}" class="form-label">Nome da Categoria:</label>
+                            <label for="category-id-{{$category->id}}" class="form-label">{{__('messages.nome-categoria')}}</label>
                             <input type="text" class="form-control" name="name" value="{{$category->name}}" id="category-id-{{$category->id}}" required>
                         </div>
                     </form>
@@ -52,15 +52,15 @@
 
                 @component('layouts.components.modal', [
                     'modal_id' => "delete_category_$category->id",
-                    'title' => 'Excluir categoria?',
+                    'title' => __('messages.deletar-categoria').'?',
                     'classBtn' => 'btn btn-danger',
                     'form_id' => "form_delete_$category->id",
-                    'btnText' => 'Excluir',
+                    'btnText' => __('messages.excluir'),
                 ])
                     <form action="{{route('web.categories.destroy', $category->id)}}" method="POST" id="form_delete_{{$category->id}}">
                         @csrf
                         @method('DELETE')
-                        <p>Tem certeza que quer excluir a categoria selecionada?</p>
+                        <p>{{__('text.confirma_exclusao_categoria')}}</p>
                     </form>
                 @endcomponent
 
@@ -71,14 +71,14 @@
 
 @component('layouts.components.modal', [
     'modal_id' => 'create_category',
-    'title' => 'Criar Categoria',
+    'title' => __('messages.criar-categoria'),
     'form_id' => 'form_create_category',
-    'btnText' => 'Cadastrar'
+    'btnText' => __('messages.cadastrar')
 ])
     <form action="{{route('web.categories.store')}}" method="POST" id="form_create_category">
         @csrf
         <div class="mb-3">
-            <label for="name" class="form-label">Nome da Categoria:</label>
+            <label for="name" class="form-label">{{__('messages.nome-categoria')}}:</label>
             <input type="text" class="form-control" name="name" id="title" required>
         </div>
     </form>

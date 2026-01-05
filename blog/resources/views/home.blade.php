@@ -7,7 +7,7 @@
                 <div class="col-lg-6 px-0">
                     <h1 class="display-4 font-italic">{{$post->title}}</h1>
                     <div class="mb-1 text-muted">
-                        <em>Autor(a): {{$post->author->name}}</em>
+                        <em>{{__('messages.autor-a', ['name' => $post->author->name])}}</em>
                         <br>
                         <em>{{$post->created_at->translatedFormat('l, d \d\e F, Y')}}</em>
                     </div>
@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h3 class="pb-3 mb-4 mx-3 font-italic border-bottom">
-                    Posts mais recentes
+                    {{__('messages.posts_recentes')}}
                 </h3>
                 @if ($recentPosts)
                     @foreach ($recentPosts as $post)
@@ -60,20 +60,20 @@
                         </div>
                     @endforeach
                 @else
-                    <p class="mx-3">Não há posts registrados.</p>
+                    <p class="mx-3">{{__('messages.nao-tem-posts')}}</p>
                 @endif
             </div>
 
             <aside class="col-md-4">
                 <div class="p-3 mb-3 mx-3 bg-light rounded">
-                    <h4 class="font-italic">Sobre</h4>
+                    <h4 class="font-italic">{{__('messages.sobre')}}</h4>
                     <p class="">
                        Blog criado como forma de juntar <em>várias comunidades</em> num local para postar as informações que gostem, compartilhar ideias, etc.
                     </p>
                 </div>
 
                 <div class="p-3 mb-3 mx-3">
-                    <h4 class="font-italic">Usuários mais recentes inscritos</h4>
+                    <h4 class="font-italic">{{__('messages.usuarios-recentes-insc')}}</h4>
                     <ol class="list-unstyled mb-0">
                         @foreach ($users as $blogger)
                             <li>
@@ -82,16 +82,16 @@
                                 </a>
                             </li>
                         @endforeach
-                        <li><a href="{{route('web.users.index')}}" class="text-dark text-decoration-none font-weight-bold">Ver todos</a></li>
+                        <li><a href="{{route('web.users.index')}}" class="text-dark text-decoration-none font-weight-bold">{{__('ver-todos')}}</a></li>
                     </ol>
                 </div>
 
                 <div class="p-3 mx-3">
-                    <h4 class="font-italic">Redes Sociais</h4>
+                    <h4 class="font-italic">{{__('messages.redes-sociais')}}</h4>
                     <ol class="list-unstyled">
-                        <li><a href="#" class="text-dark text-decoration-none">GitHub</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Twitter</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none">Facebook</a></li>
+                        <li><a href="https://github.com" class="text-dark text-decoration-none">GitHub</a></li>
+                        <li><a href="https://x.com" class="text-dark text-decoration-none">Twitter</a></li>
+                        <li><a href="https://facebook.com.br" class="text-dark text-decoration-none">Facebook</a></li>
                     </ol>
                 </div>
             </aside>
@@ -103,7 +103,7 @@
             Blog template built for <a href="https://getbootstrap.com/" class="text-dark text-decoration-none font-italic">Bootstrap</a> by <a href="https://twitter.com/mdo" class="text-dark text-decoration-none font-italic">@mdo</a>.
         </p>
         <p class="mx-3">
-            <a href="#" class="text-dark text-decoration-none font-weight-bold">Back to top</a>
+            <a href="#" class="text-dark text-decoration-none font-weight-bold">{{__('messages.voltar-topo-pag')}}</a>
         </p>
     </footer>
 </div>

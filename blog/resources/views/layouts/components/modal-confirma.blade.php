@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Cancelar
+                    {{__('messages.cancelar')}}
                 </button>
                 <a href="#" id="{{ $idBtn ?? 'idBtn'}}" class="{{ $classBtn ?? 'btn btn-primary' }}" type="submit">
                     {{$btnText ?? 'Confirmar'}}

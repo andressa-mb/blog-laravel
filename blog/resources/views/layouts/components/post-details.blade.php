@@ -11,7 +11,9 @@
                     <h4 class="card-title">
                         <a class="text-dark" href="{{route('web.posts.show', $post)}}">{{$post->title}}</a>
                     </h4>
-                    <p class="card-text mb-0">Autor: {{$post->author->name}}</p>
+                    <p class="card-text mb-0">
+                        {{ __('messages.autor-a', ['name' => $post->author->name]) }}
+                    </p>
                     <div class="card-text text-muted mb-3">
                         <small>{{$post->created_at->translatedFormat('l, d \d\e F, Y')}}</small>
                     </div>

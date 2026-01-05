@@ -3,7 +3,7 @@
 
 <div class="row">
     <form action="" id="listUsersName" class="col-md-12">
-        <label for="name" class="form-label">Buscar usuário:</label>
+        <label for="name" class="form-label">{{__('messages.buscar_usuario')}}</label>
         <input type="text" class="form-control" name="userName" id="listUsersName" onchange="this.form.submit()">
     </form>
 </div>
@@ -27,11 +27,11 @@
                         @if($user->is_admin)
                             <div class="card-body">
                                 <button type="button" class="btn btn-sm btn-warning"
-                                    data-toggle="modal" data-target="#modal_edit_user_{{$blogUser->id}}">Editar</button>
+                                    data-toggle="modal" data-target="#modal_edit_user_{{$blogUser->id}}">{{__('messages.editar')}}</button>
 
                                 <button type="button" class="btn btn-sm btn-danger"
                                     data-toggle="modal" data-target="#modal_delete_user_{{$blogUser->id}}">
-                                        Excluir
+                                        {{__('messages.excluir')}}
                                 </button>
                             </div>
                         @endif
@@ -45,7 +45,7 @@
                                             <input class="form-check-input" id="unfollow-{{$blogUser->id}}" onchange="this.form.submit()" type="checkbox" name="following"
                                                 checked
                                             />
-                                            <label for="unfollow-{{$blogUser->id}}" class="form-check-label">Não seguir</label>
+                                            <label for="unfollow-{{$blogUser->id}}" class="form-check-label">{{__('messages.nao_seguir')}}</label>
                                         </div>
                                     </form>
                                 @else
@@ -54,13 +54,13 @@
                                         <div class="form-check">
                                             <input class="form-check-input" id="follow-{{$blogUser->id}}" onchange="this.form.submit()" type="checkbox" name="following"
                                             />
-                                            <label for="follow-{{$blogUser->id}}" class="form-check-label">Seguir</label>
+                                            <label for="follow-{{$blogUser->id}}" class="form-check-label">{{__('messages.seguir')}}</label>
                                         </div>
                                     </form>
                                 @endif
                             @endif
                             <div class="">
-                                <a href="{{route('web.users.show', $blogUser->id)}}" class="btn btn-info">Ver perfil</a>
+                                <a href="{{route('web.users.show', $blogUser->id)}}" class="btn btn-info">{{__('messages.ver_perfil')}}</a>
                             </div>
                         </div>
                     @endauth
@@ -68,25 +68,25 @@
 
                 @component('layouts.components.modal', [
                     'modal_id' => 'modal_edit_user_' . $blogUser->id,
-                    'title' => 'Editar usuário?',
+                    'title' => __('messages.editar-usuario').'?',
                     'classBtn' => 'btn btn-success',
                     'form_id' => 'confirm-edit-user-' . $blogUser->id,
-                    'btnText' => 'Atualizar',
+                    'btnText' =>  __('messages.atualizar'),
                 ])
 
                     <form action="{{route('web.users.update', [$blogUser->id])}}" method="POST" id="confirm-edit-user-{{$blogUser->id}}">
                         @csrf
                         @method('PUT')
                         <div class="">
-                            <label for="name" class="form-label">Nome</label>
+                            <label for="name" class="form-label">{{__('messages.nome')}}</label>
                             <input type="text" value="{{$blogUser->name}}" id="name" name="name" class="form-control" required>
                         </div>
                         <div>
-                            <label for="email" class="form-label">E-mail</label>
+                            <label for="email" class="form-label">{{__('messages.email')}}</label>
                             <input type="text" value="{{$blogUser->email}}" id="email" name="email" class="form-control" required>
                         </div>
                         <div class="mt-2">
-                            <h5>Perfil do usuário:</h5>
+                            <h5>{{__('messages.perfil_usuario')}}</h5>
                             @foreach (App\Models\Role::get() as $role)
                                 @php
                                     $userRoles = $blogUser->roleIdsFromUser();
@@ -103,16 +103,16 @@
 
                 @component('layouts.components.modal', [
                     'modal_id' => 'modal_delete_user_'.$blogUser->id,
-                    'title' => 'Excluir usuário?',
+                    'title' => __('messages.excluir-usuario').'?',
                     'classBtn' => 'btn btn-danger',
                     'form_id' => 'confirm-delete-user-'.$blogUser->id,
-                    'btnText' => 'Excluir',
+                    'btnText' => __('messages.excluir'),
                 ])
 
                     <form action="{{route('web.users.destroy', [$blogUser])}}" method="POST" id="confirm-delete-user-{{$blogUser->id}}">
                         @csrf
                         @method('DELETE')
-                        <p>Tem certeza que quer excluir o usuário selecionado?</p>
+                        <p>{{__('text.confirma_exclusao_usuario')}}</p>
                     </form>
                 @endcomponent
             @endforeach

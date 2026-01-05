@@ -10,9 +10,9 @@
                 <p class="lead">{{$postData['post']['content']}}</p>
                 <hr class="my-4">
                 <h4>
-                    Comentários:
+                    {{__('messages.comentarios')}}
                     <br>
-                    <span class="text-muted">Total de comentários: {{$postData['comments']->count()}}</span>
+                    <span class="text-muted">{{__('messages.total_comentarios')}}: {{$postData['comments']->count()}}</span>
                 </h4>
                 <hr>
 
@@ -29,7 +29,7 @@
                 @endforeach
 
                 <div class="text-right">
-                    <a class="btn btn-primary btn-sm" href="{{route('web.posts.show', $postData['post']['slug'])}}" role="button">Ver todos</a>
+                    <a class="btn btn-primary btn-sm" href="{{route('web.posts.show', $postData['post']['slug'])}}" role="button">{{__('messages.ver-todos')}}</a>
                 </div>
             </div>
 

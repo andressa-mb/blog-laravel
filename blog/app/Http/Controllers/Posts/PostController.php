@@ -6,7 +6,6 @@ use App\Http\Controllers\WebController as Controller;
 use App\Http\Requests\Posts\StoreRequest;
 use App\Http\Requests\Posts\UpdateRequest;
 use App\Jobs\Posts\AlertJob;
-use App\Models\AlertComment;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\Categories\CategoryService;
@@ -24,10 +23,20 @@ class PostController extends Controller
      * Lista de Posts do usuário autenticado.
      * @return View
     */
-    public function index()
+    public function myListOfPosts()
     {
         $user = $this->userLogged();
         $posts = $user->posts()->orderBy('created_at', 'desc')->paginate();
+        return view('posts.index', ['posts' => $posts]);
+    }
+
+    /**
+     * Lista de Posts.
+     * @return View
+    */
+    public function index()
+    {
+        $posts = Post::orderBy('created_at', 'desc')->paginate();
         return view('posts.index', ['posts' => $posts]);
     }
 

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlertComment;
+use App\Models\Comment;
 use App\Models\Post;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
